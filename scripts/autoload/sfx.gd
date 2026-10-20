@@ -75,6 +75,20 @@ func play_music(name: String) -> void:
 	_music.play()
 
 
+func _exit_tree() -> void:
+	stop_all()
+
+
+## Stops and detaches every stream (used on shutdown so playbacks are released).
+func stop_all() -> void:
+	_current_music = ""
+	_music.stop()
+	_music.stream = null
+	for p: AudioStreamPlayer in _pool:
+		p.stop()
+		p.stream = null
+
+
 func stop_music() -> void:
 	_current_music = ""
 	_music.stop()

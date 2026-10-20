@@ -9,8 +9,12 @@ var _noise_t: float = 0.0
 
 
 func _ready() -> void:
+	# Keep following while the tree is paused (menus open on top of the world),
+	# otherwise smoothing freezes half-way and the view starts off-centre.
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	position_smoothing_enabled = true
 	position_smoothing_speed = 9.0
+	snap_to_target.call_deferred()
 	FX.camera = self
 	process_callback = Camera2D.CAMERA2D_PROCESS_PHYSICS
 

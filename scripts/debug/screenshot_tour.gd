@@ -98,6 +98,25 @@ func _run() -> void:
 	await _measure("boss", 180)
 	await _shot("09_boss_fight")
 	Input.action_release("fire")
+	# Stress: 40 enemies + 300 projectiles in the boss room.
+	var lvl: Level = Level.current
+	var ids: Array = Db.enemies.keys()
+	var boss_room: Room = lvl.room_at_world(_player().global_position)
+	for i: int in 40:
+		var t: Vector2i = boss_room.rect.position + Vector2i(2 + (i * 7) % (boss_room.rect.size.x - 4), 2 + (i * 5) % (boss_room.rect.size.y - 4))
+		if lvl.is_walkable(t):
+			var e: Enemy = Enemy.create(Db.enemy(str(ids[i % ids.size()])), i % 10 == 0, 3, 0, i)
+			e.position = Level.to_world(t)
+			e.aggro = true
+			lvl.add_entity(e)
+	for i: int in 300:
+		var pr: Projectile = lvl.pool.acquire()
+		pr.from_player = i % 2 == 0
+		pr.range_left = 600.0
+		lvl.pool.launch(pr, _player().global_position, Vector2.from_angle(i * 0.37) * 40.0, "proj_orb_red")
+	report["stress_entities"] = {"enemies": get_tree().get_nodes_in_group("enemies").size(), "projectiles": lvl.pool.active_count()}
+	await _measure("stress", 300)
+	await _shot("10_stress")
 	var f: FileAccess = FileAccess.open(out_dir.path_join("tour_report.json"), FileAccess.WRITE)
 	f.store_string(JSON.stringify(report, " "))
 	f.close()

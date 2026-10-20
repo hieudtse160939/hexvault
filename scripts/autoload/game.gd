@@ -28,6 +28,15 @@ func _ready() -> void:
 	Events.coins_spent.connect(func(n: int) -> void: Profile.add_stat("coins_spent", n))
 
 
+## Clean shutdown: save, stop audio, let the audio server release playbacks, quit.
+func quit_game() -> void:
+	Profile.save()
+	Sfx.stop_all()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	get_tree().quit()
+
+
 func goto(screen: String, args: Dictionary = {}) -> void:
 	if main == null:
 		push_error("Game.goto before main scene registered")

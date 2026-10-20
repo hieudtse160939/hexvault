@@ -12,6 +12,7 @@ var _dev_menu: Control = null
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	Game.main = self
+	get_tree().auto_accept_quit = false
 	get_window().min_size = Vector2i(480, 270)
 	_overlay = CanvasLayer.new()
 	_overlay.layer = 50
@@ -39,6 +40,8 @@ func _ready() -> void:
 	Game.goto("title")
 	if "--smoke-dungeon" in args:
 		Game.start_run("ranger", 12345)
+	if "--smoke-quit" in args:
+		get_tree().create_timer(3.0).timeout.connect(Game.quit_game)
 	for a: String in args:
 		if a.begins_with("--tour=") and OS.is_debug_build():
 			var tour: Node = (load("res://scripts/debug/screenshot_tour.gd") as GDScript).new()
@@ -90,6 +93,9 @@ func _exit_tree() -> void:
 
 
 func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		Game.quit_game()
+		return
 	# Pause automatically when the window/app loses focus during a run.
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT or what == NOTIFICATION_APPLICATION_PAUSED:
 		if Game.current_screen == "dungeon" and _screen != null and _screen.has_method("request_pause"):

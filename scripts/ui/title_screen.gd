@@ -51,9 +51,7 @@ func _ready() -> void:
 	v.add_child(play)
 	v.add_child(UiTheme.button("Settings", func() -> void: add_child(SettingsPanel.new())))
 	if not OS.has_feature("mobile") and not OS.has_feature("web"):
-		v.add_child(UiTheme.button("Quit", func() -> void:
-			Profile.save()
-			get_tree().quit()))
+		v.add_child(UiTheme.button("Quit", Game.quit_game))
 	var info: Label = UiTheme.label("v%s  -  %d shards  -  %d/%d achievements" % [
 		ProjectSettings.get_setting("application/config/version", "0"), Profile.shards(),
 		(Profile.data["achievements"] as Dictionary).size(), Db.achievement_order.size()], UiTheme.DIM)

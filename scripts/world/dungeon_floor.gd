@@ -122,7 +122,8 @@ func _show_modal(c: Control) -> void:
 	c.tree_exited.connect(func() -> void:
 		if _modal == c:
 			_modal = null
-		get_tree().paused = false)
+		if is_inside_tree():
+			get_tree().paused = false)
 
 
 ## Offers a choice of three boons (elite rewards, event room).
