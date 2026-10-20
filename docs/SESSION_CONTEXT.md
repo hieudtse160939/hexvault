@@ -46,11 +46,11 @@ Props (crate, barrel, pillar, lamp, chest, portal, fountain, statue, pedestal, t
 barrier, spawn rune, shadows), pickups, projectiles, FX, UI icons other than skills, title/hub art.
 
 ## Open requests from the user
-1. **Use the user's reference sheet as the hero art** ("lấy luôn mẫu này"): 12 heroes in
-   profile anime style, one idle pose each. Waiting for the file at
-   `art_src/raw/heroes_reference.png` (upload via GitHub web to this branch). Plan: slice each
-   hero, run `import_external.py`, animate with cut-out puppeting (idle bob, run bounce + leg
-   swap, dash lean, hurt recoil, death fall) unless the user sends more frames.
+1. DONE: hero sprites now come from the user's reference sheet
+   `art_src/raw/heroes_reference.png` via `tools/artgen/ref_heroes.py` (shared 3.3x downscale,
+   per-hero palette, ink outline, cut-out animation from the single pose). Kit art is the
+   fallback when the file is absent. Possible next step: more poses from the user for real
+   run / attack frames.
 2. Optional: give elites / boss a small chance to drop epic / legendary weapons; balance pass.
 
 ## Style decisions made with the user
