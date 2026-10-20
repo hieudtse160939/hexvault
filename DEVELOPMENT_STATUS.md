@@ -1,5 +1,29 @@
 # Hexvault — Development Status
 
+## HD anime-RPG upgrade (2026-10-20, Linux cloud session)
+
+Audit, plan and skill evaluation: [docs/AUDIT_REPORT.md](docs/AUDIT_REPORT.md).
+
+| Area | Status | Evidence |
+| --- | --- | --- |
+| Tooling on Linux | Done | `tools/godot_bin.py`; Godot 4.7.2 Linux (SHA-512 verified); `check.py` green |
+| Art skills | Done | pixel-art-studio vendored (MIT, audited); AI image skill blocked (no API keys / paid); sprite-forge rejected (no LICENSE file, SVG anti-aliasing) |
+| HD rendering | Done | `canvas_items` stretch, per-asset `density`, pixel-aware shader, feet pivots |
+| HD pipeline + QA | Done | `tools/artgen/hd/`, `tools/asset_qa.py` (clipping, anchor drift, jitter, noise, colours, metadata), `import_external.py` for AI / hand art |
+| Art style guide | Done | `docs/ART_STYLE_GUIDE.md` (anime RPG chibi, 3/4 faces) |
+| Heroes | 12 HD heroes, full animation sets | idle 6, run 8, dash 4, skill 6, hurt 3, death 8 frames each |
+| HD world | Partial | tileset, Bastion Golem, 4 weapons, 8 skill icons are HD; gloop, sparkeye, skitter, acolyte, boss, props, pickups, projectiles, FX still 16 px |
+| Character framework | Done | classes, skill/passive modules, stats, mastery (save v3 + migration), Hero Shrine for large rosters |
+| Tests | 58/58 pass | `python tools/check.py` |
+| Builds | Linux built + run-verified here; Windows exported, not run (no Windows/Wine) | `python tools/package.py linux|windows` |
+| Android / iOS | Not built in this session | no Android SDK; iOS needs macOS + Xcode |
+| Push to GitHub | Blocked | 403: the Claude GitHub App has no write access to the repository |
+
+Frame times measured in this container use a software rasterizer (llvmpipe) and say
+nothing about real GPU performance.
+
+---
+
 _Last updated: 2026-10-20 · version 0.9.0 · Godot 4.7.2-stable (ed1daf0bf)_
 
 **Summary:** a complete, playable vertical slice. The full loop (title → hub → 3 procedural floors → boss → results → hub with permanent progression) works and is covered by automated tests. Windows and Android builds are exported and were verified running; iOS is configured but not built (no macOS available).

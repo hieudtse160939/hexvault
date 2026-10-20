@@ -22,6 +22,7 @@ $GODOT_BIN --path . --resolution 1920x1080 -- --tour=<abs dir>
 ## Adding content (data first, code last)
 | Want | Do |
 | --- | --- |
+| Hero | follow `docs/ADDING_CHARACTERS.md`: entry in `data/characters.json`, `scripts/characters/skills/<id>.gd`, `scripts/characters/passives/<id>.gd`, art module in `tools/artgen/hd/heroes/` built with `kit.py` (anime style, see `docs/ART_STYLE_GUIDE.md`). |
 | Weapon | entry in `data/weapons.json` (pattern single/spread/melee/hitscan/chain) + sprite function in `tools/artgen/items.py::WEAPONS`, rebuild art. No new script. |
 | Enemy | entry in `data/enemies.json` with an existing `behavior` + sheet in `tools/artgen/enemies.py::SHEETS` (needs idle/move/attack/hurt/death). New behaviours go in `scripts/entities/enemy.gd` match blocks. |
 | Room | template in `data/rooms.json` (odd width/height, door approaches open). `tests/test_data.gd` flood-fills every template. |
