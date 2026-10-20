@@ -106,14 +106,14 @@ def _foreground(crop: np.ndarray, bg: np.ndarray) -> np.ndarray:
     return ~seen
 
 
-def _downscale(crop: np.ndarray, fg: np.ndarray) -> Image.Image:
+def _downscale(crop: np.ndarray, fg: np.ndarray, scale: float = SCALE) -> Image.Image:
     h, w = fg.shape
-    tw, th = int(math.ceil(w / SCALE)), int(math.ceil(h / SCALE))
+    tw, th = int(math.ceil(w / scale)), int(math.ceil(h / scale))
     out = np.zeros((th, tw, 4), dtype=np.uint8)
     for ty in range(th):
-        y0, y1 = int(round(ty * SCALE)), min(h, int(round((ty + 1) * SCALE)))
+        y0, y1 = int(round(ty * scale)), min(h, int(round((ty + 1) * scale)))
         for tx in range(tw):
-            x0, x1 = int(round(tx * SCALE)), min(w, int(round((tx + 1) * SCALE)))
+            x0, x1 = int(round(tx * scale)), min(w, int(round((tx + 1) * scale)))
             f = fg[y0:y1, x0:x1]
             if f.size == 0 or f.mean() < 0.5:
                 continue
@@ -336,11 +336,18 @@ def animate(hid: str, sprite: Image.Image) -> dict[str, list[Image.Image]]:
 
 
 def build_all() -> dict[str, dict[str, list[Image.Image]]]:
+    import ref_runs  # real run cycles supplied per hero (art_src/raw/runs/<id>_run.png)
+
     sprites = extract()
     os.makedirs(PROCESSED, exist_ok=True)
+    out = {}
     for hid, s in sprites.items():
         s.save(os.path.join(PROCESSED, f"hero_{hid}_ref.png"))
-    return {hid: animate(hid, s) for hid, s in sprites.items()}
+        anims = animate(hid, s)
+        if ref_runs.available(hid):
+            anims["run"] = ref_runs.build(hid, s.height)
+        out[hid] = anims
+    return out
 
 
 if __name__ == "__main__":

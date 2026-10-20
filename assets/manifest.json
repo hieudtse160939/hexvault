@@ -1014,7 +1014,7 @@
     64,
     112
    ],
-   "sha": "253499b8c86f7fab",
+   "sha": "19e3cc3b69a8ad0b",
    "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py",
    "type": "heroes",
    "version": 1
@@ -1120,7 +1120,7 @@
     64,
     112
    ],
-   "sha": "4d0381d7223d1e5b",
+   "sha": "785b728b7f99e32e",
    "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py",
    "type": "heroes",
    "version": 1
@@ -1275,7 +1275,7 @@
     64,
     112
    ],
-   "sha": "e8a45931d584214e",
+   "sha": "941f57af1a2a473c",
    "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py",
    "type": "heroes",
    "version": 1
@@ -1381,7 +1381,7 @@
     64,
     112
    ],
-   "sha": "17f6a03e94b5414d",
+   "sha": "5625a5589dc4a41a",
    "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py",
    "type": "heroes",
    "version": 1
@@ -1691,7 +1691,7 @@
     64,
     112
    ],
-   "sha": "0fb963549bd2577c",
+   "sha": "444bcc568254ca23",
    "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py",
    "type": "heroes",
    "version": 1
@@ -2336,17 +2336,21 @@
      "row": 0
     }
    },
-   "density": 1,
-   "frame_h": 12,
-   "frame_w": 24,
-   "palette": "master16",
-   "path": "res://assets/sprites/weapons/boom_tube.png",
-   "pivot": [
-    6,
-    7
+   "density": 4,
+   "frame_h": 48,
+   "frame_w": 96,
+   "muzzle": [
+    86,
+    20
    ],
-   "sha": "32147fc8dd0bb655",
-   "source": "procedural: tools/artgen",
+   "palette": "hd",
+   "path": "res://assets/sprites/weapons/hd/boom_tube.png",
+   "pivot": [
+    24,
+    28
+   ],
+   "sha": "3d09485e198df1fe",
+   "source": "procedural: tools/artgen/hd/weapons.py",
    "type": "weapons",
    "version": 1
   },
@@ -2386,17 +2390,21 @@
      "row": 0
     }
    },
-   "density": 1,
-   "frame_h": 12,
-   "frame_w": 24,
-   "palette": "master16",
-   "path": "res://assets/sprites/weapons/ember_blade.png",
-   "pivot": [
-    6,
-    7
+   "density": 4,
+   "frame_h": 48,
+   "frame_w": 96,
+   "muzzle": [
+    86,
+    26
    ],
-   "sha": "8c68d1baa070a759",
-   "source": "procedural: tools/artgen",
+   "palette": "hd",
+   "path": "res://assets/sprites/weapons/hd/ember_blade.png",
+   "pivot": [
+    24,
+    28
+   ],
+   "sha": "dbf142e7358dcba8",
+   "source": "procedural: tools/artgen/hd/weapons.py",
    "type": "weapons",
    "version": 1
   },
@@ -2409,17 +2417,21 @@
      "row": 0
     }
    },
-   "density": 1,
-   "frame_h": 12,
-   "frame_w": 24,
-   "palette": "master16",
-   "path": "res://assets/sprites/weapons/frost_needler.png",
-   "pivot": [
-    6,
-    7
+   "density": 4,
+   "frame_h": 48,
+   "frame_w": 96,
+   "muzzle": [
+    75,
+    23
    ],
-   "sha": "bae13dc7b58e6ba8",
-   "source": "procedural: tools/artgen",
+   "palette": "hd",
+   "path": "res://assets/sprites/weapons/hd/frost_needler.png",
+   "pivot": [
+    24,
+    28
+   ],
+   "sha": "c10ea65f674a660f",
+   "source": "procedural: tools/artgen/hd/weapons.py",
    "type": "weapons",
    "version": 1
   },
@@ -2432,17 +2444,21 @@
      "row": 0
     }
    },
-   "density": 1,
-   "frame_h": 12,
-   "frame_w": 24,
-   "palette": "master16",
-   "path": "res://assets/sprites/weapons/hex_staff.png",
-   "pivot": [
-    6,
-    7
+   "density": 4,
+   "frame_h": 48,
+   "frame_w": 96,
+   "muzzle": [
+    82,
+    20
    ],
-   "sha": "437073e80dcec0a3",
-   "source": "procedural: tools/artgen",
+   "palette": "hd",
+   "path": "res://assets/sprites/weapons/hd/hex_staff.png",
+   "pivot": [
+    24,
+    28
+   ],
+   "sha": "aa7301c821547f62",
+   "source": "procedural: tools/artgen/hd/weapons.py",
    "type": "weapons",
    "version": 1
   },
@@ -2455,17 +2471,21 @@
      "row": 0
     }
    },
-   "density": 1,
-   "frame_h": 12,
-   "frame_w": 24,
-   "palette": "master16",
-   "path": "res://assets/sprites/weapons/longshot.png",
-   "pivot": [
-    6,
-    7
+   "density": 4,
+   "frame_h": 48,
+   "frame_w": 96,
+   "muzzle": [
+    93,
+    23
    ],
-   "sha": "173d3bd80147a43e",
-   "source": "procedural: tools/artgen",
+   "palette": "hd",
+   "path": "res://assets/sprites/weapons/hd/longshot.png",
+   "pivot": [
+    24,
+    28
+   ],
+   "sha": "3c0e161fb7e4f33d",
+   "source": "procedural: tools/artgen/hd/weapons.py",
    "type": "weapons",
    "version": 1
   },
@@ -2478,17 +2498,21 @@
      "row": 0
     }
    },
-   "density": 1,
-   "frame_h": 12,
-   "frame_w": 24,
-   "palette": "master16",
-   "path": "res://assets/sprites/weapons/prism_lance.png",
-   "pivot": [
-    6,
-    7
+   "density": 4,
+   "frame_h": 48,
+   "frame_w": 96,
+   "muzzle": [
+    90,
+    27
    ],
-   "sha": "e41d64e364a48f01",
-   "source": "procedural: tools/artgen",
+   "palette": "hd",
+   "path": "res://assets/sprites/weapons/hd/prism_lance.png",
+   "pivot": [
+    24,
+    28
+   ],
+   "sha": "3a27a2751accd312",
+   "source": "procedural: tools/artgen/hd/weapons.py",
    "type": "weapons",
    "version": 1
   },
@@ -2501,17 +2525,21 @@
      "row": 0
     }
    },
-   "density": 1,
-   "frame_h": 12,
-   "frame_w": 24,
-   "palette": "master16",
-   "path": "res://assets/sprites/weapons/pulse_rifle.png",
-   "pivot": [
-    6,
-    7
+   "density": 4,
+   "frame_h": 48,
+   "frame_w": 96,
+   "muzzle": [
+    86,
+    21
    ],
-   "sha": "23f672eeb9300b62",
-   "source": "procedural: tools/artgen",
+   "palette": "hd",
+   "path": "res://assets/sprites/weapons/hd/pulse_rifle.png",
+   "pivot": [
+    24,
+    28
+   ],
+   "sha": "d0151a69c3b8fe62",
+   "source": "procedural: tools/artgen/hd/weapons.py",
    "type": "weapons",
    "version": 1
   },
@@ -2551,17 +2579,21 @@
      "row": 0
     }
    },
-   "density": 1,
-   "frame_h": 12,
-   "frame_w": 24,
-   "palette": "master16",
-   "path": "res://assets/sprites/weapons/scatter_cannon.png",
-   "pivot": [
-    6,
-    7
+   "density": 4,
+   "frame_h": 48,
+   "frame_w": 96,
+   "muzzle": [
+    72,
+    22
    ],
-   "sha": "c16c09e711ab68a0",
-   "source": "procedural: tools/artgen",
+   "palette": "hd",
+   "path": "res://assets/sprites/weapons/hd/scatter_cannon.png",
+   "pivot": [
+    24,
+    28
+   ],
+   "sha": "d77d5aa0a276a99c",
+   "source": "procedural: tools/artgen/hd/weapons.py",
    "type": "weapons",
    "version": 1
   },
@@ -2574,17 +2606,21 @@
      "row": 0
     }
    },
-   "density": 1,
-   "frame_h": 12,
-   "frame_w": 24,
-   "palette": "master16",
-   "path": "res://assets/sprites/weapons/storm_coil.png",
-   "pivot": [
-    6,
-    7
+   "density": 4,
+   "frame_h": 48,
+   "frame_w": 96,
+   "muzzle": [
+    81,
+    24
    ],
-   "sha": "2a55d1dfe418372f",
-   "source": "procedural: tools/artgen",
+   "palette": "hd",
+   "path": "res://assets/sprites/weapons/hd/storm_coil.png",
+   "pivot": [
+    24,
+    28
+   ],
+   "sha": "d8560e8a4fbbf721",
+   "source": "procedural: tools/artgen/hd/weapons.py",
    "type": "weapons",
    "version": 1
   },
@@ -2624,17 +2660,21 @@
      "row": 0
     }
    },
-   "density": 1,
-   "frame_h": 12,
-   "frame_w": 24,
-   "palette": "master16",
-   "path": "res://assets/sprites/weapons/thornbow.png",
-   "pivot": [
-    6,
-    7
+   "density": 4,
+   "frame_h": 48,
+   "frame_w": 96,
+   "muzzle": [
+    76,
+    28
    ],
-   "sha": "6144cc9cb7cb0106",
-   "source": "procedural: tools/artgen",
+   "palette": "hd",
+   "path": "res://assets/sprites/weapons/hd/thornbow.png",
+   "pivot": [
+    24,
+    28
+   ],
+   "sha": "c3f3b75a493618fb",
+   "source": "procedural: tools/artgen/hd/weapons.py",
    "type": "weapons",
    "version": 1
   },
