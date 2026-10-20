@@ -9,6 +9,7 @@ extends Resource
 @export var archetype: String = ""       # melee, ranged, magic, summoner, mobility, support, tech, hybrid
 @export var description: String = ""
 @export var color: Color = Color.WHITE
+@export var weapon_styles: PackedStringArray = []  # styles this class can equip; empty = any
 
 
 static func from_dict(d: Dictionary) -> ClassData:
@@ -18,4 +19,8 @@ static func from_dict(d: Dictionary) -> ClassData:
 	c.archetype = str(d.get("archetype", ""))
 	c.description = str(d.get("description", ""))
 	c.color = Color(str(d.get("color", "#ffffff")))
+	var ws: Variant = d.get("weapons", [])
+	if ws is Array:
+		for s: Variant in ws:
+			c.weapon_styles.append(str(s))
 	return c

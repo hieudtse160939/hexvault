@@ -11,6 +11,7 @@ const RARITY_COLORS: Dictionary = {
 @export var display_name: String = ""
 @export var description: String = ""
 @export var category: String = ""
+@export var style: String = ""   # animation/attack family: gun bow staff wand orb sword dagger spear heavy (data/weapon_styles.json)
 @export var rarity: String = "common"
 @export var pattern: String = "single" # single | spread | melee | hitscan | chain
 @export var damage: int = 1
@@ -45,6 +46,7 @@ static func from_dict(d: Dictionary) -> WeaponData:
 	w.display_name = str(d.get("name", w.id))
 	w.description = str(d.get("description", ""))
 	w.category = str(d.get("category", ""))
+	w.style = str(d.get("style", "sword" if str(d.get("pattern", "")) == "melee" else "gun"))
 	w.rarity = str(d.get("rarity", "common"))
 	w.pattern = str(d.get("pattern", "single"))
 	w.damage = int(d.get("damage", 1))

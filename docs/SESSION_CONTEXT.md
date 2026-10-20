@@ -91,3 +91,29 @@ barrier, spawn rune, shadows), pickups, projectiles, FX, UI icons other than ski
 - Anime RPG chibi, heads in **profile** (same facing as bodies, one eye), not 3/4 with two eyes.
 - Eyes from hand-made pixel templates, light flat-shaded skin.
 - Docs in `docs/` (AUDIT_REPORT.md in Vietnamese; ART_STYLE_GUIDE.md, ADDING_CHARACTERS.md in English).
+
+## IN PROGRESS: "World scale & combat animation directive" (3rd master prompt)
+User rule: when quota runs low, stop, update this file and commit + push everything.
+Directive priorities (in order): animation asset audit -> weapon-aware animation architecture ->
+staff casting that reads as magic (not gunfire) -> other weapon categories -> equipment/skill
+integration (weapon-conditional talents, class weapon rules) -> tests + visual QA -> then world:
+region architecture (World map > regions > towns/landmarks > quests/dungeons), first ONE complete
+playable region (e.g. Kingdom of Dawn outskirts + Whispering Woods) reached on foot from the Guild,
+then expand; skill-tree UI/data that scales to hundreds of nodes; crafting/upgrades; endgame.
+Audit facts: hero sheets (128 px, density 4, pivot 64,112) have idle 6, run 8, dash 4, skill 6,
+hurt 3, death 8 frames, right-facing only (flip_h for left). NO attack frames for any hero.
+Weapons are single-frame 96x48 sprites (pivot 24,28, muzzle in manifest) on a rotating holder;
+every ranged weapon used the same gun recoil + fx_muzzle; melee = instant Combat.melee + fx_slash.
+Plan: `category` per weapon (gun, bow, staff, wand, orb, sword, dagger, spear, heavy) in
+data/weapons.json + attack profiles (windup / release / recovery, motion style, cast FX) in a
+WeaponAnimator; projectiles/hits spawn at the release frame from the manifest muzzle point.
+Progress (checkpoint 1): DONE weapon `style` field + data/weapon_styles.json profiles; Weapon
+state machine READY/WINDUP/ACTIVE/RECOVER (scripts/combat/weapon.gd): aim committed at attack
+start, hit/projectile only at release/contact, emission from the posed weapon tip, cancel on swap
+and death; procedural motions per style; staff/wand/orb = magic (charge glow + ring at tip, cast
+body pose "skill", sparkle burst, no recoil, no gun muzzle flash); Thornbow has real draw/release
+frames; new weapons Shadow Fang (dagger) and Wardpike (spear) with HD art + item templates; class
+weapon rules (data/classes.json "weapons", Inventory.style_allowed). 86/86 tests pass.
+NEXT: tests for styles; weapon-conditional talents (node "requires_weapon"); scalable skill-tree
+UI; anim coverage report docs/qa/animation_coverage.md; visual QA screenshots per style; then the
+world-region architecture.

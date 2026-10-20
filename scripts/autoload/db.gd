@@ -32,7 +32,8 @@ var guild: Dictionary = {}        # raw guild.json
 var missions: Dictionary = {}     # id -> mission Dictionary
 var mission_order: PackedStringArray = []
 var roster: PackedStringArray = [] # playable hero ids, in display order
-var skill_trees: Dictionary = {}  # hero id -> Array of node Dictionaries
+var skill_trees: Dictionary = {}
+var weapon_styles: Dictionary = {} # style id -> attack profile (data/weapon_styles.json)  # hero id -> Array of node Dictionaries
 var load_errors: PackedStringArray = []
 
 
@@ -117,6 +118,7 @@ func _load_rpg() -> void:
 		if r is Dictionary:
 			rarity_index[str(r.get("id", ""))] = rarities.size()
 			rarities.append(r)
+	weapon_styles = read_json("res://data/weapon_styles.json").get("styles", {})
 	guild = read_json("res://data/guild.json")
 	_index(guild.get("missions", []), missions, mission_order)
 	roster.clear()
@@ -145,6 +147,9 @@ func rpg_problems() -> PackedStringArray:
 		for r: Variant in t.get("rarity", []):
 			if not rarity_index.has(str(r)):
 				out.append("item %s: unknown rarity %s" % [id, r])
+	for wid: String in weapon_order:
+		if not weapon_styles.has((weapons[wid] as WeaponData).style):
+			out.append("weapon %s: unknown style %s" % [wid, (weapons[wid] as WeaponData).style])
 	for aid: String in affixes:
 		var a: Dictionary = affixes[aid]
 		if not stats.has(str(a.get("stat", ""))):
@@ -178,6 +183,18 @@ func skill_def_for(id: String) -> Dictionary:
 		if c.skill == id:
 			return c.skill_def
 	return {}
+
+
+## Attack profile of a weapon (falls back to the gun profile).
+func weapon_style(w: WeaponData) -> Dictionary:
+	return weapon_styles.get(w.style if w != null else "", weapon_styles.get("gun", {}))
+
+
+## Weapon styles a hero's class may equip (empty = any).
+func allowed_styles(hero: String) -> PackedStringArray:
+	var c: CharacterData = character(hero)
+	var cl: ClassData = classes.get(c.class_id, null) if c != null else null
+	return cl.weapon_styles if cl != null else PackedStringArray()
 
 
 func mission(id: String) -> Dictionary:

@@ -1,0 +1,15 @@
+{
+ "version": 1,
+ "_doc": "Attack profile per weapon style (data/weapons.json 'style'). Times in seconds: windup (anticipation / draw / charge) -> release (projectile spawn or melee hit, synchronised to the motion) -> recover. motion: procedural weapon motion in scripts/combat/weapon.gd. body: hero animation played during windup+release ('' = keep idle/run). release_fx: FX at the emission point. magic: true = spell (charge glow, rune burst, no recoil, no gun muzzle flash).",
+ "styles": {
+  "gun":    {"windup": 0.0,  "active": 0.0,  "recover": 0.06, "motion": "recoil", "body": "",      "release_fx": "muzzle",       "magic": false},
+  "bow":    {"windup": 0.2,  "active": 0.0,  "recover": 0.1,  "motion": "draw",   "body": "",      "release_fx": "",             "magic": false},
+  "staff":  {"windup": 0.22, "active": 0.0,  "recover": 0.16, "motion": "staff",  "body": "skill", "release_fx": "sparkle_teal", "magic": true},
+  "wand":   {"windup": 0.1,  "active": 0.0,  "recover": 0.08, "motion": "wand",   "body": "",      "release_fx": "sparkle",      "magic": true},
+  "orb":    {"windup": 0.14, "active": 0.0,  "recover": 0.1,  "motion": "orb",    "body": "skill", "release_fx": "sparkle_teal", "magic": true},
+  "sword":  {"windup": 0.08, "active": 0.1,  "recover": 0.14, "motion": "swing",  "body": "",      "release_fx": "slash",        "magic": false},
+  "dagger": {"windup": 0.04, "active": 0.06, "recover": 0.07, "motion": "stab",   "body": "",      "release_fx": "slash",        "magic": false},
+  "spear":  {"windup": 0.12, "active": 0.08, "recover": 0.16, "motion": "thrust", "body": "",      "release_fx": "",             "magic": false},
+  "heavy":  {"windup": 0.24, "active": 0.08, "recover": 0.22, "motion": "slam",   "body": "",      "release_fx": "puff",         "magic": false}
+ }
+}

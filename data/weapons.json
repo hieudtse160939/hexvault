@@ -23,7 +23,8 @@
    "sfx": "shoot_pistol",
    "unlock": {
     "type": "default"
-   }
+   },
+   "style": "gun"
   },
   {
    "id": "scatter_cannon",
@@ -48,7 +49,8 @@
    "sfx": "shoot_shotgun",
    "unlock": {
     "type": "default"
-   }
+   },
+   "style": "gun"
   },
   {
    "id": "ember_blade",
@@ -74,7 +76,8 @@
    "sfx": "swing",
    "unlock": {
     "type": "default"
-   }
+   },
+   "style": "sword"
   },
   {
    "id": "thornbow",
@@ -100,7 +103,8 @@
    "unlock": {
     "type": "shards",
     "cost": 120
-   }
+   },
+   "style": "bow"
   },
   {
    "id": "pulse_rifle",
@@ -125,7 +129,8 @@
    "unlock": {
     "type": "shards",
     "cost": 150
-   }
+   },
+   "style": "gun"
   },
   {
    "id": "frost_needler",
@@ -152,7 +157,8 @@
    "unlock": {
     "type": "shards",
     "cost": 180
-   }
+   },
+   "style": "gun"
   },
   {
    "id": "hex_staff",
@@ -180,7 +186,8 @@
    "unlock": {
     "type": "shards",
     "cost": 200
-   }
+   },
+   "style": "staff"
   },
   {
    "id": "longshot",
@@ -206,7 +213,8 @@
    "unlock": {
     "type": "shards",
     "cost": 250
-   }
+   },
+   "style": "gun"
   },
   {
    "id": "boom_tube",
@@ -233,7 +241,8 @@
    "unlock": {
     "type": "shards",
     "cost": 300
-   }
+   },
+   "style": "gun"
   },
   {
    "id": "storm_coil",
@@ -261,7 +270,8 @@
    "unlock": {
     "type": "shards",
     "cost": 350
-   }
+   },
+   "style": "orb"
   },
   {
    "id": "prism_lance",
@@ -287,7 +297,8 @@
    "unlock": {
     "type": "achievement",
     "id": "slayer_of_ossifex"
-   }
+   },
+   "style": "staff"
   },
   {
    "id": "cinder_wand",
@@ -315,7 +326,8 @@
    "unlock": {
     "type": "shards",
     "cost": 220
-   }
+   },
+   "style": "wand"
   },
   {
    "id": "wisp_lantern",
@@ -343,7 +355,8 @@
    "unlock": {
     "type": "shards",
     "cost": 240
-   }
+   },
+   "style": "orb"
   },
   {
    "id": "sunforge_mace",
@@ -368,7 +381,60 @@
    "unlock": {
     "type": "shards",
     "cost": 260
-   }
+   },
+   "style": "heavy"
+  },
+  {
+   "id": "shadow_fang",
+   "name": "Shadow Fang",
+   "category": "melee",
+   "rarity": "rare",
+   "description": "A black dagger. Fast, close stabs that crit often.",
+   "pattern": "melee",
+   "damage": 3,
+   "fire_interval": 0.2,
+   "projectile_speed": 0,
+   "range": 28,
+   "spread_deg": 70,
+   "pellets": 1,
+   "magazine": 0,
+   "reload_time": 0,
+   "crit_chance": 0.25,
+   "knockback": 50,
+   "deflect": false,
+   "shake": 0.6,
+   "sfx": "swing",
+   "unlock": {
+    "type": "shards",
+    "cost": 180
+   },
+   "style": "dagger"
+  },
+  {
+   "id": "wardpike",
+   "name": "Wardpike",
+   "category": "melee",
+   "rarity": "rare",
+   "description": "A guild halberd-spear. Long, narrow thrusts that keep foes at bay.",
+   "pattern": "melee",
+   "damage": 6,
+   "fire_interval": 0.5,
+   "projectile_speed": 0,
+   "range": 44,
+   "spread_deg": 34,
+   "pellets": 1,
+   "magazine": 0,
+   "reload_time": 0,
+   "crit_chance": 0.08,
+   "knockback": 170,
+   "deflect": false,
+   "shake": 1.0,
+   "sfx": "swing",
+   "unlock": {
+    "type": "shards",
+    "cost": 200
+   },
+   "style": "spear"
   }
  ]
 }

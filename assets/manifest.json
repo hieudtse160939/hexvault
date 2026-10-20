@@ -2830,6 +2830,33 @@
    "type": "weapons",
    "version": 1
   },
+  "weapon_shadow_fang": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 48,
+   "frame_w": 96,
+   "muzzle": [
+    60,
+    28
+   ],
+   "palette": "hd",
+   "path": "res://assets/sprites/weapons/hd/shadow_fang.png",
+   "pivot": [
+    24,
+    28
+   ],
+   "sha": "81c3b85a9584b6f6",
+   "source": "procedural: tools/artgen/hd/weapons.py",
+   "type": "weapons",
+   "version": 1
+  },
   "weapon_storm_coil": {
    "anims": {
     "idle": {
@@ -2886,11 +2913,23 @@
   },
   "weapon_thornbow": {
    "anims": {
+    "draw": {
+     "fps": 1,
+     "frames": 3,
+     "loop": true,
+     "row": 1
+    },
     "idle": {
      "fps": 1,
      "frames": 1,
      "loop": true,
      "row": 0
+    },
+    "release": {
+     "fps": 1,
+     "frames": 2,
+     "loop": true,
+     "row": 2
     }
    },
    "density": 4,
@@ -2906,7 +2945,34 @@
     24,
     28
    ],
-   "sha": "c3f3b75a493618fb",
+   "sha": "56459c9489737e8b",
+   "source": "procedural: tools/artgen/hd/weapons.py",
+   "type": "weapons",
+   "version": 2
+  },
+  "weapon_wardpike": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 48,
+   "frame_w": 96,
+   "muzzle": [
+    92,
+    27
+   ],
+   "palette": "hd",
+   "path": "res://assets/sprites/weapons/hd/wardpike.png",
+   "pivot": [
+    24,
+    28
+   ],
+   "sha": "e964bd9e12fe5538",
    "source": "procedural: tools/artgen/hd/weapons.py",
    "type": "weapons",
    "version": 1

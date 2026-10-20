@@ -143,22 +143,35 @@ def ember_blade() -> HDCanvas:
     return c
 
 
-def thornbow() -> HDCanvas:
+def thornbow(draw: float = 1.0, arrow: bool = True) -> HDCanvas:
+    """draw: 0 = string at rest, 1 = fully drawn (the in-hand pose); arrow=False after release."""
     c = HDCanvas(*FRAME)
-    pts = [(38 + 10 * math.sin(t / 10 * math.pi), 6 + t * 3.6) for t in range(11)]
+    bend = 10 + 3 * draw                     # limbs flex as the string is pulled
+    pts = [(38 + bend * math.sin(t / 10 * math.pi) - 2 * draw, 6 + 2 * draw + t * (3.6 - 0.4 * draw)) for t in range(11)]
     for (ax, ay), (bx, by) in zip(pts, pts[1:]):
         c.draw(c.capsule(ax, ay, bx, by, 2.6, 2.6), "hair_brown", "round", name="limb")
     for t in (2, 4, 6, 8):
         x, y = pts[t]
         c.draw(c.poly([(x + 1, y), (x + 5, y - 3), (x + 2, y + 2)]), "moss", "round", name="thorn")
-    c.line(pts[0][0], pts[0][1], pts[-1][0], pts[-1][1], "bone", 4)
-    c.draw(c.capsule(24, 28, 70, 28, 1.1, 1.1), "hair_brown", "round", bias=1, name="arrow")
-    c.draw(c.poly([(70, 25), (77, 28), (70, 31)]), "steel", "metal", name="arrowhead")
-    c.draw(c.poly([(24, 28), (19, 24), (21, 28), (19, 32)]), "moss", "cloth", name="fletching")
+    nock = pts[0][0] - 16 * draw             # string pulled back to the nock
+    c.line(pts[0][0], pts[0][1], nock, 28, "bone", 4)
+    c.line(nock, 28, pts[-1][0], pts[-1][1], "bone", 4)
+    if arrow:
+        tip = nock + 51
+        c.draw(c.capsule(nock, 28, tip - 7, 28, 1.1, 1.1), "hair_brown", "round", bias=1, name="arrow")
+        c.draw(c.poly([(tip - 7, 25), (tip, 28), (tip - 7, 31)]), "steel", "metal", name="arrowhead")
+        c.draw(c.poly([(nock, 28), (nock - 5, 24), (nock - 3, 28), (nock - 5, 32)]), "moss", "cloth", name="fletching")
     _grip(c, "leather", 44, 33, 47, 24)
     c.outline("ink")
     c.despeckle()
     return c
+
+
+def thornbow_anims() -> dict:
+    """idle = drawn and aimed (unchanged look); draw = nock -> full draw; release = string snaps, arrow gone."""
+    return {"idle": [thornbow().image()],
+            "draw": [thornbow(0.0).image(), thornbow(0.45).image(), thornbow(1.0).image()],
+            "release": [thornbow(0.0, False).image(), thornbow(0.15, False).image()]}
 
 
 def pulse_rifle() -> HDCanvas:
@@ -273,6 +286,36 @@ def prism_lance() -> HDCanvas:
 
 
 
+def shadow_fang() -> HDCanvas:
+    """Short black dagger with a violet edge."""
+    c = HDCanvas(*FRAME)
+    _grip(c, "hair_ink", 18, 32, 25, 28)
+    c.draw(c.ellipse(17.5, 32.5, 2.4, 2.4), "violet", "metal", name="pommel")
+    c.draw(c.poly([(25, 22), (29, 23), (29, 35), (25, 36)]), "night", "metal", bias=1, name="guard")
+    blade = c.poly([(29, 25), (50, 24), (60, 28), (50, 31), (29, 31)])
+    c.draw(blade, "night", "metal", bias=2, name="blade")
+    c.draw(c.poly([(31, 29.5), (50, 29.5), (58, 28), (50, 31), (31, 31)]), "violet", "glow", name="edge", selout=False)
+    c.line(31, 26, 49, 25.5, "hair_silver", 4)
+    c.outline("ink")
+    c.despeckle()
+    return c
+
+
+def wardpike() -> HDCanvas:
+    """Long ash-wood spear with a leaf blade and a guild pennant."""
+    c = HDCanvas(*FRAME)
+    c.draw(c.capsule(6, 29, 72, 27, 1.8, 1.8), "hair_brown", "round", name="shaft")
+    for x in (20, 26):
+        c.draw(c.rect(x, 26, x + 2, 31), "leather", "plate", name="wrap")
+    c.draw(c.poly([(70, 27.5), (78, 22), (92, 27), (78, 32)]), "steel", "metal", bias=1, name="head")
+    c.line(74, 27, 90, 27, "steel", 5)
+    c.draw(c.rect(68, 23, 71, 32), "amber", "metal", name="collar")
+    c.draw(c.poly([(56, 28), (66, 28), (64, 36), (58, 34)]), "azure", "cloth", name="pennant")
+    c.outline("ink")
+    c.despeckle()
+    return c
+
+
 WEAPONS = {
     "rift_pistol": {"draw": rift_pistol, "muzzle": (68, 20), "version": 1},
     "cinder_wand": {"draw": cinder_wand, "muzzle": (64, 18), "version": 1},
@@ -280,7 +323,7 @@ WEAPONS = {
     "sunforge_mace": {"draw": sunforge_mace, "muzzle": (68, 21), "version": 1},
     "scatter_cannon": {"draw": scatter_cannon, "muzzle": (72, 22), "version": 1},
     "ember_blade": {"draw": ember_blade, "muzzle": (86, 26), "version": 1},
-    "thornbow": {"draw": thornbow, "muzzle": (76, 28), "version": 1},
+    "thornbow": {"draw": thornbow, "anims": thornbow_anims, "muzzle": (76, 28), "version": 2},
     "pulse_rifle": {"draw": pulse_rifle, "muzzle": (86, 21), "version": 1},
     "frost_needler": {"draw": frost_needler, "muzzle": (75, 23), "version": 1},
     "hex_staff": {"draw": hex_staff, "muzzle": (82, 20), "version": 1},
@@ -288,4 +331,6 @@ WEAPONS = {
     "boom_tube": {"draw": boom_tube, "muzzle": (86, 20), "version": 1},
     "storm_coil": {"draw": storm_coil, "muzzle": (81, 24), "version": 1},
     "prism_lance": {"draw": prism_lance, "muzzle": (90, 27), "version": 1},
+    "shadow_fang": {"draw": shadow_fang, "muzzle": (60, 28), "version": 1},
+    "wardpike": {"draw": wardpike, "muzzle": (92, 27), "version": 1},
 }

@@ -149,6 +149,9 @@ func _refresh_weapon_visibility() -> void:
 func swap_weapon() -> void:
 	if weapons.size() < 2:
 		return
+	var w0: Weapon = current_weapon()
+	if w0 != null:
+		w0.cancel_attack()   # an interrupted attack never lands later
 	current = (current + 1) % weapons.size()
 	Sfx.play("ui_move")
 	_refresh_weapon_visibility()
@@ -558,6 +561,7 @@ func _on_died() -> void:
 	state = State.DEAD
 	health.invulnerable = true
 	for w: Weapon in weapons:
+		w.cancel_attack()
 		w.visible = false
 	body.play(&"death")
 	Sfx.play("player_die")
@@ -633,8 +637,12 @@ func _update_anim() -> void:
 	if _anim_lock > 0.0:
 		return
 	var want: StringName
+	var w: Weapon = current_weapon()
+	var cast_body: String = str(w.style.get("body", "")) if w != null else ""
 	if state == State.DASH:
 		want = &"dash"
+	elif cast_body != "" and w.phase in [Weapon.Phase.WINDUP, Weapon.Phase.ACTIVE] and body.sprite_frames.has_animation(cast_body):
+		want = StringName(cast_body)   # spellcasting pose while a staff / orb charges
 	elif velocity.length() > 12.0:
 		want = &"run"
 	else:

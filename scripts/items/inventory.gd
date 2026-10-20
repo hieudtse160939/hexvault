@@ -73,7 +73,22 @@ static func can_equip(d: Dictionary, hero: String, uid: String) -> bool:
 	var inst: Dictionary = item(d, uid)
 	if inst.is_empty() or str(inst.get("kind", "")) != "equipment" or not uid in bag(d):
 		return false
-	return str(inst.get("slot", "")) in (Db.items_cfg.get("slots", []) as Array) and Db.character(hero) != null
+	if not str(inst.get("slot", "")) in (Db.items_cfg.get("slots", []) as Array) or Db.character(hero) == null:
+		return false
+	return style_allowed(hero, inst)
+
+
+## Weapon style of an item ("" for armour and books).
+static func weapon_style_of(inst: Dictionary) -> String:
+	var w: WeaponData = Db.weapon(str(ItemGen.template(str(inst.get("base", ""))).get("weapon", "")))
+	return w.style if w != null else ""
+
+
+## Class weapon rules (data/classes.json "weapons"); armour is always allowed.
+static func style_allowed(hero: String, inst: Dictionary) -> bool:
+	var st: String = weapon_style_of(inst)
+	var allowed: PackedStringArray = Db.allowed_styles(hero)
+	return st == "" or allowed.is_empty() or st in allowed
 
 
 ## Moves a bag item into its slot; the item previously there returns to the bag.

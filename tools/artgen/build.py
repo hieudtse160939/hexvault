@@ -193,7 +193,8 @@ def main() -> None:
         if hdw is None:
             add_sheet(f"weapon_{wid}", f"sprites/weapons/{wid}.png", {"idle": [fn()]}, 1, True, items.WEAPON_PIVOT)
             continue
-        add_sheet(f"weapon_{wid}", f"sprites/weapons/hd/{wid}.png", {"idle": [hdw["draw"]().image()]}, 1, True,
+        w_anims = hdw["anims"]() if "anims" in hdw else {"idle": [hdw["draw"]().image()]}
+        add_sheet(f"weapon_{wid}", f"sprites/weapons/hd/{wid}.png", w_anims, 1, True,
                   hd_weapons.PIVOT, hd={"density": hd_registry.DENSITY, "version": hdw["version"],
                                         "source": "procedural: tools/artgen/hd/weapons.py"})
         manifest["sprites"][f"weapon_{wid}"]["muzzle"] = list(hdw["muzzle"])
