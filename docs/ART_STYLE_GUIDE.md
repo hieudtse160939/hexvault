@@ -45,14 +45,14 @@ a 2 px transparent margin; `asset_qa.py` fails any frame with opaque pixels on i
   units, x figure scale k ≈ 1.2–1.35). Defaults in `kit.proportions()`; a hero may change k
   (a hulking Warden 1.35, a small Tinker 1.2) but keeps feet on the ground line and the body
   centred.
-- **Face (anime 3/4):** the head turns toward the camera, so both eyes show. Eyes are
-  hand-made pixel templates (`kit.EYE_NEAR` 7 × 7, `kit.EYE_FAR` 5 × 6), never scaled
-  rectangles: rounded shape, ink lash line flicked at the outer corner, iris graded dark at the
-  top to light at the bottom, pupil, two white catch-lights, a single white-of-eye pixel.
-  Thin one-pixel brows two pixels above the lashes. Faces use flat, light cel shading (no
-  dome shading on skin), a tiny mouth and rose blush. Hoods and helms are open-faced.
-- **Hair:** big volume over the skull, pointed bangs down to the brows, a side lock framing the
-  face, a broken "shine ring" in the brightest shade. Styles: short, spiky, long, ponytail.
+- **Face (anime profile):** heads face the same way as the bodies (side view, facing right).
+  The face fills the front of the head: one big eye from the hand-made template
+  `kit.EYE_SIDE` (lash flicked at the corner, iris graded dark to light, pupil, catch-lights),
+  a short one-pixel brow above it, the nose tip and chin as part of the head silhouette, a
+  tiny mouth and a rose blush line. Light, flat cel shading on skin. Never draw a second eye
+  on a profile head. Hoods and helms are open at the front.
+- **Hair:** big volume over the back and top of the skull, pointed bangs falling over the
+  forehead, a side lock in front of the ear, a broken "shine ring" in the brightest shade. Styles: short, spiky, long, ponytail.
 - **Near / far limbs:** the far arm and leg are drawn first and one shade darker (`bias=-1`).
 - **Anchor:** frame centre = actor origin. Feet line constant across looping animations
   (QA: feet drift ≤ 3 world px, centre-of-mass jumps limited, silhouette IoU ≥ 0.55).

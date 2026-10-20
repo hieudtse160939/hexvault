@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dyvnrh5kbsqmf"
-path="res://.godot/imported/skitter.png-dad6b56ad8ccbf85f61b967818fa51b5.ctex"
+uid="uid://b7nqxny453v8y"
+path="res://.godot/imported/acolyte.png-dbb89f0211705a9ea87507c2e3ead3cb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/enemies/skitter.png"
-dest_files=["res://.godot/imported/skitter.png-dad6b56ad8ccbf85f61b967818fa51b5.ctex"]
+source_file="res://assets/sprites/enemies/hd/acolyte.png"
+dest_files=["res://.godot/imported/acolyte.png-dbb89f0211705a9ea87507c2e3ead3cb.ctex"]
 
 [params]
 
@@ -23,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

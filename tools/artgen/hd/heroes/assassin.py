@@ -25,7 +25,7 @@ def _daggers(x) -> None:
 def _mask(x) -> None:
     c, R, p = x.c, x.R, x.p
     wind = float(p.extras.get("wind", 0.0))
-    m = c.ellipse(*x.hp(4.0, 8.4), R(10.0), R(3.6), rot=x.sk.angle) & c.ellipse(*x.hp(0.0, 0.0), x.hr + R(0.6), x.hr, rot=x.sk.angle)
+    m = c.ellipse(*x.hp(7.5, 8.2), R(7.6), R(3.6), rot=x.sk.angle) & c.ellipse(*x.hp(0.0, 0.0), x.hr + R(0.6), x.hr, rot=x.sk.angle)
     c.draw(m, "violet", "cloth", bias=-1, name="face_mask")
     t0 = x.hp(-10.0, 7.0)
     t1 = x.hp(-22.0 - wind * 4.0, 10.0 - wind * 6.0 + p.sway * 2.0)

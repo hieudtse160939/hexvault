@@ -19,7 +19,11 @@ import tinker  # noqa: E402
 import warden  # noqa: E402
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "enemies"))
+import acolyte  # noqa: E402
+import gloop  # noqa: E402
 import golem  # noqa: E402
+import skitter  # noqa: E402
+import sparkeye  # noqa: E402
 
 # Art pixels per world unit for all HD assets (a 16-unit floor tile = 64 px).
 DENSITY = 4
@@ -41,4 +45,8 @@ HEROES = {
 
 ENEMIES = {
     "golem": golem,
+    "gloop": gloop,
+    "sparkeye": sparkeye,
+    "skitter": skitter,
+    "acolyte": acolyte,
 }

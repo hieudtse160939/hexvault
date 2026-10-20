@@ -191,6 +191,12 @@ def cape(x: Ctx) -> None:
 
 
 # --- head ----------------------------------------------------------------------------
+# Where the face sits on the head (base units from the head centre, +x =
+# facing side). Heads are drawn in profile like the bodies: the face fills
+# the front of the head, one big eye, a small nose and chin on the front
+# edge, hair over the back of the head.
+FACE_X = 5.0
+
 # Hand-made anime eye templates (facing right). K lash, D iris dark, I iris,
 # L iris light, P pupil, W catch-light, S white of the eye, '.' skin.
 EYE_NEAR = [
@@ -210,15 +216,30 @@ EYE_FAR = [
     "IIPI.",
     ".LLS.",
 ]
+EYE_SIDE = [
+    ".KKKKK..",
+    "KKDDDDKK",
+    ".DWWDDK.",
+    ".DWDPPD.",
+    ".IIPPPI.",
+    ".IIIIIL.",
+    "..LLLL..",
+]
+EYE_SIDE_CLOSED = ["", "", "", "", ".KKKKKK.", "......K."]
 EYE_CLOSED_NEAR = ["", "", "", ".KKKKK.", "K.....K"]
 EYE_CLOSED_FAR = ["", "", "", "KKKK.", ".....K"]
 
 
-def eye(c: HDCanvas, cx: float, cy: float, iris: str, glow: str | None, blink: bool, near: bool) -> None:
+def eye(c: HDCanvas, cx: float, cy: float, iris: str, glow: str | None, blink: bool, near: bool,
+        side: bool = False) -> None:
     """Stamp one anime eye centred on (cx, cy)."""
-    rows = (EYE_CLOSED_NEAR if near else EYE_CLOSED_FAR) if blink else (EYE_NEAR if near else EYE_FAR)
-    h = len(EYE_NEAR if near else EYE_FAR)
-    w = len((EYE_NEAR if near else EYE_FAR)[0])
+    if side:
+        open_rows, closed_rows = EYE_SIDE, EYE_SIDE_CLOSED
+    else:
+        open_rows, closed_rows = (EYE_NEAR, EYE_CLOSED_NEAR) if near else (EYE_FAR, EYE_CLOSED_FAR)
+    rows = closed_rows if blink else open_rows
+    h = len(open_rows)
+    w = len(open_rows[0])
     x0, y0 = int(round(cx - w / 2)), int(round(cy - h / 2))
     for j, row in enumerate(rows):
         for i, ch in enumerate(row):
@@ -242,29 +263,24 @@ def eye(c: HDCanvas, cx: float, cy: float, iris: str, glow: str | None, blink: b
 
 
 def _face_features(x: Ctx, face_mask) -> None:
-    """Anime 3/4 face: two eyes, brows, nose tip, mouth, blush."""
-    c, L, p, R, k = x.c, x.look, x.p, x.R, x.k
+    """Anime profile face: one big eye, a short brow, mouth and blush (the
+    nose and chin are part of the head silhouette, see head())."""
+    c, L, p = x.c, x.look, x.p
     hurt = bool(p.extras.get("hurt", False)) or p.blink and p.lean < -1
     glow = L.eyes if L.eye_glow else None
-    near = x.hp(6.6, 2.8)
-    far = x.hp(0.4, 2.6)
-    eye(c, near[0], near[1], L.iris, glow, p.blink, True)
-    eye(c, far[0], far[1], L.iris, glow, p.blink, False)
+    ex, ey = x.hp(FACE_X + 2.4, 2.8)
+    eye(c, ex, ey, L.iris, glow, p.blink, True, side=True)
     if L.params.get("brows", True):
-        # thin brows two pixels above the lash line, angled down when hurt
-        for (ex, ey), w, near_eye in ((near, 5, True), (far, 3, False)):
-            yb = int(round(ey)) - (7 if near_eye else 6)
-            x0 = int(round(ex)) - w // 2
-            c.line(x0, yb + (1 if hurt and near_eye else 0), x0 + w - 1, yb + (0 if hurt else 0), L.hair, 1)
-    nx, ny = x.hp(4.4, 5.6)
-    c.px(int(nx), int(ny), L.skin, 2)
-    mx, my = x.hp(4.4, 8.0)
+        yb = int(round(ey)) - 6
+        x0 = int(round(ex)) - 3
+        c.line(x0, yb + (1 if hurt else 0), x0 + 5, yb, L.hair, 1)
+    mx, my = x.hp(FACE_X + 6.6, 8.4)
     if hurt:
-        c.fill(c.rect(int(mx) - 1, int(my) - 1, int(mx) + 1, int(my)), "crimson", 0, name="mouth_open")
+        c.fill(c.rect(int(mx) - 1, int(my) - 1, int(mx), int(my)), "crimson", 0, name="mouth_open")
     else:
         c.line(mx - 1, my, mx, my, L.skin, 0)
-    for bx, by in (x.hp(9.0, 6.6), x.hp(-1.2, 6.2)):
-        c.line(bx - 1, by, bx, by, "rose", 4)
+    bx, by = x.hp(FACE_X + 1.8, 6.8)
+    c.line(bx - 1, by, bx + 1, by, "rose", 4)
 
 
 def _hair_top(x: Ctx, clip=None) -> None:
@@ -274,20 +290,20 @@ def _hair_top(x: Ctx, clip=None) -> None:
     h = sk.head
     hr = x.hr
     crown = c.ellipse(*x.hp(-1.4, -2.6), hr + R(1.0), hr - R(1.2), rot=sk.angle)
-    crown &= ~c.ellipse(*x.hp(4.4, 6.4), R(9.6), R(8.6), rot=sk.angle)
+    crown &= ~c.ellipse(*x.hp(FACE_X + 4.2, 5.8), R(8.8), R(8.2), rot=sk.angle)
     if L.hair_style == "spiky":
         for i, (bx, by, tx, ty) in enumerate(((-9, -4, -17, -9), (-5, -9, -10, -19), (0, -11, 1, -21), (5, -9, 10, -17), (-11, 2, -18, 1))):
             a0, a1 = x.hp(bx, by), x.hp(tx - sw * (i % 2), ty)
             crown |= c.capsule(a0[0], a0[1], a1[0], a1[1], R(3.4), R(0.6))
     # bangs: pointed locks falling to just above the eyes
-    locks = [(-3.5, -1.0), (0.5, 0.6), (4.0, -0.4), (7.5, 0.9), (10.6, -0.2)]
+    locks = [(FACE_X + d, ly) for d, ly in ((-3.0, 0.4), (0.4, -1.0), (3.6, 0.6), (6.6, -0.8))]
     for i, (lx, ly) in enumerate(locks):
         top_l, top_r = x.hp(lx - 3.0, -8.0), x.hp(lx + 2.6, -8.0)
         tip = x.hp(lx + 0.6 + sw * 0.3 * (i % 2), ly)
         crown |= c.poly([top_l, top_r, tip])
     # side lock in front of the ear, framing the face
-    s0, s1 = x.hp(11.2, -4.0), x.hp(12.2 + sw * 0.6, 8.5)
-    crown |= c.capsule(s0[0], s0[1], s1[0], s1[1], R(2.2), R(0.8))
+    s0, s1 = x.hp(FACE_X - 4.6, -4.0), x.hp(FACE_X - 4.0 + sw * 0.6, 9.0)
+    crown |= c.capsule(s0[0], s0[1], s1[0], s1[1], R(2.4), R(0.9))
     if clip is not None:
         crown &= clip
     c.draw(crown, L.hair, "round", name="hair")
@@ -304,6 +320,15 @@ def _hair_top(x: Ctx, clip=None) -> None:
         c.draw(band, L.params["hair_band"], "metal", name="hair_band")
 
 
+def _nose(x: Ctx):
+    """Nose tip and chin poking out of the front of the head silhouette."""
+    c, R = x.c, x.R
+    n = c.ellipse(*x.hp(12.8, 4.4), R(1.4), R(1.3), rot=x.sk.angle)
+    cheek = c.ellipse(*x.hp(9.0, 6.0), R(4.4), R(4.2), rot=x.sk.angle)   # fills the notch under the nose
+    chin = c.ellipse(*x.hp(8.6, 8.6), R(3.6), R(3.0), rot=x.sk.angle)
+    return n | cheek | chin
+
+
 def head(x: Ctx) -> None:
     c, L, sk, p, R = x.c, x.look, x.sk, x.p, x.R
     h = sk.head
@@ -311,7 +336,7 @@ def head(x: Ctx) -> None:
     sw = p.sway
     gear = L.head_ramp or L.torso
     skull = c.ellipse(h[0], h[1], hr, hr - R(0.4), rot=sk.angle)
-    face_mask = c.ellipse(*x.hp(3.6, 3.0), R(10.2), R(9.8), rot=sk.angle) & skull
+    face_mask = c.ellipse(*x.hp(FACE_X, 3.0), R(11.0), R(9.8), rot=sk.angle) & skull
     # long hair / ponytail behind the head
     if L.hair_style in ("long", "ponytail"):
         if L.hair_style == "long":
@@ -334,19 +359,21 @@ def head(x: Ctx) -> None:
             shell |= c.poly(tip)
         form = "metal" if L.head == "helm" else "cloth"
         c.draw(shell, gear, form, name=L.head)
-        opening = c.ellipse(*x.hp(5.0, 3.4), R(9.0), R(9.4), rot=sk.angle) & shell
+        opening = (c.ellipse(*x.hp(FACE_X + 3.6, 3.6), R(9.0), R(9.2), rot=sk.angle) & shell) | _nose(x)
         c.draw(opening, L.skin, "flat", bias=1 + int(L.params.get("face_bias", 0)), name="face", selout=True)
-        rim = c.ellipse(*x.hp(5.0, 3.4), R(10.4), R(10.8), rot=sk.angle) & shell & ~opening
+        rim = c.ellipse(*x.hp(FACE_X + 3.6, 3.6), R(10.4), R(10.6), rot=sk.angle) & shell & ~opening
         c.relight(rim, +1)
         if L.hair_style != "none":
-            _hair_top(x, clip=opening & ~c.ellipse(*x.hp(5.0, 6.8), R(9.0), R(7.4), rot=sk.angle))
+            _hair_top(x, clip=opening & ~c.ellipse(*x.hp(FACE_X + 4.0, 7.0), R(8.6), R(7.2), rot=sk.angle))
         _face_features(x, opening)
         if L.head == "helm":
             cheek = c.ellipse(*x.hp(-3.5, 6.0), R(3.6), R(5.6), rot=sk.angle) & shell
             c.draw(cheek | (c.ellipse(*x.hp(-3.5, 6.0), R(3.6), R(5.6), rot=sk.angle) & skull), gear, "metal", bias=-1, name="cheek_guard")
     else:
-        c.draw(skull, L.skin, "flat", bias=1, name="head")
-        ex_, ey_ = x.hp(-4.5, 3.0)
+        c.draw(skull | _nose(x), L.skin, "flat", bias=1, name="head")
+        jaw = (skull | _nose(x)) & ~shift_mask(skull | _nose(x), 0, 2)
+        c.relight(jaw & c.ellipse(*x.hp(FACE_X + 3.0, 7.0), R(8.0), R(6.0), rot=sk.angle), +1)
+        ex_, ey_ = x.hp(FACE_X - 6.4, 3.4)
         c.draw(c.ellipse(ex_, ey_, R(1.8), R(2.4), rot=sk.angle), L.skin, "skin", bias=-1, name="ear")
         _face_features(x, face_mask)
         if L.hair_style != "none":

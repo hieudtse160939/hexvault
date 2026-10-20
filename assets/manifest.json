@@ -451,7 +451,7 @@
      "row": 2
     },
     "death": {
-     "fps": 10,
+     "fps": 9,
      "frames": 4,
      "loop": false,
      "row": 4
@@ -463,38 +463,42 @@
      "row": 3
     },
     "idle": {
-     "fps": 5,
+     "fps": 6,
      "frames": 4,
      "loop": true,
      "row": 0
     },
     "move": {
-     "fps": 8,
+     "fps": 10,
      "frames": 2,
      "loop": true,
      "row": 1
     }
    },
-   "density": 1,
-   "frame_h": 16,
-   "frame_w": 16,
-   "palette": "master16",
-   "path": "res://assets/sprites/enemies/acolyte.png",
-   "sha": "b47654c111d8e463",
-   "source": "procedural: tools/artgen",
+   "density": 4,
+   "frame_h": 128,
+   "frame_w": 128,
+   "palette": "hd",
+   "path": "res://assets/sprites/enemies/hd/acolyte.png",
+   "pivot": [
+    64,
+    112
+   ],
+   "sha": "8b85729307309941",
+   "source": "procedural: tools/artgen/hd/enemies/acolyte.py",
    "type": "enemies",
    "version": 1
   },
   "enemy_gloop": {
    "anims": {
     "attack": {
-     "fps": 10,
+     "fps": 12,
      "frames": 3,
      "loop": false,
      "row": 2
     },
     "death": {
-     "fps": 10,
+     "fps": 12,
      "frames": 5,
      "loop": false,
      "row": 4
@@ -506,25 +510,29 @@
      "row": 3
     },
     "idle": {
-     "fps": 5,
+     "fps": 6,
      "frames": 4,
      "loop": true,
      "row": 0
     },
     "move": {
-     "fps": 8,
+     "fps": 10,
      "frames": 4,
      "loop": true,
      "row": 1
     }
    },
-   "density": 1,
-   "frame_h": 16,
-   "frame_w": 16,
-   "palette": "master16",
-   "path": "res://assets/sprites/enemies/gloop.png",
-   "sha": "86ae195771e3c482",
-   "source": "procedural: tools/artgen",
+   "density": 4,
+   "frame_h": 96,
+   "frame_w": 96,
+   "palette": "hd",
+   "path": "res://assets/sprites/enemies/hd/gloop.png",
+   "pivot": [
+    48,
+    78
+   ],
+   "sha": "2b295d6bc9e6ad67",
+   "source": "procedural: tools/artgen/hd/enemies/gloop.py",
    "type": "enemies",
    "version": 1
   },
@@ -639,7 +647,7 @@
   "enemy_skitter": {
    "anims": {
     "attack": {
-     "fps": 10,
+     "fps": 12,
      "frames": 3,
      "loop": false,
      "row": 2
@@ -657,25 +665,29 @@
      "row": 3
     },
     "idle": {
-     "fps": 5,
+     "fps": 6,
      "frames": 2,
      "loop": true,
      "row": 0
     },
     "move": {
-     "fps": 8,
+     "fps": 14,
      "frames": 4,
      "loop": true,
      "row": 1
     }
    },
-   "density": 1,
-   "frame_h": 16,
-   "frame_w": 16,
-   "palette": "master16",
-   "path": "res://assets/sprites/enemies/skitter.png",
-   "sha": "d39b05db864a10b9",
-   "source": "procedural: tools/artgen",
+   "density": 4,
+   "frame_h": 96,
+   "frame_w": 96,
+   "palette": "hd",
+   "path": "res://assets/sprites/enemies/hd/skitter.png",
+   "pivot": [
+    48,
+    72
+   ],
+   "sha": "635a6eae3eed9b18",
+   "source": "procedural: tools/artgen/hd/enemies/skitter.py",
    "type": "enemies",
    "version": 1
   },
@@ -700,25 +712,29 @@
      "row": 3
     },
     "idle": {
-     "fps": 5,
+     "fps": 8,
      "frames": 4,
      "loop": true,
      "row": 0
     },
     "move": {
-     "fps": 8,
+     "fps": 12,
      "frames": 2,
      "loop": true,
      "row": 1
     }
    },
-   "density": 1,
-   "frame_h": 16,
-   "frame_w": 16,
-   "palette": "master16",
-   "path": "res://assets/sprites/enemies/sparkeye.png",
-   "sha": "e0342b780998cfae",
-   "source": "procedural: tools/artgen",
+   "density": 4,
+   "frame_h": 96,
+   "frame_w": 96,
+   "palette": "hd",
+   "path": "res://assets/sprites/enemies/hd/sparkeye.png",
+   "pivot": [
+    48,
+    70
+   ],
+   "sha": "6abb2c48492a01f9",
+   "source": "procedural: tools/artgen/hd/enemies/sparkeye.py",
    "type": "enemies",
    "version": 1
   },
@@ -941,7 +957,7 @@
     64,
     112
    ],
-   "sha": "00ea9fdcee8eb798",
+   "sha": "17e2e48a7489ba63",
    "source": "procedural: tools/artgen/hd/heroes/artillerist.py",
    "type": "heroes",
    "version": 1
@@ -994,7 +1010,7 @@
     64,
     112
    ],
-   "sha": "99d83a30943eec9e",
+   "sha": "b4d00d3ff56e91d4",
    "source": "procedural: tools/artgen/hd/heroes/assassin.py",
    "type": "heroes",
    "version": 1
@@ -1047,7 +1063,7 @@
     64,
     112
    ],
-   "sha": "1e9c881cbef9c237",
+   "sha": "8cd8071765b7ee60",
    "source": "procedural: tools/artgen/hd/heroes/cryomancer.py",
    "type": "heroes",
    "version": 1
@@ -1100,7 +1116,7 @@
     64,
     112
    ],
-   "sha": "c31663c92d245ccf",
+   "sha": "465ab91365ea0f85",
    "source": "procedural: tools/artgen/hd/heroes/duelist.py",
    "type": "heroes",
    "version": 1
@@ -1153,7 +1169,7 @@
     64,
     112
    ],
-   "sha": "9b87f54626352609",
+   "sha": "ec73591e5bedd754",
    "source": "procedural: tools/artgen/hd/heroes/hexer.py",
    "type": "heroes",
    "version": 1
@@ -1255,7 +1271,7 @@
     64,
     112
    ],
-   "sha": "0f18913d22352cef",
+   "sha": "8bdf1a8b106a64a3",
    "source": "procedural: tools/artgen/hd/heroes/necromancer.py",
    "type": "heroes",
    "version": 1
@@ -1308,7 +1324,7 @@
     64,
     112
    ],
-   "sha": "e0fc02e8089786ea",
+   "sha": "35bc6f3a8fb1594a",
    "source": "procedural: tools/artgen/hd/heroes/paladin.py",
    "type": "heroes",
    "version": 1
@@ -1361,7 +1377,7 @@
     64,
     112
    ],
-   "sha": "c240ad39f62b22ce",
+   "sha": "fd25ed7341cb7d49",
    "source": "procedural: tools/artgen/hd/heroes/pyromancer.py",
    "type": "heroes",
    "version": 1
@@ -1414,7 +1430,7 @@
     64,
     112
    ],
-   "sha": "0c72b8c4f388d0c0",
+   "sha": "31a598d7c48310d6",
    "source": "procedural: tools/artgen/hd/heroes/ranger.py",
    "type": "heroes",
    "version": 3
@@ -1516,7 +1532,7 @@
     64,
     112
    ],
-   "sha": "2d58e3c9fd1e61a1",
+   "sha": "7f95026303be2931",
    "source": "procedural: tools/artgen/hd/heroes/stormcaller.py",
    "type": "heroes",
    "version": 1
@@ -1569,7 +1585,7 @@
     64,
     112
    ],
-   "sha": "1a638693c14baa40",
+   "sha": "922d460c2c5bdd75",
    "source": "procedural: tools/artgen/hd/heroes/tinker.py",
    "type": "heroes",
    "version": 1
@@ -1671,7 +1687,7 @@
     64,
     112
    ],
-   "sha": "8e5397a2202e5581",
+   "sha": "a376bf2c8e80bb9c",
    "source": "procedural: tools/artgen/hd/heroes/warden.py",
    "type": "heroes",
    "version": 1

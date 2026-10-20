@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hxbevyhumc3u"
-path="res://.godot/imported/gloop.png-1e0aafdbd745aef0f979ec44acb5cfca.ctex"
+uid="uid://dni511fwvvf5"
+path="res://.godot/imported/skitter.png-f0f0528dedc8e19617d2369775e1b6dd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/enemies/gloop.png"
-dest_files=["res://.godot/imported/gloop.png-1e0aafdbd745aef0f979ec44acb5cfca.ctex"]
+source_file="res://assets/sprites/enemies/hd/skitter.png"
+dest_files=["res://.godot/imported/skitter.png-f0f0528dedc8e19617d2369775e1b6dd.ctex"]
 
 [params]
 
@@ -23,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

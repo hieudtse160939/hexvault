@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dsp1jeglegxbc"
-path="res://.godot/imported/sparkeye.png-2be20d4325683114d66c99ad89639f1a.ctex"
+uid="uid://cf6608fuju0a6"
+path="res://.godot/imported/sparkeye.png-fa78465168f5d457c7f4420a66774a39.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/enemies/sparkeye.png"
-dest_files=["res://.godot/imported/sparkeye.png-2be20d4325683114d66c99ad89639f1a.ctex"]
+source_file="res://assets/sprites/enemies/hd/sparkeye.png"
+dest_files=["res://.godot/imported/sparkeye.png-fa78465168f5d457c7f4420a66774a39.ctex"]
 
 [params]
 
@@ -23,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
