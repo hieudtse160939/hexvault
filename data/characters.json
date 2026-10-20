@@ -1,33 +1,73 @@
 {
- "version": 1,
+ "version": 2,
  "characters": [
   {
-   "id": "ranger", "name": "Vex", "title": "Rift Ranger",
-   "description": "Balanced gunslinger. OVERCLOCK doubles fire rate and skips reloads for 4s.",
-   "sprite": "hero_ranger", "max_hp": 6, "max_armor": 4, "speed": 96,
-   "start_weapon": "rift_pistol", "skill": "overclock", "skill_cooldown": 12.0, "skill_duration": 4.0,
-   "skill_icon": "icon_skill_overclock", "unlock": {"type": "default"}
+   "id": "ranger", "name": "Vex", "title": "Rift Ranger", "class": "gunslinger", "difficulty": 1,
+   "description": "Balanced gunslinger with a steady aim. Easy to learn, rewards standing your ground.",
+   "sprite": "hero_ranger", "start_weapon": "rift_pistol", "tags": ["starter", "crit"],
+   "stats": {"max_hp": 6, "max_armor": 4, "speed": 96},
+   "skill": {"id": "overclock", "name": "Overclock", "cooldown": 12.0, "duration": 4.0, "icon": "icon_skill_overclock",
+             "description": "Doubles fire rate and skips reloads for 4 s.", "params": {"fire_rate_bonus": 1.0}},
+   "passive": {"id": "deadeye", "name": "Deadeye", "description": "Stand still for 0.5 s: +25% crit chance until you move.",
+               "params": {"delay": 0.5, "crit": 0.25}},
+   "unlock": {"type": "default"},
+   "mastery": [
+    {"level": 2, "xp": 120, "bonus": {"crit": 0.03}, "text": "+3% crit"},
+    {"level": 3, "xp": 300, "bonus": {"max_armor": 1}, "text": "+1 armour"},
+    {"level": 4, "xp": 600, "bonus": {"cooldown_mult": -0.1}, "text": "-10% skill cooldown"},
+    {"level": 5, "xp": 1000, "bonus": {"damage_mult": 0.1}, "text": "+10% damage"}
+   ]
   },
   {
-   "id": "warden", "name": "Bramble", "title": "Warden",
-   "description": "Armoured bulwark. BULWARK raises a dome that erases enemy bolts and blocks damage for 3s.",
-   "sprite": "hero_warden", "max_hp": 8, "max_armor": 6, "speed": 86,
-   "start_weapon": "scatter_cannon", "skill": "bulwark", "skill_cooldown": 15.0, "skill_duration": 3.0,
-   "skill_icon": "icon_skill_bulwark", "unlock": {"type": "shards", "cost": 300}
+   "id": "warden", "name": "Bramble", "title": "Warden", "class": "guardian", "difficulty": 1,
+   "description": "Armoured bulwark. Shrugs off the first blow in every room and walls off bullet storms.",
+   "sprite": "hero_warden", "start_weapon": "scatter_cannon", "tags": ["defense"],
+   "stats": {"max_hp": 8, "max_armor": 6, "speed": 86},
+   "skill": {"id": "bulwark", "name": "Bulwark", "cooldown": 15.0, "duration": 3.0, "icon": "icon_skill_bulwark",
+             "description": "A dome that erases enemy bolts and blocks all damage for 3 s.", "params": {"radius": 34.0}},
+   "passive": {"id": "stonehide", "name": "Stonehide", "description": "Blocks the first hit in each room. Armour regenerates 40% faster.",
+               "params": {"regen": 0.4}},
+   "unlock": {"type": "shards", "cost": 300},
+   "mastery": [
+    {"level": 2, "xp": 120, "bonus": {"max_hp": 1}, "text": "+1 HP"},
+    {"level": 3, "xp": 300, "bonus": {"armor_regen_mult": 0.2}, "text": "+20% armour regen"},
+    {"level": 4, "xp": 600, "bonus": {"cooldown_mult": -0.1}, "text": "-10% skill cooldown"},
+    {"level": 5, "xp": 1000, "bonus": {"max_armor": 1}, "text": "+1 armour"}
+   ]
   },
   {
-   "id": "hexer", "name": "Nyx", "title": "Hexer",
-   "description": "Fragile and swift. PHASE blinks forward and detonates a hex burst on arrival.",
-   "sprite": "hero_hexer", "max_hp": 5, "max_armor": 3, "speed": 104,
-   "start_weapon": "hex_staff", "skill": "phase", "skill_cooldown": 5.0, "skill_duration": 0.2,
-   "skill_icon": "icon_skill_phase", "unlock": {"type": "achievement", "id": "deep_delver"}
+   "id": "hexer", "name": "Nyx", "title": "Hexer", "class": "hexer", "difficulty": 3,
+   "description": "Fragile and swift. Blinks through danger and punishes cursed foes.",
+   "sprite": "hero_hexer", "start_weapon": "hex_staff", "tags": ["mobility", "status"],
+   "stats": {"max_hp": 5, "max_armor": 3, "speed": 104},
+   "skill": {"id": "phase", "name": "Phase", "cooldown": 5.0, "duration": 0.2, "icon": "icon_skill_phase",
+             "description": "Blink forward and detonate a hex burst on arrival.", "params": {"distance": 72.0, "damage": 8, "radius": 34.0}},
+   "passive": {"id": "hexblood", "name": "Hexblood", "description": "Hits on hexed enemies deal +30% damage.",
+               "params": {"bonus": 0.3}},
+   "unlock": {"type": "achievement", "id": "deep_delver"},
+   "mastery": [
+    {"level": 2, "xp": 120, "bonus": {"speed": 0.05}, "text": "+5% speed"},
+    {"level": 3, "xp": 300, "bonus": {"cooldown_mult": -0.1}, "text": "-10% skill cooldown"},
+    {"level": 4, "xp": 600, "bonus": {"max_hp": 1}, "text": "+1 HP"},
+    {"level": 5, "xp": 1000, "bonus": {"damage_mult": 0.12}, "text": "+12% damage"}
+   ]
   },
   {
-   "id": "tinker", "name": "Cog", "title": "Tinker",
-   "description": "Gadgeteer. DEPLOY drops an autonomous turret for 10s.",
-   "sprite": "hero_tinker", "max_hp": 6, "max_armor": 4, "speed": 92,
-   "start_weapon": "pulse_rifle", "skill": "turret", "skill_cooldown": 14.0, "skill_duration": 10.0,
-   "skill_icon": "icon_skill_turret", "unlock": {"type": "shards", "cost": 500}
+   "id": "tinker", "name": "Cog", "title": "Tinker", "class": "engineer", "difficulty": 2,
+   "description": "Gadgeteer. Drops turrets and keeps them coming with every kill.",
+   "sprite": "hero_tinker", "start_weapon": "pulse_rifle", "tags": ["summon", "tech"],
+   "stats": {"max_hp": 6, "max_armor": 4, "speed": 92},
+   "skill": {"id": "turret", "name": "Deploy", "cooldown": 14.0, "duration": 10.0, "icon": "icon_skill_turret",
+             "description": "Drop an autonomous turret for 10 s."},
+   "passive": {"id": "scrap_rush", "name": "Scrap Rush", "description": "Every kill shaves 0.6 s off the skill cooldown.",
+               "params": {"seconds": 0.6}},
+   "unlock": {"type": "shards", "cost": 500},
+   "mastery": [
+    {"level": 2, "xp": 120, "bonus": {"reload_mult": -0.1}, "text": "-10% reload time"},
+    {"level": 3, "xp": 300, "bonus": {"max_armor": 1}, "text": "+1 armour"},
+    {"level": 4, "xp": 600, "bonus": {"cooldown_mult": -0.1}, "text": "-10% skill cooldown"},
+    {"level": 5, "xp": 1000, "bonus": {"fire_rate_mult": 0.1}, "text": "+10% fire rate"}
+   ]
   }
  ]
 }

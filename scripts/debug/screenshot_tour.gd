@@ -64,6 +64,20 @@ func _run() -> void:
 	Game.goto("hub")
 	await _frames(40)
 	await _shot("02_hub")
+	var hub: Node = get_tree().get_first_node_in_group("hub")
+	if hub == null:
+		for n: Node in get_tree().root.find_children("*", "", true, false):
+			if n.has_method("_open_heroes"):
+				hub = n
+				break
+	if hub != null:
+		hub.call("_open_heroes")
+		await _frames(10)
+		await _shot("02b_hero_select")
+		var m: Variant = hub.get("_modal")
+		if m is Node and is_instance_valid(m):
+			(m as Node).queue_free()
+		await _frames(5)
 	Game.start_run("ranger", 777)
 	await _frames(40)
 	await _shot("03_dungeon_start")

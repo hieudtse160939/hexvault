@@ -195,7 +195,7 @@ func _draw() -> void:
 		# skill cooldown sweep (vertical fill over the icon)
 		var cd: float = player.skill_cd_left
 		if cd > 0.0:
-			var k: float = cd / maxf(player.character.skill_cooldown, 0.01)
+			var k: float = cd / maxf(player.skill_cooldown_total(), 0.01)
 			draw_rect(Rect2(Vector2(X, 78), Vector2(16, roundf(16 * k))), Color(0, 0, 0, 0.55))
 		# dash pips
 		var dr: float = player.dash_ready_ratio()

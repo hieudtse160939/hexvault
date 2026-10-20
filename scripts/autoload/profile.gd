@@ -93,6 +93,62 @@ func unlocked_weapon_ids() -> PackedStringArray:
 	return out
 
 
+# --- character mastery ---------------------------------------------------
+## Per-hero progress record (created on first use).
+func character_record(id: String) -> Dictionary:
+	var all: Dictionary = data["characters"]
+	if not all.has(id) or not all[id] is Dictionary:
+		all[id] = {"xp": 0, "runs": 0, "wins": 0, "best_floor": 0}
+	return all[id]
+
+
+## Mastery level reached (1 = base). Thresholds come from the character's data.
+func mastery_level(id: String) -> int:
+	var c: CharacterData = Db.character(id)
+	if c == null:
+		return 1
+	var xp: int = int(character_record(id).get("xp", 0))
+	var lvl: int = 1
+	for m: Variant in c.mastery:
+		if m is Dictionary and xp >= int((m as Dictionary).get("xp", 0)):
+			lvl = int((m as Dictionary).get("level", lvl))
+	return lvl
+
+
+## XP needed for the next mastery level, or -1 at max.
+func mastery_next_xp(id: String) -> int:
+	var c: CharacterData = Db.character(id)
+	if c == null:
+		return -1
+	var xp: int = int(character_record(id).get("xp", 0))
+	for m: Variant in c.mastery:
+		if m is Dictionary and xp < int((m as Dictionary).get("xp", 0)):
+			return int((m as Dictionary).get("xp", 0))
+	return -1
+
+
+## Sum of all stat bonuses unlocked by the hero's mastery level.
+func mastery_bonus(id: String) -> Dictionary:
+	var out: Dictionary = {}
+	var c: CharacterData = Db.character(id)
+	if c == null:
+		return out
+	var lvl: int = mastery_level(id)
+	for m: Variant in c.mastery:
+		if not m is Dictionary or int((m as Dictionary).get("level", 99)) > lvl:
+			continue
+		var bonus: Variant = (m as Dictionary).get("bonus", {})
+		if bonus is Dictionary:
+			for k: String in bonus:
+				out[k] = float(out.get(k, 0.0)) + float(bonus[k])
+	return out
+
+
+## XP for one run: depth reached, rooms cleared, a victory bonus.
+static func run_xp(summary: Dictionary) -> int:
+	return int(summary.get("floor", 0)) * 20 + int(summary.get("rooms", 0)) * 4 + (60 if bool(summary.get("victory", false)) else 0)
+
+
 # --- permanent upgrades ----------------------------------------------------
 func upgrade_level(id: String) -> int:
 	return int((data["upgrades"] as Dictionary).get(id, 0))
@@ -209,5 +265,16 @@ func bank_run(summary: Dictionary) -> int:
 	else:
 		add_stat("deaths")
 	set_stat_max("max_floor", int(summary.get("floor", 0)))
+	var cid: String = str(summary.get("character", ""))
+	if cid != "" and Db.character(cid) != null:
+		var rec: Dictionary = character_record(cid)
+		var before: int = mastery_level(cid)
+		rec["xp"] = int(rec.get("xp", 0)) + run_xp(summary)
+		rec["runs"] = int(rec.get("runs", 0)) + 1
+		if bool(summary.get("victory", false)):
+			rec["wins"] = int(rec.get("wins", 0)) + 1
+		rec["best_floor"] = maxi(int(rec.get("best_floor", 0)), int(summary.get("floor", 0)))
+		if mastery_level(cid) > before:
+			Events.toast.emit("%s reached mastery %d!" % [Db.character(cid).display_name, mastery_level(cid)])
 	save()
 	return earned

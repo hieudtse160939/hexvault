@@ -120,6 +120,8 @@ func _player() -> Player:
 	var lvl: Level = Level.current
 	if lvl == null or lvl.player == null or not is_instance_valid(lvl.player) or not lvl.player.is_alive():
 		return null
+	if lvl.player.is_hidden():
+		return null
 	return lvl.player
 
 
@@ -460,6 +462,9 @@ func _animate(p: Player) -> void:
 func receive_hit(info: HitInfo) -> bool:
 	if state == S.DEAD or not info.from_player:
 		return false
+	var lvl: Level = Level.current
+	if lvl != null and lvl.player != null and is_instance_valid(lvl.player):
+		lvl.player.modify_outgoing_hit(info, self)
 	var amount: int = maxi(int(round(info.damage * status.damage_taken_mult())), 1)
 	info.damage = amount
 	health.take(info)
@@ -499,9 +504,9 @@ func _on_died() -> void:
 	FX.shake(1.5 if not elite else 4.0)
 	FX.burst("puff", global_position)
 	_drop_loot()
-	var p: Player = _player()
-	if p != null:
-		p.on_enemy_killed()
+	var lvl: Level = Level.current
+	if lvl != null and lvl.player != null and is_instance_valid(lvl.player) and lvl.player.is_alive():
+		lvl.player.on_enemy_killed(self)  # credited even while the player is hidden
 	Events.enemy_killed.emit(self, elite)
 	died.emit(self)
 	var tw: Tween = create_tween()

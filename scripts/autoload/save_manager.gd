@@ -1,7 +1,7 @@
 extends Node
 ## Owns the save file locations and the profile/settings schemas + migrations.
 
-const PROFILE_VERSION: int = 2
+const PROFILE_VERSION: int = 3
 const SETTINGS_VERSION: int = 1
 
 var profile_path: String = "user://profile.save"
@@ -23,6 +23,7 @@ static func profile_defaults() -> Dictionary:
 		},
 		"quests": {},
 		"selected_character": "ranger",
+		"characters": {},  # id -> {"xp": int, "runs": int, "wins": int, "best_floor": int}
 		"difficulty_unlocked": 0,
 		"seen_tutorial": false,
 	}
@@ -50,8 +51,21 @@ static func migrate_profile_v1(d: Dictionary) -> Dictionary:
 	return out
 
 
+## v2 had no per-character progress. Characters the player already owns start
+## a mastery record; run counts are unknown so they start at 0 (never negative).
+static func migrate_profile_v2(d: Dictionary) -> Dictionary:
+	var out: Dictionary = d.duplicate(true)
+	var chars: Dictionary = {}
+	var owned: Variant = out.get("unlocked_characters", [])
+	if owned is Array:
+		for id: Variant in owned:
+			chars[str(id)] = {"xp": 0, "runs": 0, "wins": 0, "best_floor": 0}
+	out["characters"] = chars
+	return out
+
+
 func profile_migrations() -> Dictionary:
-	return {1: migrate_profile_v1}
+	return {1: migrate_profile_v1, 2: migrate_profile_v2}
 
 
 func load_profile() -> Dictionary:

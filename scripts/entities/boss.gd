@@ -354,6 +354,9 @@ func receive_hit(info: HitInfo) -> bool:
 	if state == A.TRANSITION:
 		FX.burst("impact_teal", global_position)
 		return true # absorbs the shot but takes no damage
+	var lvl: Level = Level.current
+	if lvl != null and lvl.player != null and is_instance_valid(lvl.player):
+		lvl.player.modify_outgoing_hit(info, self)
 	health.take(info)
 	FX.flash(sprite)
 	FX.damage_number(global_position + Vector2(0, -10), info.damage, info.crit)

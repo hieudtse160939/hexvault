@@ -37,7 +37,9 @@ var _last_move: Vector2 = Vector2.RIGHT
 var _aim: Vector2 = Vector2.RIGHT
 var _anim_lock: float = 0.0
 var _ghost_t: float = 0.0
-var _shield_vis: Node2D = null
+var skill: HeroSkill = null
+var passive: HeroPassive = null
+var _invuln_left: float = 0.0
 var _interact_target: Node = null
 var _mods: Dictionary = {}
 var _hand_x: float = 2.0
@@ -83,6 +85,10 @@ func _ready() -> void:
 	hurtbox = Hurtbox.create(self, 5.0, true)
 	hurtbox.position = Vector2(0, 1)
 	add_child(hurtbox)
+	skill = CharacterModules.make_skill(self, character.skill_def)
+	passive = CharacterModules.make_passive(self, character.passive_def)
+	Events.room_entered.connect(_on_room_entered)
+	Events.room_cleared.connect(_on_room_cleared)
 	recompute_stats(true)
 	health.damaged.connect(_on_damaged)
 	health.died.connect(_on_died)
@@ -178,24 +184,35 @@ func store_run_state() -> void:
 
 
 # --- stats ------------------------------------------------------------------------
+## Modifier totals from character stats, permanent upgrades and run boons.
+## Skills and passives adjust them on read in weapon_mod().
 func recompute_stats(initial: bool = false) -> void:
 	var run: RunState = Game.run
 	var b: Callable = func(key: String) -> float: return run.boon_total(key) if run != null else 0.0
+	var cs: Callable = func(key: String) -> float: return character.stat(key)
 	_mods = {
-		"damage_mult": b.call("damage_mult"),
-		"fire_rate_mult": b.call("fire_rate_mult"),
-		"reload_mult": b.call("reload_mult"),
-		"crit": b.call("crit") + Profile.upgrade_bonus("crit"),
-		"pierce": b.call("pierce"),
+		"damage_mult": b.call("damage_mult") + cs.call("damage_mult"),
+		"fire_rate_mult": b.call("fire_rate_mult") + cs.call("fire_rate_mult"),
+		"reload_mult": b.call("reload_mult") + cs.call("reload_mult"),
+		"crit": b.call("crit") + Profile.upgrade_bonus("crit") + cs.call("crit"),
+		"pierce": b.call("pierce") + cs.call("pierce"),
 		"extra_shots": b.call("extra_shots"),
 		"leech": b.call("leech"),
-		"magnet": b.call("magnet"),
-		"coin_mult": b.call("coin_mult"),
+		"magnet": b.call("magnet") + cs.call("magnet"),
+		"coin_mult": b.call("coin_mult") + cs.call("coin_mult"),
+		"cooldown_mult": cs.call("cooldown_mult"),
+		"dodge": cs.call("dodge"),
+		"armor_regen_mult": b.call("armor_regen_mult"),
 		"free_ammo": 0.0,
 	}
-	speed = character.speed * (1.0 + float(b.call("speed_mult")))
-	var max_hp: int = character.max_hp + int(Profile.upgrade_bonus("max_hp")) + int(b.call("max_hp"))
-	var max_armor: int = character.max_armor + int(Profile.upgrade_bonus("max_armor")) + int(b.call("max_armor"))
+	var mastery: Dictionary = Profile.mastery_bonus(character.id)
+	for k: String in mastery:
+		if k in ["max_hp", "max_armor", "speed"]:
+			continue
+		_mods[k] = float(_mods.get(k, 0.0)) + float(mastery[k])
+	speed = character.speed * (1.0 + float(b.call("speed_mult")) + float(mastery.get("speed", 0.0)))
+	var max_hp: int = character.max_hp + int(Profile.upgrade_bonus("max_hp")) + int(b.call("max_hp")) + int(mastery.get("max_hp", 0))
+	var max_armor: int = character.max_armor + int(Profile.upgrade_bonus("max_armor")) + int(b.call("max_armor")) + int(mastery.get("max_armor", 0))
 	if initial:
 		health.setup(max_hp, max_armor, 0.8)
 		if run != null and run.hp > 0:
@@ -203,23 +220,28 @@ func recompute_stats(initial: bool = false) -> void:
 			health.armor = clampi(run.armor, 0, max_armor)
 	else:
 		health.set_max(max_hp, max_armor)
-	health.regen_mult = 1.0 + float(b.call("armor_regen_mult"))
+	health.regen_mult = 1.0 + weapon_mod("armor_regen_mult")
 	Events.player_stats_changed.emit()
 
 
+## Current value of a modifier after the active skill and the passive had a say.
 func weapon_mod(key: String) -> float:
 	var v: float = float(_mods.get(key, 0.0))
-	var overclocked: bool = skill_active_left > 0.0 and character.skill == "overclock"
-	if overclocked and key == "fire_rate_mult":
-		v += 1.0
-	elif overclocked and key == "free_ammo":
-		v = 1.0
+	if skill != null:
+		v = skill.modify(key, v)
+	if passive != null:
+		v = passive.modify(key, v)
 	return v
+
+
+## Cooldown of the active skill after cooldown reduction (floored at 35 %).
+func skill_cooldown_total() -> float:
+	return character.skill_cooldown * clampf(1.0 + weapon_mod("cooldown_mult"), 0.35, 2.0)
 
 
 func dash_cooldown() -> float:
 	var run: RunState = Game.run
-	var m: float = 1.0 - Profile.upgrade_bonus("dash")
+	var m: float = 1.0 - Profile.upgrade_bonus("dash") + weapon_mod("dash_cd_mult")
 	if run != null:
 		m += run.boon_total("dash_cd_mult")
 	return BASE_DASH_CD * clampf(m, 0.3, 2.0)
@@ -269,12 +291,16 @@ func _physics_process(delta: float) -> void:
 	_anim_lock -= delta
 	if skill_cd_left > 0.0:
 		skill_cd_left = maxf(skill_cd_left - delta, 0.0)
-		Events.skill_cooldown_changed.emit(skill_cd_left, character.skill_cooldown)
+		Events.skill_cooldown_changed.emit(skill_cd_left, skill_cooldown_total())
 	if skill_active_left > 0.0:
 		skill_active_left -= delta
-		_skill_tick(delta)
+		skill.tick(delta)
 		if skill_active_left <= 0.0:
-			_skill_end()
+			skill_active_left = 0.0
+			skill.end()
+	passive.tick(delta)
+	_invuln_left = maxf(_invuln_left - delta, 0.0)
+	_refresh_invulnerability()
 	var move: Vector2 = Controls.move_vector() if input_enabled else Vector2.ZERO
 	if move.length() > 0.1:
 		_last_move = move
@@ -288,8 +314,6 @@ func _physics_process(delta: float) -> void:
 			_spawn_ghost()
 		if _dash_left <= 0.0:
 			state = State.NORMAL
-			if skill_active_left <= 0.0 or character.skill != "bulwark":
-				health.invulnerable = false
 	else:
 		var target_v: Vector2 = move * speed
 		velocity = velocity.move_toward(target_v, speed * 12.0 * delta)
@@ -331,9 +355,10 @@ func try_dash() -> bool:
 	state = State.DASH
 	_dash_left = DASH_TIME
 	_dash_cd = dash_cooldown()
-	_dash_dir = (_last_move if Controls.move_vector().length() > 0.1 else _aim).normalized()
-	health.invulnerable = true
+	_dash_dir = move_or_aim_direction()
+	_refresh_invulnerability()
 	Sfx.play("dash")
+	passive.on_dash()
 	return true
 
 
@@ -362,85 +387,78 @@ func _spawn_ghost() -> void:
 
 # --- skills -------------------------------------------------------------------------
 func try_skill() -> bool:
-	if skill_cd_left > 0.0 or state == State.DEAD:
+	if skill_cd_left > 0.0 or state == State.DEAD or skill_active_left > 0.0:
 		return false
-	skill_cd_left = character.skill_cooldown
+	if not skill.can_activate():
+		return false
+	skill_cd_left = skill_cooldown_total()
 	skill_active_left = character.skill_duration
 	_anim_lock = 0.3
 	body.play(&"skill")
 	Sfx.play("skill")
 	FX.burst("sparkle_teal", global_position + Vector2(0, -8))
-	match character.skill:
-		"bulwark":
-			health.invulnerable = true
-			_shield_vis = _make_shield()
-			add_child(_shield_vis)
-		"phase":
-			_do_phase()
-		"turret":
-			var lvl: Level = Level.current
-			if lvl != null:
-				var t: Turret = Turret.create(global_position + _aim * 10.0, character.skill_duration, self)
-				lvl.add_entity(t)
-		"overclock":
-			FX.float_text(global_position, "OVERCLOCK", Color("#f2b23a"))
+	skill.activate()
+	passive.on_skill()
+	if skill_active_left <= 0.0:
+		skill.end()
 	return true
 
 
-func _skill_tick(_delta: float) -> void:
-	if character.skill == "bulwark":
-		var lvl: Level = Level.current
-		if lvl != null:
-			lvl.pool.erase_hostile_in(global_position, 34.0)
+## Shortens the remaining skill cooldown (kill rewards, passives).
+func reduce_skill_cooldown(seconds: float) -> void:
+	if skill_cd_left > 0.0:
+		skill_cd_left = maxf(skill_cd_left - seconds, 0.0)
+		Events.skill_cooldown_changed.emit(skill_cd_left, skill_cooldown_total())
 
 
-func _skill_end() -> void:
-	if character.skill == "bulwark":
-		health.invulnerable = state == State.DASH
-		if _shield_vis != null:
-			_shield_vis.queue_free()
-			_shield_vis = null
+## Direction of current movement input, or the aim when standing still.
+func move_or_aim_direction() -> Vector2:
+	return (_last_move if Controls.move_vector().length() > 0.1 else _aim).normalized()
 
 
-func _make_shield() -> Node2D:
-	var n: Node2D = Node2D.new()
-	var ring: Line2D = Line2D.new()
-	var pts: PackedVector2Array = []
-	for i: int in 25:
-		pts.append(Vector2.from_angle(i * TAU / 24.0) * 30.0)
-	ring.points = pts
-	ring.width = 1.0
-	ring.default_color = Color("#6fb0ff")
-	n.add_child(ring)
-	var tw: Tween = n.create_tween().set_loops()
-	tw.tween_property(ring, "modulate:a", 0.4, 0.25)
-	tw.tween_property(ring, "modulate:a", 1.0, 0.25)
-	return n
+## Free distance along dir before hitting a wall (minus a small margin).
+func ray_distance(dir: Vector2, max_dist: float) -> float:
+	if Level.current == null:
+		return max_dist
+	var space: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
+	var q: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(global_position, global_position + dir * max_dist,
+			Level.WORLD_MASK | Level.BREAKABLE_MASK)
+	var hit: Dictionary = space.intersect_ray(q)
+	if hit.is_empty():
+		return max_dist
+	return maxf(global_position.distance_to(hit["position"]) - 7.0, 0.0)
 
 
-func _do_phase() -> void:
-	var lvl: Level = Level.current
-	var dir: Vector2 = (_last_move if Controls.move_vector().length() > 0.1 else _aim).normalized()
-	var dist: float = 72.0
-	if lvl != null:
-		var space: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
-		var q: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(global_position, global_position + dir * dist,
-				Level.WORLD_MASK | Level.BREAKABLE_MASK)
-		var hit: Dictionary = space.intersect_ray(q)
-		if not hit.is_empty():
-			dist = maxf(global_position.distance_to(hit["position"]) - 7.0, 0.0)
-	FX.burst("puff", global_position)
-	global_position += dir * dist
-	health.invulnerable = true
-	get_tree().create_timer(0.25).timeout.connect(func() -> void:
-		if state != State.DASH and not (skill_active_left > 0.0 and character.skill == "bulwark"):
-			health.invulnerable = false)
-	FX.burst("explosion", global_position, 0.0, 0.8)
-	FX.shake(2.0)
-	var info: HitInfo = HitInfo.make(Damage.compute(8, 1.0 + float(_mods.get("damage_mult", 0.0)), false), Vector2.ZERO, true, global_position)
-	info.element = "hex"
-	info.status_chance = 1.0
-	Combat.melee(global_position, dir, 34.0, 360.0, info)
+## Brief invulnerability window (blinks, revives, skills).
+func grant_invulnerability(seconds: float) -> void:
+	_invuln_left = maxf(_invuln_left, seconds)
+	_refresh_invulnerability()
+
+
+func _refresh_invulnerability() -> void:
+	if state == State.DEAD:
+		return
+	health.invulnerable = state == State.DASH or _invuln_left > 0.0 or skill.keeps_invulnerable()
+
+
+## True while enemies should not see the player (stealth skills).
+func is_hidden() -> bool:
+	return skill != null and skill.hides_player()
+
+
+## Every player hit passes through here just before it lands on an enemy.
+func modify_outgoing_hit(info: HitInfo, target: Node) -> void:
+	if skill_active_left > 0.0:
+		skill.modify_outgoing(info, target)
+	passive.modify_outgoing(info, target)
+
+
+func _on_room_entered(_room: Node) -> void:
+	passive.on_room_entered()
+
+
+func _on_room_cleared(_room: Node, _flawless: bool) -> void:
+	passive.on_room_cleared()
 
 
 # --- damage --------------------------------------------------------------------------
@@ -449,6 +467,14 @@ func receive_hit(info: HitInfo) -> bool:
 		return false
 	if Game.god_mode:
 		return false
+	if not health.is_invulnerable():
+		if passive.negate_hit(info):
+			return false
+		var dodge: float = weapon_mod("dodge")
+		if dodge > 0.0 and randf() < dodge:
+			FX.float_text(global_position, "DODGE", Color("#b4fff0"))
+			grant_invulnerability(0.3)
+			return false
 	var taken: int = health.take(info)
 	if taken <= 0:
 		return false
@@ -458,6 +484,7 @@ func receive_hit(info: HitInfo) -> bool:
 
 func _on_damaged(amount: int, _info: HitInfo) -> void:
 	flawless_room = false
+	passive.on_damaged(amount)
 	if Game.run != null:
 		Game.run.damage_taken += amount
 	Events.player_damaged.emit(amount)
@@ -488,6 +515,7 @@ func _on_died() -> void:
 
 func revive() -> void:
 	state = State.NORMAL
+	_invuln_left = 0.0
 	health.invulnerable = false
 	health.revive(health.max_hp / 2 + 1)
 	health.restore_armor(health.max_armor)
@@ -512,8 +540,9 @@ func heal(amount: int) -> int:
 	return h
 
 
-func on_enemy_killed() -> void:
-	var leech: float = float(_mods.get("leech", 0.0))
+func on_enemy_killed(enemy: Node = null) -> void:
+	passive.on_kill(enemy)
+	var leech: float = weapon_mod("leech")
 	if leech > 0.0 and randf() < leech:
 		heal(1)
 

@@ -5,6 +5,8 @@ var weapons: Dictionary = {}      # id -> WeaponData
 var weapon_order: PackedStringArray = []
 var characters: Dictionary = {}   # id -> CharacterData
 var character_order: PackedStringArray = []
+var classes: Dictionary = {}      # id -> ClassData
+var class_order: PackedStringArray = []
 var enemies: Dictionary = {}      # id -> EnemyData
 var bosses: Dictionary = {}       # id -> Dictionary
 var elite: Dictionary = {}
@@ -46,10 +48,20 @@ func reload() -> void:
 			weapons[w.id] = w
 			weapon_order.append(w.id)
 
+	classes.clear(); class_order.clear()
+	for d: Variant in read_json("res://data/classes.json").get("classes", []):
+		if d is Dictionary:
+			var cl: ClassData = ClassData.from_dict(d)
+			classes[cl.id] = cl
+			class_order.append(cl.id)
+
 	characters.clear(); character_order.clear()
 	for d: Variant in read_json("res://data/characters.json").get("characters", []):
 		if d is Dictionary:
 			var c: CharacterData = CharacterData.from_dict(d)
+			load_errors.append_array(c.validate())
+			if characters.has(c.id):
+				load_errors.append("duplicate character id %s" % c.id)
 			characters[c.id] = c
 			character_order.append(c.id)
 
@@ -92,11 +104,7 @@ func _index(src: Variant, into: Dictionary, order: PackedStringArray) -> void:
 
 func _cross_validate() -> void:
 	for cid: String in character_order:
-		var c: CharacterData = characters[cid]
-		if not weapons.has(c.start_weapon):
-			load_errors.append("character %s: unknown start weapon %s" % [cid, c.start_weapon])
-		if not SpriteManifest.has_sprite(c.sprite):
-			load_errors.append("character %s: unknown sprite %s" % [cid, c.sprite])
+		load_errors.append_array(character_problems(characters[cid]))
 	for eid: String in enemies:
 		var e: EnemyData = enemies[eid]
 		if not SpriteManifest.has_sprite(e.sprite):
@@ -120,6 +128,47 @@ func _cross_validate() -> void:
 	if not load_errors.is_empty():
 		for e: String in load_errors:
 			push_warning("Db: " + e)
+
+
+## Cross-reference problems of one character (used at load and by tests/tools).
+func character_problems(c: CharacterData) -> PackedStringArray:
+	var out: PackedStringArray = []
+	var cid: String = c.id
+	if not weapons.has(c.start_weapon):
+		out.append("character %s: unknown start weapon %s" % [cid, c.start_weapon])
+	if not SpriteManifest.has_sprite(c.sprite):
+		out.append("character %s: unknown sprite %s" % [cid, c.sprite])
+	else:
+		var anims: Dictionary = (SpriteManifest.sprites()[c.sprite] as Dictionary).get("anims", {})
+		for a: String in ["idle", "run", "dash", "skill", "hurt", "death"]:
+			if not anims.has(a):
+				out.append("character %s: sprite lacks '%s' animation" % [cid, a])
+	if not classes.has(c.class_id):
+		out.append("character %s: unknown class %s" % [cid, c.class_id])
+	if not CharacterModules.has_skill(c.skill):
+		out.append("character %s: no script for skill %s" % [cid, c.skill])
+	var pid: String = str(c.passive_def.get("id", ""))
+	if pid == "" or not CharacterModules.has_passive(pid):
+		out.append("character %s: no script for passive '%s'" % [cid, pid])
+	if c.skill_icon != "" and not SpriteManifest.has_image(c.skill_icon):
+		out.append("character %s: unknown skill icon %s" % [cid, c.skill_icon])
+	match str(c.unlock.get("type", "")):
+		"default", "shards":
+			pass
+		"achievement":
+			if not achievements.has(str(c.unlock.get("id", ""))):
+				out.append("character %s: unlock references unknown achievement" % cid)
+		_:
+			out.append("character %s: unknown unlock type" % cid)
+	return out
+
+
+func characters_in_class(class_id: String) -> PackedStringArray:
+	var out: PackedStringArray = []
+	for id: String in character_order:
+		if (characters[id] as CharacterData).class_id == class_id:
+			out.append(id)
+	return out
 
 
 func weapon(id: String) -> WeaponData:

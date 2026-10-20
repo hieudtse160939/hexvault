@@ -173,7 +173,7 @@ func _draw() -> void:
 		var pressed: bool = n in _held.values() or (n == "attack" and _aim_touch != -1)
 		draw_texture_rect(tex, r, false, Color(1, 1, 1, 1.0 if pressed else 0.8))
 		if n == "skill" and player != null and is_instance_valid(player) and player.skill_cd_left > 0.0:
-			var k: float = player.skill_cd_left / maxf(player.character.skill_cooldown, 0.01)
+			var k: float = player.skill_cd_left / maxf(player.skill_cooldown_total(), 0.01)
 			draw_rect(Rect2(r.position, Vector2(r.size.x, roundf(r.size.y * k))), Color(0, 0, 0, 0.6))
 	if _aim_touch != -1 and Controls.touch_aim != Vector2.ZERO:
 		var c: Vector2 = (_buttons["attack"] as Rect2).get_center()

@@ -1,0 +1,17 @@
+{
+ "version": 1,
+ "classes": [
+  {"id": "gunslinger", "name": "Gunslinger", "archetype": "ranged", "color": "#4fe0d0", "description": "Firearm specialists who win through accuracy and tempo."},
+  {"id": "artillerist", "name": "Artillerist", "archetype": "ranged", "color": "#f2b23a", "description": "Heavy ordnance, area denial, big explosions."},
+  {"id": "duelist", "name": "Duelist", "archetype": "melee", "color": "#e8455a", "description": "Blade fighters who dance in and out of danger."},
+  {"id": "paladin", "name": "Paladin", "archetype": "support", "color": "#ffe28a", "description": "Holy warriors who heal and protect while they fight."},
+  {"id": "guardian", "name": "Guardian", "archetype": "support", "color": "#6fb0ff", "description": "Walls of armour that absorb what others cannot."},
+  {"id": "pyromancer", "name": "Pyromancer", "archetype": "magic", "color": "#f26a1b", "description": "Fire mages: burning, spreading damage over time."},
+  {"id": "cryomancer", "name": "Cryomancer", "archetype": "magic", "color": "#6cc8ee", "description": "Ice mages: control, slows and shattering crits."},
+  {"id": "stormcaller", "name": "Stormcaller", "archetype": "magic", "color": "#a965ef", "description": "Lightning that jumps between foes."},
+  {"id": "hexer", "name": "Hexer", "archetype": "magic", "color": "#a965ef", "description": "Shadow casters who curse and blink."},
+  {"id": "necromancer", "name": "Necromancer", "archetype": "summoner", "color": "#7dc94a", "description": "Command spirits and turn kills into allies."},
+  {"id": "assassin", "name": "Assassin", "archetype": "mobility", "color": "#c4c4dc", "description": "Stealth, ambush damage and quick escapes."},
+  {"id": "engineer", "name": "Engineer", "archetype": "tech", "color": "#c9741d", "description": "Deployables, drones and gadgets."}
+ ]
+}
