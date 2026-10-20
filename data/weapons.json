@@ -1,0 +1,93 @@
+{
+ "version": 1,
+ "weapons": [
+  {
+   "id": "rift_pistol", "name": "Rift Pistol", "category": "pistol", "rarity": "common",
+   "description": "Reliable sidearm. Fires compressed rift slugs.",
+   "pattern": "single", "damage": 3, "fire_interval": 0.26, "projectile_speed": 270,
+   "range": 230, "spread_deg": 3, "pellets": 1, "magazine": 12, "reload_time": 0.9,
+   "crit_chance": 0.06, "knockback": 40, "projectile": "bullet", "shake": 0.6,
+   "sfx": "shoot_pistol", "unlock": {"type": "default"}
+  },
+  {
+   "id": "scatter_cannon", "name": "Scatter Cannon", "category": "shotgun", "rarity": "common",
+   "description": "Six brass pellets per blast. Best at close range.",
+   "pattern": "spread", "damage": 2, "fire_interval": 0.62, "projectile_speed": 250,
+   "range": 140, "spread_deg": 30, "pellets": 6, "magazine": 4, "reload_time": 1.3,
+   "crit_chance": 0.04, "knockback": 70, "projectile": "pellet", "shake": 2.0, "speed_jitter": 0.18,
+   "sfx": "shoot_shotgun", "unlock": {"type": "default"}
+  },
+  {
+   "id": "ember_blade", "name": "Ember Blade", "category": "melee", "rarity": "common",
+   "description": "A heated sword. Slashes deflect enemy bolts and may ignite foes.",
+   "pattern": "melee", "damage": 6, "fire_interval": 0.4, "projectile_speed": 0,
+   "range": 30, "spread_deg": 130, "pellets": 1, "magazine": 0, "reload_time": 0,
+   "crit_chance": 0.1, "knockback": 120, "element": "fire", "status_chance": 0.35,
+   "deflect": true, "shake": 1.2, "sfx": "swing", "unlock": {"type": "default"}
+  },
+  {
+   "id": "thornbow", "name": "Thornbow", "category": "bow", "rarity": "rare",
+   "description": "Silent and infinite. Arrows pierce one extra target.",
+   "pattern": "single", "damage": 5, "fire_interval": 0.48, "projectile_speed": 300,
+   "range": 280, "spread_deg": 1, "pellets": 1, "magazine": 0, "reload_time": 0,
+   "crit_chance": 0.18, "knockback": 50, "pierce": 1, "projectile": "arrow", "shake": 0.4,
+   "sfx": "bow", "unlock": {"type": "shards", "cost": 120}
+  },
+  {
+   "id": "pulse_rifle", "name": "Pulse Rifle", "category": "assault_rifle", "rarity": "rare",
+   "description": "Rapid automatic fire with a deep magazine.",
+   "pattern": "single", "damage": 2, "fire_interval": 0.1, "projectile_speed": 320,
+   "range": 250, "spread_deg": 6, "pellets": 1, "magazine": 30, "reload_time": 1.5,
+   "crit_chance": 0.05, "knockback": 25, "projectile": "bullet", "shake": 0.5,
+   "sfx": "shoot_rifle", "unlock": {"type": "shards", "cost": 150}
+  },
+  {
+   "id": "frost_needler", "name": "Frost Needler", "category": "experimental", "rarity": "rare",
+   "description": "Sprays cryo needles that slow whatever they touch.",
+   "pattern": "single", "damage": 1, "fire_interval": 0.07, "projectile_speed": 300,
+   "range": 200, "spread_deg": 10, "pellets": 1, "magazine": 40, "reload_time": 1.3,
+   "crit_chance": 0.04, "knockback": 10, "element": "frost", "status_chance": 0.3,
+   "projectile": "needle", "shake": 0.3, "sfx": "shoot_needle", "unlock": {"type": "shards", "cost": 180}
+  },
+  {
+   "id": "hex_staff", "name": "Hex Staff", "category": "magic", "rarity": "epic",
+   "description": "Launches seeking hex orbs that curve toward enemies.",
+   "pattern": "single", "damage": 3, "fire_interval": 0.3, "projectile_speed": 170,
+   "range": 260, "spread_deg": 8, "pellets": 1, "magazine": 0, "reload_time": 0,
+   "crit_chance": 0.08, "knockback": 30, "homing": 4.0, "element": "hex", "status_chance": 0.0,
+   "projectile": "orb_vio", "shake": 0.4, "sfx": "magic", "unlock": {"type": "shards", "cost": 200}
+  },
+  {
+   "id": "longshot", "name": "Longshot", "category": "sniper", "rarity": "epic",
+   "description": "Hitscan rail. Pierces up to three enemies.",
+   "pattern": "hitscan", "damage": 14, "fire_interval": 0.95, "projectile_speed": 0,
+   "range": 420, "spread_deg": 0, "pellets": 1, "magazine": 3, "reload_time": 1.7,
+   "crit_chance": 0.25, "knockback": 90, "pierce": 3, "shake": 2.5, "beam_color": "blue2",
+   "sfx": "shoot_sniper", "unlock": {"type": "shards", "cost": 250}
+  },
+  {
+   "id": "boom_tube", "name": "Boom Tube", "category": "explosive", "rarity": "epic",
+   "description": "Slow rockets with a wide blast radius.",
+   "pattern": "single", "damage": 6, "fire_interval": 0.85, "projectile_speed": 180,
+   "range": 260, "spread_deg": 2, "pellets": 1, "magazine": 2, "reload_time": 1.6,
+   "crit_chance": 0.05, "knockback": 60, "explosion_radius": 34, "explosion_damage": 8,
+   "projectile": "rocket", "shake": 1.5, "sfx": "rocket", "unlock": {"type": "shards", "cost": 300}
+  },
+  {
+   "id": "storm_coil", "name": "Storm Coil", "category": "experimental", "rarity": "epic",
+   "description": "Arcs lightning to the nearest foe, chaining to two more.",
+   "pattern": "chain", "damage": 4, "fire_interval": 0.42, "projectile_speed": 0,
+   "range": 150, "spread_deg": 0, "pellets": 1, "magazine": 8, "reload_time": 1.4,
+   "crit_chance": 0.08, "knockback": 20, "chain": 2, "element": "shock", "status_chance": 0.4,
+   "shake": 0.8, "beam_color": "blue2", "sfx": "zap", "unlock": {"type": "shards", "cost": 350}
+  },
+  {
+   "id": "prism_lance", "name": "Prism Lance", "category": "experimental", "rarity": "legendary",
+   "description": "A continuous refracting beam that pierces everything. Overheats.",
+   "pattern": "hitscan", "damage": 1, "fire_interval": 0.06, "projectile_speed": 0,
+   "range": 230, "spread_deg": 0, "pellets": 1, "magazine": 45, "reload_time": 2.0,
+   "crit_chance": 0.05, "knockback": 8, "pierce": 99, "shake": 0.2, "beam_color": "teal3",
+   "sfx": "laser", "unlock": {"type": "achievement", "id": "slayer_of_ossifex"}
+  }
+ ]
+}

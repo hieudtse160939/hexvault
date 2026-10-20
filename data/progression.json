@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "boons": [
+  {"id": "power", "name": "Rift Power", "description": "+20% weapon damage.", "icon": "icon_boon_power", "mods": {"damage_mult": 0.2}},
+  {"id": "haste", "name": "Quickstep", "description": "+12% move speed, -20% dash cooldown.", "icon": "icon_boon_haste", "mods": {"speed_mult": 0.12, "dash_cd_mult": -0.2}},
+  {"id": "vigor", "name": "Vigor", "description": "+2 max HP and heal 2.", "icon": "icon_boon_vigor", "mods": {"max_hp": 2, "heal": 2}},
+  {"id": "pierce", "name": "Needlepoint", "description": "Projectiles pierce +1 enemy.", "icon": "icon_boon_pierce", "mods": {"pierce": 1}},
+  {"id": "crit", "name": "Keen Eye", "description": "+12% critical chance.", "icon": "icon_boon_crit", "mods": {"crit": 0.12}},
+  {"id": "reload", "name": "Quick Hands", "description": "-35% reload time, +20% fire rate.", "icon": "icon_boon_reload", "mods": {"reload_mult": -0.35, "fire_rate_mult": 0.2}},
+  {"id": "plating", "name": "Rune Plating", "description": "+2 max armor; armor recharges faster.", "icon": "icon_boon_plating", "mods": {"max_armor": 2, "armor_regen_mult": 0.3}},
+  {"id": "magnet", "name": "Lodestone", "description": "Pickups fly to you from far away; +25% coins.", "icon": "icon_boon_magnet", "mods": {"magnet": 1, "coin_mult": 0.25}},
+  {"id": "leech", "name": "Bloodglass", "description": "8% chance to heal 1 HP on kill.", "icon": "icon_boon_leech", "mods": {"leech": 0.08}},
+  {"id": "volley", "name": "Twin Volley", "description": "Projectile weapons fire one extra shot.", "icon": "icon_boon_volley", "mods": {"extra_shots": 1}}
+ ],
+ "upgrades": [
+  {"id": "max_hp", "name": "Hardened Heart", "description": "+1 max HP per level.", "icon": "icon_heart", "costs": [60, 140, 260], "per_level": 1},
+  {"id": "max_armor", "name": "Ward Weave", "description": "+1 max armor per level.", "icon": "icon_shield", "costs": [50, 120, 220], "per_level": 1},
+  {"id": "start_coins", "name": "Pocket Hoard", "description": "Start each run with +15 coins per level.", "icon": "icon_coin", "costs": [40, 90, 160], "per_level": 15},
+  {"id": "crit", "name": "Hunter's Focus", "description": "+4% critical chance per level.", "icon": "icon_boon_crit", "costs": [80, 180], "per_level": 0.04},
+  {"id": "dash", "name": "Blink Boots", "description": "-12% dash cooldown per level.", "icon": "icon_boon_haste", "costs": [70, 160], "per_level": 0.12},
+  {"id": "shard_find", "name": "Prospector", "description": "+15% shards found per level.", "icon": "icon_shard", "costs": [100, 220], "per_level": 0.15}
+ ],
+ "achievements": [
+  {"id": "first_blood", "name": "First Blood", "description": "Defeat an enemy.", "stat": "kills", "goal": 1, "reward": 10},
+  {"id": "centurion", "name": "Centurion", "description": "Defeat 100 enemies.", "stat": "kills", "goal": 100, "reward": 50},
+  {"id": "exterminator", "name": "Exterminator", "description": "Defeat 1000 enemies.", "stat": "kills", "goal": 1000, "reward": 200},
+  {"id": "elite_hunter", "name": "Elite Hunter", "description": "Defeat 10 elite enemies.", "stat": "elites", "goal": 10, "reward": 60},
+  {"id": "deep_delver", "name": "Deep Delver", "description": "Reach floor 3. Unlocks Nyx the Hexer.", "stat": "max_floor", "goal": 3, "reward": 40},
+  {"id": "slayer_of_ossifex", "name": "Clockwork Breaker", "description": "Defeat Ossifex. Unlocks the Prism Lance.", "stat": "bosses", "goal": 1, "reward": 100},
+  {"id": "treasure_seeker", "name": "Treasure Seeker", "description": "Open 15 chests.", "stat": "chests", "goal": 15, "reward": 40},
+  {"id": "big_spender", "name": "Big Spender", "description": "Spend 500 coins in shops.", "stat": "coins_spent", "goal": 500, "reward": 60},
+  {"id": "persistent", "name": "Persistent", "description": "Start 10 runs.", "stat": "runs", "goal": 10, "reward": 30},
+  {"id": "untouchable", "name": "Untouchable", "description": "Clear 10 combat rooms without taking damage.", "stat": "flawless_rooms", "goal": 10, "reward": 80}
+ ],
+ "quests": [
+  {"id": "q_kills", "name": "Purge the Vault", "stat": "kills", "goals": [25, 75, 200, 500], "rewards": [20, 45, 90, 180], "description": "Defeat {goal} enemies."},
+  {"id": "q_rooms", "name": "Cartographer", "stat": "rooms_cleared", "goals": [5, 20, 50], "rewards": [20, 50, 100], "description": "Clear {goal} combat rooms."},
+  {"id": "q_floors", "name": "Descent", "stat": "floors_cleared", "goals": [2, 6, 15], "rewards": [25, 60, 120], "description": "Clear {goal} floors."},
+  {"id": "q_boss", "name": "Lichbane", "stat": "bosses", "goals": [1, 3, 10], "rewards": [80, 150, 300], "description": "Defeat Ossifex {goal} times."}
+ ]
+}

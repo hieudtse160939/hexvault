@@ -1,0 +1,33 @@
+{
+ "version": 1,
+ "characters": [
+  {
+   "id": "ranger", "name": "Vex", "title": "Rift Ranger",
+   "description": "Balanced gunslinger. OVERCLOCK doubles fire rate and skips reloads for 4s.",
+   "sprite": "hero_ranger", "max_hp": 6, "max_armor": 4, "speed": 96,
+   "start_weapon": "rift_pistol", "skill": "overclock", "skill_cooldown": 12.0, "skill_duration": 4.0,
+   "skill_icon": "icon_skill_overclock", "unlock": {"type": "default"}
+  },
+  {
+   "id": "warden", "name": "Bramble", "title": "Warden",
+   "description": "Armoured bulwark. BULWARK raises a dome that erases enemy bolts and blocks damage for 3s.",
+   "sprite": "hero_warden", "max_hp": 8, "max_armor": 6, "speed": 86,
+   "start_weapon": "scatter_cannon", "skill": "bulwark", "skill_cooldown": 15.0, "skill_duration": 3.0,
+   "skill_icon": "icon_skill_bulwark", "unlock": {"type": "shards", "cost": 300}
+  },
+  {
+   "id": "hexer", "name": "Nyx", "title": "Hexer",
+   "description": "Fragile and swift. PHASE blinks forward and detonates a hex burst on arrival.",
+   "sprite": "hero_hexer", "max_hp": 5, "max_armor": 3, "speed": 104,
+   "start_weapon": "hex_staff", "skill": "phase", "skill_cooldown": 5.0, "skill_duration": 0.2,
+   "skill_icon": "icon_skill_phase", "unlock": {"type": "achievement", "id": "deep_delver"}
+  },
+  {
+   "id": "tinker", "name": "Cog", "title": "Tinker",
+   "description": "Gadgeteer. DEPLOY drops an autonomous turret for 10s.",
+   "sprite": "hero_tinker", "max_hp": 6, "max_armor": 4, "speed": 92,
+   "start_weapon": "pulse_rifle", "skill": "turret", "skill_cooldown": 14.0, "skill_duration": 10.0,
+   "skill_icon": "icon_skill_turret", "unlock": {"type": "shards", "cost": 500}
+  }
+ ]
+}

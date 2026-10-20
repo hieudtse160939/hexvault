@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "enemies": [
+  {
+   "id": "gloop", "name": "Gloop", "sprite": "enemy_gloop", "behavior": "chaser",
+   "hp": 10, "speed": 46, "contact_damage": 1, "damage": 1, "attack_range": 22,
+   "attack_cooldown": 1.3, "detect_range": 200, "radius": 6, "knock_resist": 0.0,
+   "cost": 1, "min_floor": 1, "coins": [1, 2], "shard_chance": 0.08, "shadow": "shadow_s"
+  },
+  {
+   "id": "sparkeye", "name": "Sparkeye", "sprite": "enemy_sparkeye", "behavior": "ranged",
+   "hp": 8, "speed": 40, "contact_damage": 0, "damage": 1, "attack_range": 150,
+   "attack_cooldown": 1.9, "detect_range": 220, "radius": 6, "knock_resist": 0.2,
+   "projectile": "orb_red", "projectile_speed": 95, "volley": 1, "keep_distance": 90,
+   "cost": 2, "min_floor": 1, "coins": [1, 3], "shard_chance": 0.1, "shadow": "shadow_s", "flying": true
+  },
+  {
+   "id": "skitter", "name": "Skitter", "sprite": "enemy_skitter", "behavior": "flanker",
+   "hp": 6, "speed": 92, "contact_damage": 1, "damage": 1, "attack_range": 70,
+   "attack_cooldown": 1.6, "detect_range": 240, "radius": 5, "knock_resist": 0.0,
+   "lunge_speed": 230, "cost": 1, "min_floor": 1, "coins": [1, 2], "shard_chance": 0.06, "shadow": "shadow_s"
+  },
+  {
+   "id": "golem", "name": "Bastion Golem", "sprite": "enemy_golem", "behavior": "tank",
+   "hp": 42, "speed": 30, "contact_damage": 2, "damage": 2, "attack_range": 120,
+   "attack_cooldown": 3.2, "detect_range": 220, "radius": 9, "knock_resist": 0.85,
+   "charge_speed": 210, "cost": 4, "min_floor": 1, "coins": [3, 6], "shard_chance": 0.35, "shadow": "shadow_m"
+  },
+  {
+   "id": "acolyte", "name": "Hex Acolyte", "sprite": "enemy_acolyte", "behavior": "summoner",
+   "hp": 16, "speed": 34, "contact_damage": 0, "damage": 1, "attack_range": 170,
+   "attack_cooldown": 4.5, "detect_range": 230, "radius": 6, "knock_resist": 0.2,
+   "summon": "skitter", "summon_count": 2, "summon_cap": 4, "projectile": "orb_vio", "projectile_speed": 80,
+   "keep_distance": 110, "cost": 3, "min_floor": 2, "coins": [2, 4], "shard_chance": 0.25, "shadow": "shadow_s"
+  }
+ ],
+ "bosses": [
+  {
+   "id": "ossifex", "name": "Ossifex, the Clockwork Lich", "sprite": "enemy_ossifex",
+   "hp": 520, "speed": 28, "contact_damage": 2, "radius": 14, "shards": 60, "coins": [20, 30],
+   "phases": [1.0, 0.6, 0.3]
+  }
+ ],
+ "elite": {"hp_mult": 2.6, "damage_add": 1, "speed_mult": 1.12, "scale": 1.25, "coin_mult": 3, "shard_chance": 1.0, "tint": "amber3"}
+}

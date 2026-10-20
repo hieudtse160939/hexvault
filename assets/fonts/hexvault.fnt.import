@@ -1,0 +1,17 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://bwmfq6p88ax8u"
+path="res://.godot/imported/hexvault.fnt-1896c57ff716f60631d5a690bd995882.fontdata"
+
+[deps]
+
+source_file="res://assets/fonts/hexvault.fnt"
+dest_files=["res://.godot/imported/hexvault.fnt-1896c57ff716f60631d5a690bd995882.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true
+scaling_mode=2

@@ -1,0 +1,16 @@
+# Godot
+.godot/
+*.translation
+export_credentials.cfg
+# Local engine/tool downloads (see BUILD_GUIDE.md)
+.tools/
+# Build output
+build/
+# Signing material must never be committed
+*.keystore
+*.jks
+*.p12
+*.mobileprovision
+# Python
+__pycache__/
+*.pyc
