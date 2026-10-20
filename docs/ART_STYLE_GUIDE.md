@@ -1,10 +1,11 @@
 # Hexvault Art Style Guide (HD pixel art)
 
-Target look: **high-quality HD pixel art, fantasy arcane-tech action roguelite** — crisp
-pixel clusters, strong silhouettes, controlled hue-shifted palettes, readable at a glance in
-a crowded fight. The reference character is **Vex, the Rift Ranger**
-(`tools/artgen/hd/heroes/ranger.py`, sheet `assets/sprites/heroes/hd/ranger.png`). Every new
-asset is compared against it before it ships.
+Target look: **high-quality HD pixel art in an anime RPG style, fantasy arcane-tech action
+roguelite** — chibi heroes with big expressive eyes, crisp pixel clusters, strong silhouettes,
+controlled hue-shifted palettes, readable at a glance in a crowded fight. The reference
+character is **Vex, the Rift Ranger** (`tools/artgen/hd/heroes/ranger.py`, sheet
+`assets/sprites/heroes/hd/ranger.png`); every hero is built with the shared kit
+(`tools/artgen/hd/heroes/kit.py`) and compared against Vex before it ships.
 
 Everything here is enforced by code where possible (`tools/validate_assets.py`,
 `tools/asset_qa.py`, both run by `tools/check.py`).
@@ -40,9 +41,17 @@ a 2 px transparent margin; `asset_qa.py` fails any frame with opaque pixels on i
 ## 2. View, proportions, anchor
 
 - **View:** side / three-quarter, characters face **right**; the game mirrors for left.
-- **Heroes:** heroic-chibi, ~3 heads tall. Head radius ~11 px, torso 17 px, legs 19–20 px.
-  Proportions live in `rig.Proportions`; a hero may change them (a hulking Warden, a tiny
-  Tinker) but must keep feet on `GROUND_Y` and the body centred on `CX`.
+- **Heroes:** anime chibi, ~2.5 heads tall: head radius 13.5, torso 14.5, legs ~17 (base
+  units, x figure scale k ≈ 1.2–1.35). Defaults in `kit.proportions()`; a hero may change k
+  (a hulking Warden 1.35, a small Tinker 1.2) but keeps feet on the ground line and the body
+  centred.
+- **Face (anime 3/4):** the head turns toward the camera, so both eyes show — the near eye
+  bigger (3.4 × 4.8), the far eye narrower (2.4 × 4.4). Each eye: thick ink lash line swept at
+  the outer corner, white, two-tone iris (darker top third), pupil, white catch-lights. Short
+  brows in the hair colour, one-pixel nose tip, a small mouth, rose blush lines. Hoods and
+  helms are open-faced so the face always reads.
+- **Hair:** big volume over the skull, pointed bangs down to the brows, a side lock framing the
+  face, a broken "shine ring" in the brightest shade. Styles: short, spiky, long, ponytail.
 - **Near / far limbs:** the far arm and leg are drawn first and one shade darker (`bias=-1`).
 - **Anchor:** frame centre = actor origin. Feet line constant across looping animations
   (QA: feet drift ≤ 3 world px, centre-of-mass jumps limited, silhouette IoU ≥ 0.55).
@@ -81,7 +90,9 @@ a 2 px transparent margin; `asset_qa.py` fails any frame with opaque pixels on i
 
 ## 5. Characters
 
-Each important character needs its own silhouette, not a recolour:
+Each important character needs its own silhouette, not a recolour, plus its own **iris
+colour and hair colour** (anime characters are recognised by face colours as much as by
+outfit):
 
 | Lever | Examples |
 | --- | --- |

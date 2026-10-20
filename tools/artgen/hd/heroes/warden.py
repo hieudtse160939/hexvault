@@ -5,7 +5,7 @@ from __future__ import annotations
 import kit
 from kit import Look
 
-PR = kit.proportions(k=1.35, hip_w=3.6, shoulder_w=4.2, thigh=9.5, shin=9.0, pelvis_y=58.0)
+PR = kit.proportions(k=1.35, hip_w=3.6, shoulder_w=4.2)
 PIVOT = (int(PR.cx), int(PR.ground))
 FPS, LOOP = kit.FPS, kit.LOOP
 SPEC = {"id": "warden", "sprite": "hero_warden", "version": 1, "source": "procedural: tools/artgen/hd/heroes/warden.py"}
@@ -25,21 +25,21 @@ def _shield(x) -> None:
 def _plume(x) -> None:
     c, R, sw = x.c, x.R, x.p.sway
     wind = float(x.p.extras.get("wind", 0.0))
-    base = x.hp(-1.0, -10.5)
-    tip = x.hp(-11.0 - wind * 4.0 - sw * 1.5, -9.0 - wind * 2.0 + sw)
-    mid = x.hp(-6.0 - wind * 2.0, -14.0)
+    base = x.hp(-1.0, -14.5)
+    tip = x.hp(-13.0 - wind * 4.0 - sw * 1.5, -12.0 - wind * 2.0 + sw)
+    mid = x.hp(-7.0 - wind * 2.0, -18.0)
     m = c.capsule(base[0], base[1], mid[0], mid[1], R(2.8), R(2.6)) | c.capsule(mid[0], mid[1], tip[0], tip[1], R(2.6), R(0.8))
     c.draw(m, "moss", "cloth", name="plume")
     # brass brow band around the helm
-    band = c.ellipse(*x.hp(-0.3, -3.6), R(11.2), R(2.0), rot=x.sk.angle) & c.ellipse(*x.hp(-0.3, 0.0), R(11.0), R(10.4), rot=x.sk.angle)
+    band = c.ellipse(*x.hp(-1.5, -9.6), R(14.6), R(2.0), rot=x.sk.angle) & c.ellipse(*x.hp(-0.6, -0.4), x.hr + R(1.6), x.hr + R(1.0), rot=x.sk.angle)
     c.draw(band, "amber", "metal", bias=-1, name="helm_band", selout=False)
-    for dx in (-6.0, 0.0, 6.0):
-        rx, ry = x.hp(dx, -3.6)
+    for dx in (-8.0, -2.0, 4.0):
+        rx, ry = x.hp(dx, -9.8)
         c.px(int(rx), int(ry), "amber", 5)
 
 
 LOOK = Look(
-    skin="skin_tan", eyes="glow_teal", torso="steel", torso_form="plate", trim="amber", sleeve="slate",
+    skin="skin_tan", hair="hair_brown", iris="moss", torso="steel", torso_form="plate", trim="amber", sleeve="slate",
     glove="steel", pants="slate", boot="slate", belt="leather", head="helm", head_ramp="steel",
     body="armor", width=1.3, cape="moss", pauldrons="steel", gauntlet="steel", tabard="moss",
     extra_back=_shield, extra_head=_plume, glow="glow_teal",

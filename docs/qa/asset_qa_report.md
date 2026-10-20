@@ -21,13 +21,13 @@ Sprites: 64 · images: 35 · errors: 0 · warnings: 4
 | fx_slash | fx | 1 | 24x24 | 3 | 3 | 0.0 | 1 | PASS |
 | fx_sparkle | fx | 1 | 8x8 | 4 | 2 | 0.2 | 1 | WARN |
 | fx_sparkle_teal | fx | 1 | 8x8 | 4 | 2 | 0.2 | 1 | WARN |
-| hero_hexer | heroes | 4 | 128x128 | 35 | 20 | 0.0045 | 1 | PASS |
+| hero_hexer | heroes | 4 | 128x128 | 35 | 34 | 0.0043 | 1 | PASS |
 | hero_hexer_16 | heroes | 1 | 16x16 | 22 | 7 | 0.041 | 1 | PASS |
-| hero_ranger | heroes | 4 | 128x128 | 35 | 50 | 0.0049 | 2 | PASS |
+| hero_ranger | heroes | 4 | 128x128 | 35 | 45 | 0.0056 | 3 | PASS |
 | hero_ranger_16 | heroes | 1 | 16x16 | 22 | 9 | 0.0321 | 1 | PASS |
-| hero_tinker | heroes | 4 | 128x128 | 35 | 41 | 0.007 | 1 | PASS |
+| hero_tinker | heroes | 4 | 128x128 | 35 | 46 | 0.0041 | 1 | PASS |
 | hero_tinker_16 | heroes | 1 | 16x16 | 22 | 9 | 0.0556 | 1 | PASS |
-| hero_warden | heroes | 4 | 128x128 | 35 | 30 | 0.0038 | 1 | PASS |
+| hero_warden | heroes | 4 | 128x128 | 35 | 41 | 0.0037 | 1 | PASS |
 | hero_warden_16 | heroes | 1 | 16x16 | 22 | 8 | 0.0303 | 1 | PASS |
 | pickup_armor | pickups | 1 | 8x8 | 1 | 3 | 0.0 | 1 | PASS |
 | pickup_coin | pickups | 1 | 8x8 | 4 | 4 | 0.125 | 1 | WARN |

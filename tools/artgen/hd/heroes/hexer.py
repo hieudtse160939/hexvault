@@ -7,7 +7,7 @@ import math
 import kit
 from kit import Look
 
-PR = kit.proportions(k=1.25, torso=17.5, upper_arm=8.0, forearm=8.0)
+PR = kit.proportions(k=1.25)
 PIVOT = (int(PR.cx), int(PR.ground))
 FPS, LOOP = kit.FPS, kit.LOOP
 SPEC = {"id": "hexer", "sprite": "hero_hexer", "version": 1, "source": "procedural: tools/artgen/hd/heroes/hexer.py"}
@@ -33,10 +33,10 @@ def _sigil(x) -> None:
 
 
 LOOK = Look(
-    skin="night", hair="hair_silver", eyes="glow_teal", eye_glow=True, torso="violet", trim="amber",
+    skin="skin_fair", hair="hair_silver", iris="violet", torso="violet", trim="amber",
     sleeve="violet", glove="night", pants="night", boot="night", belt="night", head="hood", head_ramp="violet",
     body="robe", width=0.95, collar="night", glow="glow_violet",
-    extra_front=lambda x: (_sigil(x), _wisp(x)), params={"tall_hood": True, "face_bias": -2},
+    extra_front=lambda x: (_sigil(x), _wisp(x)), params={"tall_hood": True},
 )
 
 

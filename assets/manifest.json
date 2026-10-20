@@ -853,7 +853,7 @@
     64,
     112
    ],
-   "sha": "166947ea49290f7d",
+   "sha": "9f39418b5ae69d3f",
    "source": "procedural: tools/artgen/hd/heroes/hexer.py",
    "type": "heroes",
    "version": 1
@@ -955,10 +955,10 @@
     64,
     112
    ],
-   "sha": "c5b2dfd38abe1d2c",
+   "sha": "c7f4e476fe0dc498",
    "source": "procedural: tools/artgen/hd/heroes/ranger.py",
    "type": "heroes",
-   "version": 2
+   "version": 3
   },
   "hero_ranger_16": {
    "anims": {
@@ -1057,7 +1057,7 @@
     64,
     112
    ],
-   "sha": "cd90e5086628518e",
+   "sha": "60688f6db34d1aff",
    "source": "procedural: tools/artgen/hd/heroes/tinker.py",
    "type": "heroes",
    "version": 1
@@ -1159,7 +1159,7 @@
     64,
     112
    ],
-   "sha": "3e20dabf4362d3c1",
+   "sha": "cc3b42b4ecf5542f",
    "source": "procedural: tools/artgen/hd/heroes/warden.py",
    "type": "heroes",
    "version": 1

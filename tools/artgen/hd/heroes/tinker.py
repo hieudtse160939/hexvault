@@ -7,7 +7,7 @@ import math
 import kit
 from kit import Look
 
-PR = kit.proportions(k=1.18, head_r=11.5, torso=16.0, hip_w=3.4, pelvis_y=58.5)
+PR = kit.proportions(k=1.2, hip_w=3.4)
 PIVOT = (int(PR.cx), int(PR.ground))
 FPS, LOOP = kit.FPS, kit.LOOP
 SPEC = {"id": "tinker", "sprite": "hero_tinker", "version": 1, "source": "procedural: tools/artgen/hd/heroes/tinker.py"}
@@ -34,13 +34,13 @@ def _pack(x) -> None:
 
 def _cap(x) -> None:
     c, R = x.c, x.R
-    dome = c.ellipse(*x.hp(-0.5, -5.0), R(11.4), R(6.8), rot=x.sk.angle) & ~c.ellipse(*x.hp(-0.5, 4.5), R(13.0), R(8.0), rot=x.sk.angle)
+    dome = c.ellipse(*x.hp(-0.8, -7.6), R(14.6), R(7.6), rot=x.sk.angle) & ~c.ellipse(*x.hp(-0.5, 3.0), R(16.0), R(9.0), rot=x.sk.angle)
     c.draw(dome, "amber", "cloth", bias=-1, name="cap")
-    v0, v1 = x.hp(4.0, -4.6), x.hp(15.0, -3.6)
+    v0, v1 = x.hp(6.0, -6.8), x.hp(18.0, -5.8)
     c.draw(c.capsule(v0[0], v0[1], v1[0], v1[1], R(1.6), R(1.3)), "amber", "plate", bias=-2, name="cap_visor")
     # goggles pushed up on the cap
-    for dx in (1.0, 6.5):
-        gx, gy = x.hp(dx, -7.0)
+    for dx in (0.5, 6.5):
+        gx, gy = x.hp(dx, -11.2)
         c.draw(c.ellipse(gx, gy, R(2.6), R(2.4)), "steel", "metal", name="goggle")
         c.draw(c.ellipse(gx + R(0.3), gy, R(1.5), R(1.3)), "frost", "metal", bias=1, name="goggle_glass", selout=False)
 
@@ -53,7 +53,7 @@ def _tools(x) -> None:
 
 
 LOOK = Look(
-    skin="skin_tan", hair="hair_red", eyes="hair_ink", torso="leather", trim="amber", sleeve="cloth",
+    skin="skin_tan", hair="hair_red", iris="amber", torso="leather", trim="amber", sleeve="cloth",
     glove="leather", pants="stone", boot="leather", belt="leather", head="hair", hair_style="short",
     body="tunic", width=1.15, extra_back=_pack, extra_head=_cap, extra_front=_tools, glow="glow_teal",
 )

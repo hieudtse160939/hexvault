@@ -24,8 +24,9 @@ FRAME = 128
 
 
 def proportions(k: float = 1.3, **kw) -> Proportions:
-    base = dict(k=k, frame=FRAME, cx=64, ground=112, pelvis_y=57.0, torso=17.0, head_r=11.0, head_off=(2.5, -9.5),
-                thigh=10.0, shin=9.5, upper_arm=8.5, forearm=8.0, hip_w=3.0, shoulder_w=3.5)
+    # anime RPG chibi: ~2.5 heads tall, big head, short limbs
+    base = dict(k=k, frame=FRAME, cx=64, ground=112, pelvis_y=60.0, torso=14.5, head_r=13.5, head_off=(2.0, -11.5),
+                thigh=8.6, shin=8.2, upper_arm=7.2, forearm=6.6, hip_w=3.0, shoulder_w=3.2)
     base.update(kw)
     return Proportions(**base)
 
@@ -34,7 +35,8 @@ def proportions(k: float = 1.3, **kw) -> Proportions:
 class Look:
     skin: str = "skin_fair"
     hair: str = "hair_brown"
-    eyes: str = "hair_ink"            # ramp for pupils, or a FIXED glow name
+    eyes: str = "glow_teal"           # FIXED glow colour used when eye_glow
+    iris: str = "azure"               # iris ramp (anime eyes)
     eye_glow: bool = False
     # garments
     torso: str = "teal"               # main body colour
@@ -66,8 +68,9 @@ class Look:
 class Ctx:
     """What hooks receive: canvas, skeleton, pose, look and scale helpers."""
 
-    def __init__(self, c: HDCanvas, sk, p: Pose, look: Look, k: float):
+    def __init__(self, c: HDCanvas, sk, p: Pose, look: Look, k: float, head_r: float = 13.5):
         self.c, self.sk, self.p, self.look, self.k = c, sk, p, look, k
+        self.hr = head_r * k
 
     def R(self, v: float) -> float:
         return v * self.k
@@ -188,86 +191,156 @@ def cape(x: Ctx) -> None:
 
 
 # --- head ----------------------------------------------------------------------------
+def eye(c: HDCanvas, cx: float, cy: float, w: float, h: float, iris: str, glow: str | None, blink: bool,
+        near: bool, k: float) -> None:
+    """One anime eye: lash line, two-tone iris, pupil, catch-lights."""
+    x0, x1 = int(round(cx - w / 2)), int(round(cx + w / 2))
+    y0, y1 = int(round(cy - h / 2)), int(round(cy + h / 2))
+    if blink:
+        c.line(x0 - 1, cy + 1, x1, cy + 1, "hair_ink", 0)
+        return
+    if glow:
+        c.fixed(c.rect(x0, y0 + 1, x1, y1), glow)
+        c.line(x0 - 1, y0, x1 + (1 if near else 0), y0, "hair_ink", 0)
+        return
+    white = c.rect(x0, y0 + 1, x1, y1)
+    c.fill(white, "bone", 5, name="eye_white")
+    irx0 = x0 + (1 if near else 0)
+    iris_m = c.rect(irx0, y0 + 1, x1, y1)
+    c.fill(iris_m, iris, 2, name="iris")
+    c.fill(c.rect(irx0, y0 + 1, x1, y0 + 1 + max(1, (y1 - y0) // 3)), iris, 1, name="iris_top")
+    c.fill(c.rect(irx0, y1, x1, y1), iris, 4, name="iris_low")
+    pc = (irx0 + x1) // 2
+    c.fill(c.rect(pc, y0 + 2, pc + (1 if w > 3 * k else 0), y1 - 1), iris, 0, name="pupil")
+    c.px(irx0, y0 + 1, "white")
+    if w > 3 * k:
+        c.px(irx0 + 1, y0 + 1, "white")
+    c.px(x1, y1 - 1, iris, 5)
+    # upper lash line, thicker and swept at the outer corner
+    c.line(x0 - 1, y0, x1 + (1 if near else 0), y0, "hair_ink", 0)
+    if near:
+        c.px(x1 + 1, y0 + 1, "hair_ink", 0)
+        c.line(x0, y0 - 1, x1, y0 - 1, "hair_ink", 1)
+    else:
+        c.px(x0 - 1, y0 + 1, "hair_ink", 0)
+
+
+def _face_features(x: Ctx, face_mask) -> None:
+    """Anime 3/4 face: two eyes, brows, nose tip, mouth, blush."""
+    c, L, p, R, k = x.c, x.look, x.p, x.R, x.k
+    hurt = bool(p.extras.get("hurt", False)) or p.blink and p.lean < -1
+    glow = L.eyes if L.eye_glow else None
+    near = x.hp(7.0, 2.4)
+    far = x.hp(0.6, 2.2)
+    eye(c, near[0], near[1], R(3.4), R(4.8), L.iris, glow, p.blink, True, k)
+    eye(c, far[0], far[1], R(2.4), R(4.4), L.iris, glow, p.blink, False, k)
+    if L.params.get("brows", True):
+        for (ex, ey), w in ((near, 3.2), (far, 2.2)):
+            yb = ey - R(4.4) - (R(0.6) if hurt else 0)
+            c.line(ex - R(w / 2), yb + (1 if hurt else 0), ex + R(w / 2), yb, L.hair, 0)
+    nx, ny = x.hp(4.4, 5.6)
+    c.px(int(nx), int(ny), L.skin, 2)
+    mx, my = x.hp(4.4, 8.0)
+    if hurt:
+        c.fill(c.rect(int(mx) - 1, int(my) - 1, int(mx) + 1, int(my)), "crimson", 0, name="mouth_open")
+    else:
+        c.line(mx - R(0.8), my, mx + R(0.8), my, "crimson", 1)
+    for bx, by in (x.hp(8.6, 6.4), x.hp(-0.6, 6.0)):
+        c.line(bx - R(0.6), by, bx + R(0.6), by, "rose", 4)
+
+
+def _hair_top(x: Ctx, clip=None) -> None:
+    """Volume, bangs over the forehead, a side lock and the shine ring."""
+    c, L, p, R, sk = x.c, x.look, x.p, x.R, x.sk
+    sw = p.sway
+    h = sk.head
+    hr = x.hr
+    crown = c.ellipse(*x.hp(-1.4, -2.6), hr + R(1.0), hr - R(1.2), rot=sk.angle)
+    crown &= ~c.ellipse(*x.hp(4.4, 6.4), R(9.6), R(8.6), rot=sk.angle)
+    if L.hair_style == "spiky":
+        for i, (bx, by, tx, ty) in enumerate(((-9, -4, -17, -9), (-5, -9, -10, -19), (0, -11, 1, -21), (5, -9, 10, -17), (-11, 2, -18, 1))):
+            a0, a1 = x.hp(bx, by), x.hp(tx - sw * (i % 2), ty)
+            crown |= c.capsule(a0[0], a0[1], a1[0], a1[1], R(3.4), R(0.6))
+    # bangs: pointed locks falling to just above the eyes
+    locks = [(-3.5, -1.0), (0.5, 0.6), (4.0, -0.4), (7.5, 0.9), (10.6, -0.2)]
+    for i, (lx, ly) in enumerate(locks):
+        top_l, top_r = x.hp(lx - 3.0, -8.0), x.hp(lx + 2.6, -8.0)
+        tip = x.hp(lx + 0.6 + sw * 0.3 * (i % 2), ly)
+        crown |= c.poly([top_l, top_r, tip])
+    # side lock in front of the ear, framing the face
+    s0, s1 = x.hp(11.2, -4.0), x.hp(12.2 + sw * 0.6, 8.5)
+    crown |= c.capsule(s0[0], s0[1], s1[0], s1[1], R(2.2), R(0.8))
+    if clip is not None:
+        crown &= clip
+    c.draw(crown, L.hair, "round", name="hair")
+    # shine ring: a broken arc of the brightest shade
+    for t in range(-6, 5):
+        if t in (-2, 2):
+            continue
+        a = t / 6.0
+        px_, py_ = x.hp(-1.0 + a * 8.5, -7.6 + (a * a) * 2.2)
+        if crown[int(py_), int(px_)]:
+            c.px(int(px_), int(py_), L.hair, 5)
+    if L.params.get("hair_band"):
+        band = c.ellipse(*x.hp(-0.5, -6.0), hr + R(0.6), R(1.5), rot=sk.angle) & crown
+        c.draw(band, L.params["hair_band"], "metal", name="hair_band")
+
+
 def head(x: Ctx) -> None:
     c, L, sk, p, R = x.c, x.look, x.sk, x.p, x.R
     h = sk.head
-    hr = sk.k * 11.0
+    hr = x.hr
     sw = p.sway
     gear = L.head_ramp or L.torso
-    skull = c.ellipse(h[0] - R(0.3), h[1], hr, hr - R(0.6), rot=sk.angle)
+    skull = c.ellipse(h[0], h[1], hr, hr - R(0.4), rot=sk.angle)
+    face_mask = c.ellipse(*x.hp(3.6, 3.0), R(10.2), R(9.8), rot=sk.angle) & skull
     # long hair / ponytail behind the head
-    if L.hair_style in ("long", "ponytail") and L.head in ("hair", "crown", "mask"):
+    if L.hair_style in ("long", "ponytail"):
         if L.hair_style == "long":
-            back = [x.hp(-4.0, -6.0), x.hp(-11.0 - sw, 4.0), x.hp(-10.0 - sw * 1.5, 16.0), x.hp(-3.0, 14.0), x.hp(2.0, 2.0)]
+            back = [x.hp(-6.0, -6.0), x.hp(-14.0 - sw, 4.0), x.hp(-12.0 - sw * 1.5, 20.0), x.hp(-2.0, 18.0), x.hp(4.0, 6.0)]
             c.draw(c.poly(back), L.hair, "cloth", bias=-1, name="hair_back")
         else:
             wind = float(p.extras.get("wind", 0.0))
-            tie = x.hp(-8.5, -6.0)
-            end = x.hp(-17.0 - wind * 4.0, 2.0 - wind * 4.0 + sw * 2.0)
-            mid = x.hp(-14.0 - wind * 2.0, -4.0 + sw)
-            c.draw(c.capsule(tie[0], tie[1], mid[0], mid[1], R(2.8), R(2.4)) | c.capsule(mid[0], mid[1], end[0], end[1], R(2.4), R(1.0)),
+            tie = x.hp(-10.5, -6.0)
+            end = x.hp(-21.0 - wind * 4.0, 4.0 - wind * 5.0 + sw * 2.0)
+            mid = x.hp(-17.0 - wind * 2.0, -4.0 + sw)
+            c.draw(c.capsule(tie[0], tie[1], mid[0], mid[1], R(3.4), R(2.8)) | c.capsule(mid[0], mid[1], end[0], end[1], R(2.8), R(1.0)),
                    L.hair, "cloth", name="ponytail")
-            c.draw(c.ellipse(tie[0], tie[1], R(1.8), R(1.8)), L.trim, "round", name="hair_tie")
-    if L.head == "hood":
-        tip = [x.hp(-6.0, -7.0), x.hp(-15.0 - sw * 1.5, -1.0 + sw), x.hp(-6.0, 5.0)]
-        if L.params.get("tall_hood"):
-            tip = [x.hp(-6.0, -6.0), x.hp(-8.0 - sw, -18.0), x.hp(-15.0 - sw * 1.5, -21.0), x.hp(-12.0 - sw, -15.0), x.hp(2.0, -9.5)]
-        c.draw(skull | c.poly(tip), gear, "cloth", name="hood")
-    elif L.head == "cowl":
-        c.draw(skull, gear, "cloth", name="cowl")
+            c.draw(c.ellipse(tie[0], tie[1], R(2.0), R(2.0)), L.trim, "round", name="hair_tie")
+    if L.head in ("hood", "cowl", "helm"):
+        shell = c.ellipse(h[0] - R(0.6), h[1] - R(0.4), hr + R(1.6), hr + R(1.0), rot=sk.angle)
+        if L.head == "hood":
+            tip = [x.hp(-8.0, -9.0), x.hp(-23.0 - sw * 1.5, -2.0 + sw), x.hp(-8.0, 5.0)]
+            if L.params.get("tall_hood"):
+                tip = [x.hp(-7.0, -7.0), x.hp(-9.0 - sw, -21.0), x.hp(-17.0 - sw * 1.5, -24.0), x.hp(-14.0 - sw, -17.0), x.hp(2.0, -11.0)]
+            shell |= c.poly(tip)
+        form = "metal" if L.head == "helm" else "cloth"
+        c.draw(shell, gear, form, name=L.head)
+        opening = c.ellipse(*x.hp(5.0, 3.4), R(9.0), R(9.4), rot=sk.angle) & shell
+        c.draw(opening, L.skin, "skin", bias=int(L.params.get("face_bias", 0)), name="face", selout=True)
+        rim = c.ellipse(*x.hp(5.0, 3.4), R(10.4), R(10.8), rot=sk.angle) & shell & ~opening
+        c.relight(rim, +1)
+        if L.hair_style != "none":
+            _hair_top(x, clip=opening & ~c.ellipse(*x.hp(5.0, 6.8), R(9.0), R(7.4), rot=sk.angle))
+        _face_features(x, opening)
+        if L.head == "helm":
+            cheek = c.ellipse(*x.hp(-3.5, 6.0), R(3.6), R(5.6), rot=sk.angle) & shell
+            c.draw(cheek | (c.ellipse(*x.hp(-3.5, 6.0), R(3.6), R(5.6), rot=sk.angle) & skull), gear, "metal", bias=-1, name="cheek_guard")
     else:
-        c.draw(skull, L.skin if L.head != "helm" else gear, "skin" if L.head != "helm" else "metal", name="head")
-    # face
-    fx, fy = x.hp(4.6, 1.6)
-    if L.head == "helm":
-        face = c.ellipse(fx + R(1.0), fy, R(5.4), R(5.0), rot=sk.angle) & skull
-        c.draw(face, gear, "metal", bias=-1, name="faceplate")
-        slit = c.rect(int(x.hp(2.0, -0.6)[0]), int(x.hp(2.0, -0.6)[1]), int(x.hp(10.4, 0.6)[0]), int(x.hp(10.4, 0.6)[1])) & skull
-        c.fill(slit, "night", 0, name="visor_slit")
-        ex, ey = x.hp(7.4, -0.2)
-        c.px(int(ex), int(ey), L.eyes if L.eyes in ("glow_teal", "glow_amber", "glow_red", "glow_violet", "glow_frost") else "glow_teal")
-        c.px(int(ex) + 1, int(ey), L.eyes if L.eyes in ("glow_teal", "glow_amber", "glow_red", "glow_violet", "glow_frost") else "glow_teal")
-    else:
-        face = c.ellipse(fx, fy, R(6.4), R(6.9), rot=sk.angle) & c.ellipse(h[0] - R(0.3), h[1], hr - R(1.0), hr - R(1.3), rot=sk.angle)
-        if L.head in ("hood", "cowl"):
-            c.draw(face, L.skin, "skin", bias=int(L.params.get("face_bias", 0)), name="face", selout=False)
-            c.relight(face & ~shift_mask(face, 2, 2), -1)
-            rim = c.ellipse(fx, fy, R(7.6), R(8.0), rot=sk.angle) & skull & ~face
-            c.relight(rim, +1)
-        elif L.head == "mask":
-            c.relight(face, 0)
-        # eyes: a 2x3 dark block with a catch-light, or a glow
-        ex, ey = x.hp(7.0, -0.4)
-        ex, ey = int(round(ex)), int(round(ey))
-        if p.blink:
-            c.line(ex - 1, ey + 1, ex + 1, ey + 1, L.skin, 1)
-        elif L.eye_glow:
-            c.fixed(c.rect(ex - 1, ey - 1, ex + 1, ey + 1), L.eyes)
-        else:
-            c.fill(c.rect(ex - 1, ey - 1, ex, ey + 2), L.eyes, 0)
-            c.px(ex, ey - 1, "white")
-        if L.head not in ("mask",):
-            mx, my = x.hp(8.2, 4.6)
-            c.line(mx, my, mx + R(1.2), my, L.skin, 1)
-            cx2, cy2 = x.hp(5.6, 2.8)
-            c.px(int(cx2), int(cy2), "rose", 3)
-    # hair on top (not under hoods / helms)
-    if L.head in ("hair", "crown", "mask") and L.hair_style != "none":
-        crown = c.ellipse(h[0] - R(1.2), h[1] - R(3.2), hr + R(0.4), hr - R(3.0), rot=sk.angle) & ~c.ellipse(fx + R(2.5), fy + R(3.5), R(6.0), R(6.5), rot=sk.angle)
-        if L.hair_style == "spiky":
-            for i, (dx, dy, ln) in enumerate(((-8, -6, 7), (-3, -10, 8), (3, -10, 7), (-11, -1, 6), (7, -7, 5))):
-                a0 = x.hp(dx * 0.6, dy * 0.6)
-                a1 = x.hp(dx * 1.2 - sw * (i % 2), dy * 1.25 - ln * 0.4)
-                crown |= c.capsule(a0[0], a0[1], a1[0], a1[1], R(2.6), R(0.6))
-        c.draw(crown, L.hair, "round", name="hair")
-        fr = c.ellipse(*x.hp(4.0, -5.0), R(4.6), R(2.0), rot=sk.angle - 0.2)
-        c.draw(fr, L.hair, "round", bias=1, name="fringe", selout=False)
+        c.draw(skull, L.skin, "skin", name="head")
+        ex_, ey_ = x.hp(-4.5, 3.0)
+        c.draw(c.ellipse(ex_, ey_, R(1.8), R(2.4), rot=sk.angle), L.skin, "skin", bias=-1, name="ear")
+        _face_features(x, face_mask)
+        if L.hair_style != "none":
+            _hair_top(x)
     if L.head == "hat":
-        brim = c.ellipse(*x.hp(0.0, -7.0), R(15.0), R(3.0), rot=sk.angle)
-        cone = c.poly([x.hp(-7.5, -7.5), x.hp(7.5, -7.5), x.hp(-2.0 - sw * 2, -26.0), x.hp(-6.0 - sw * 3, -22.0)])
+        pass
+    if L.head == "hat" or L.params.get("hat"):
+        brim = c.ellipse(*x.hp(0.0, -8.5), R(17.0), R(3.2), rot=sk.angle)
+        cone = c.poly([x.hp(-8.5, -9.0), x.hp(8.5, -9.0), x.hp(-2.0 - sw * 2, -29.0), x.hp(-7.0 - sw * 3, -25.0)])
         c.draw(cone, gear, "cloth", name="hat_cone")
         c.draw(brim, gear, "plate", bias=-1, name="hat_brim")
-        band = c.ellipse(*x.hp(0.0, -9.0), R(7.4), R(1.6), rot=sk.angle) & cone
+        band = c.ellipse(*x.hp(0.0, -10.5), R(8.4), R(1.7), rot=sk.angle) & cone
         c.draw(band, L.trim, "flat", name="hat_band")
     if L.extra_head:
         L.extra_head(x)
@@ -277,7 +350,7 @@ def head(x: Ctx) -> None:
 def draw(look: Look, pr: Proportions, p: Pose) -> HDCanvas:
     c = HDCanvas(pr.frame, pr.frame)
     sk = solve(p, pr)
-    x = Ctx(c, sk, p, look, pr.k)
+    x = Ctx(c, sk, p, look, pr.k, pr.head_r)
     cape(x)
     if look.extra_back:
         look.extra_back(x)
