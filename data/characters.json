@@ -2,71 +2,946 @@
  "version": 2,
  "characters": [
   {
-   "id": "ranger", "name": "Vex", "title": "Rift Ranger", "class": "gunslinger", "difficulty": 1,
+   "id": "ranger",
+   "name": "Vex",
+   "title": "Rift Ranger",
+   "class": "gunslinger",
+   "difficulty": 1,
    "description": "Balanced gunslinger with a steady aim. Easy to learn, rewards standing your ground.",
-   "sprite": "hero_ranger", "start_weapon": "rift_pistol", "tags": ["starter", "crit"],
-   "stats": {"max_hp": 6, "max_armor": 4, "speed": 96},
-   "skill": {"id": "overclock", "name": "Overclock", "cooldown": 12.0, "duration": 4.0, "icon": "icon_skill_overclock",
-             "description": "Doubles fire rate and skips reloads for 4 s.", "params": {"fire_rate_bonus": 1.0}},
-   "passive": {"id": "deadeye", "name": "Deadeye", "description": "Stand still for 0.5 s: +25% crit chance until you move.",
-               "params": {"delay": 0.5, "crit": 0.25}},
-   "unlock": {"type": "default"},
+   "sprite": "hero_ranger",
+   "start_weapon": "rift_pistol",
+   "tags": [
+    "starter",
+    "crit"
+   ],
+   "stats": {
+    "max_hp": 6,
+    "max_armor": 4,
+    "speed": 96
+   },
+   "skill": {
+    "id": "overclock",
+    "name": "Overclock",
+    "cooldown": 12.0,
+    "duration": 4.0,
+    "icon": "icon_skill_overclock",
+    "description": "Doubles fire rate and skips reloads for 4 s.",
+    "params": {
+     "fire_rate_bonus": 1.0
+    }
+   },
+   "passive": {
+    "id": "deadeye",
+    "name": "Deadeye",
+    "description": "Stand still for 0.5 s: +25% crit chance until you move.",
+    "params": {
+     "delay": 0.5,
+     "crit": 0.25
+    }
+   },
+   "unlock": {
+    "type": "default"
+   },
    "mastery": [
-    {"level": 2, "xp": 120, "bonus": {"crit": 0.03}, "text": "+3% crit"},
-    {"level": 3, "xp": 300, "bonus": {"max_armor": 1}, "text": "+1 armour"},
-    {"level": 4, "xp": 600, "bonus": {"cooldown_mult": -0.1}, "text": "-10% skill cooldown"},
-    {"level": 5, "xp": 1000, "bonus": {"damage_mult": 0.1}, "text": "+10% damage"}
+    {
+     "level": 2,
+     "xp": 120,
+     "bonus": {
+      "crit": 0.03
+     },
+     "text": "+3% crit"
+    },
+    {
+     "level": 3,
+     "xp": 300,
+     "bonus": {
+      "max_armor": 1
+     },
+     "text": "+1 armour"
+    },
+    {
+     "level": 4,
+     "xp": 600,
+     "bonus": {
+      "cooldown_mult": -0.1
+     },
+     "text": "-10% skill cooldown"
+    },
+    {
+     "level": 5,
+     "xp": 1000,
+     "bonus": {
+      "damage_mult": 0.1
+     },
+     "text": "+10% damage"
+    }
    ]
   },
   {
-   "id": "warden", "name": "Bramble", "title": "Warden", "class": "guardian", "difficulty": 1,
+   "id": "warden",
+   "name": "Bramble",
+   "title": "Warden",
+   "class": "guardian",
+   "difficulty": 1,
    "description": "Armoured bulwark. Shrugs off the first blow in every room and walls off bullet storms.",
-   "sprite": "hero_warden", "start_weapon": "scatter_cannon", "tags": ["defense"],
-   "stats": {"max_hp": 8, "max_armor": 6, "speed": 86},
-   "skill": {"id": "bulwark", "name": "Bulwark", "cooldown": 15.0, "duration": 3.0, "icon": "icon_skill_bulwark",
-             "description": "A dome that erases enemy bolts and blocks all damage for 3 s.", "params": {"radius": 34.0}},
-   "passive": {"id": "stonehide", "name": "Stonehide", "description": "Blocks the first hit in each room. Armour regenerates 40% faster.",
-               "params": {"regen": 0.4}},
-   "unlock": {"type": "shards", "cost": 300},
+   "sprite": "hero_warden",
+   "start_weapon": "scatter_cannon",
+   "tags": [
+    "defense"
+   ],
+   "stats": {
+    "max_hp": 8,
+    "max_armor": 6,
+    "speed": 86
+   },
+   "skill": {
+    "id": "bulwark",
+    "name": "Bulwark",
+    "cooldown": 15.0,
+    "duration": 3.0,
+    "icon": "icon_skill_bulwark",
+    "description": "A dome that erases enemy bolts and blocks all damage for 3 s.",
+    "params": {
+     "radius": 34.0
+    }
+   },
+   "passive": {
+    "id": "stonehide",
+    "name": "Stonehide",
+    "description": "Blocks the first hit in each room. Armour regenerates 40% faster.",
+    "params": {
+     "regen": 0.4
+    }
+   },
+   "unlock": {
+    "type": "shards",
+    "cost": 300
+   },
    "mastery": [
-    {"level": 2, "xp": 120, "bonus": {"max_hp": 1}, "text": "+1 HP"},
-    {"level": 3, "xp": 300, "bonus": {"armor_regen_mult": 0.2}, "text": "+20% armour regen"},
-    {"level": 4, "xp": 600, "bonus": {"cooldown_mult": -0.1}, "text": "-10% skill cooldown"},
-    {"level": 5, "xp": 1000, "bonus": {"max_armor": 1}, "text": "+1 armour"}
+    {
+     "level": 2,
+     "xp": 120,
+     "bonus": {
+      "max_hp": 1
+     },
+     "text": "+1 HP"
+    },
+    {
+     "level": 3,
+     "xp": 300,
+     "bonus": {
+      "armor_regen_mult": 0.2
+     },
+     "text": "+20% armour regen"
+    },
+    {
+     "level": 4,
+     "xp": 600,
+     "bonus": {
+      "cooldown_mult": -0.1
+     },
+     "text": "-10% skill cooldown"
+    },
+    {
+     "level": 5,
+     "xp": 1000,
+     "bonus": {
+      "max_armor": 1
+     },
+     "text": "+1 armour"
+    }
    ]
   },
   {
-   "id": "hexer", "name": "Nyx", "title": "Hexer", "class": "hexer", "difficulty": 3,
+   "id": "hexer",
+   "name": "Nyx",
+   "title": "Hexer",
+   "class": "hexer",
+   "difficulty": 3,
    "description": "Fragile and swift. Blinks through danger and punishes cursed foes.",
-   "sprite": "hero_hexer", "start_weapon": "hex_staff", "tags": ["mobility", "status"],
-   "stats": {"max_hp": 5, "max_armor": 3, "speed": 104},
-   "skill": {"id": "phase", "name": "Phase", "cooldown": 5.0, "duration": 0.2, "icon": "icon_skill_phase",
-             "description": "Blink forward and detonate a hex burst on arrival.", "params": {"distance": 72.0, "damage": 8, "radius": 34.0}},
-   "passive": {"id": "hexblood", "name": "Hexblood", "description": "Hits on hexed enemies deal +30% damage.",
-               "params": {"bonus": 0.3}},
-   "unlock": {"type": "achievement", "id": "deep_delver"},
+   "sprite": "hero_hexer",
+   "start_weapon": "hex_staff",
+   "tags": [
+    "mobility",
+    "status"
+   ],
+   "stats": {
+    "max_hp": 5,
+    "max_armor": 3,
+    "speed": 104
+   },
+   "skill": {
+    "id": "phase",
+    "name": "Phase",
+    "cooldown": 5.0,
+    "duration": 0.2,
+    "icon": "icon_skill_phase",
+    "description": "Blink forward and detonate a hex burst on arrival.",
+    "params": {
+     "distance": 72.0,
+     "damage": 8,
+     "radius": 34.0
+    }
+   },
+   "passive": {
+    "id": "hexblood",
+    "name": "Hexblood",
+    "description": "Hits on hexed enemies deal +30% damage.",
+    "params": {
+     "bonus": 0.3
+    }
+   },
+   "unlock": {
+    "type": "achievement",
+    "id": "deep_delver"
+   },
    "mastery": [
-    {"level": 2, "xp": 120, "bonus": {"speed": 0.05}, "text": "+5% speed"},
-    {"level": 3, "xp": 300, "bonus": {"cooldown_mult": -0.1}, "text": "-10% skill cooldown"},
-    {"level": 4, "xp": 600, "bonus": {"max_hp": 1}, "text": "+1 HP"},
-    {"level": 5, "xp": 1000, "bonus": {"damage_mult": 0.12}, "text": "+12% damage"}
+    {
+     "level": 2,
+     "xp": 120,
+     "bonus": {
+      "speed": 0.05
+     },
+     "text": "+5% speed"
+    },
+    {
+     "level": 3,
+     "xp": 300,
+     "bonus": {
+      "cooldown_mult": -0.1
+     },
+     "text": "-10% skill cooldown"
+    },
+    {
+     "level": 4,
+     "xp": 600,
+     "bonus": {
+      "max_hp": 1
+     },
+     "text": "+1 HP"
+    },
+    {
+     "level": 5,
+     "xp": 1000,
+     "bonus": {
+      "damage_mult": 0.12
+     },
+     "text": "+12% damage"
+    }
    ]
   },
   {
-   "id": "tinker", "name": "Cog", "title": "Tinker", "class": "engineer", "difficulty": 2,
+   "id": "tinker",
+   "name": "Cog",
+   "title": "Tinker",
+   "class": "engineer",
+   "difficulty": 2,
    "description": "Gadgeteer. Drops turrets and keeps them coming with every kill.",
-   "sprite": "hero_tinker", "start_weapon": "pulse_rifle", "tags": ["summon", "tech"],
-   "stats": {"max_hp": 6, "max_armor": 4, "speed": 92},
-   "skill": {"id": "turret", "name": "Deploy", "cooldown": 14.0, "duration": 10.0, "icon": "icon_skill_turret",
-             "description": "Drop an autonomous turret for 10 s."},
-   "passive": {"id": "scrap_rush", "name": "Scrap Rush", "description": "Every kill shaves 0.6 s off the skill cooldown.",
-               "params": {"seconds": 0.6}},
-   "unlock": {"type": "shards", "cost": 500},
+   "sprite": "hero_tinker",
+   "start_weapon": "pulse_rifle",
+   "tags": [
+    "summon",
+    "tech"
+   ],
+   "stats": {
+    "max_hp": 6,
+    "max_armor": 4,
+    "speed": 92
+   },
+   "skill": {
+    "id": "turret",
+    "name": "Deploy",
+    "cooldown": 14.0,
+    "duration": 10.0,
+    "icon": "icon_skill_turret",
+    "description": "Drop an autonomous turret for 10 s."
+   },
+   "passive": {
+    "id": "scrap_rush",
+    "name": "Scrap Rush",
+    "description": "Every kill shaves 0.6 s off the skill cooldown.",
+    "params": {
+     "seconds": 0.6
+    }
+   },
+   "unlock": {
+    "type": "shards",
+    "cost": 500
+   },
    "mastery": [
-    {"level": 2, "xp": 120, "bonus": {"reload_mult": -0.1}, "text": "-10% reload time"},
-    {"level": 3, "xp": 300, "bonus": {"max_armor": 1}, "text": "+1 armour"},
-    {"level": 4, "xp": 600, "bonus": {"cooldown_mult": -0.1}, "text": "-10% skill cooldown"},
-    {"level": 5, "xp": 1000, "bonus": {"fire_rate_mult": 0.1}, "text": "+10% fire rate"}
+    {
+     "level": 2,
+     "xp": 120,
+     "bonus": {
+      "reload_mult": -0.1
+     },
+     "text": "-10% reload time"
+    },
+    {
+     "level": 3,
+     "xp": 300,
+     "bonus": {
+      "max_armor": 1
+     },
+     "text": "+1 armour"
+    },
+    {
+     "level": 4,
+     "xp": 600,
+     "bonus": {
+      "cooldown_mult": -0.1
+     },
+     "text": "-10% skill cooldown"
+    },
+    {
+     "level": 5,
+     "xp": 1000,
+     "bonus": {
+      "fire_rate_mult": 0.1
+     },
+     "text": "+10% fire rate"
+    }
+   ]
+  },
+  {
+   "id": "duelist",
+   "name": "Kaida",
+   "title": "Blade Dancer",
+   "class": "duelist",
+   "difficulty": 3,
+   "description": "Close-range blade dancer. Dash in, strike while the riposte window is open, spin out.",
+   "sprite": "hero_duelist",
+   "start_weapon": "ember_blade",
+   "tags": [
+    "melee",
+    "crit",
+    "mobility"
+   ],
+   "stats": {
+    "max_hp": 6,
+    "max_armor": 3,
+    "speed": 104,
+    "dash_cd_mult": -0.15
+   },
+   "skill": {
+    "id": "whirlwind",
+    "name": "Whirlwind",
+    "cooldown": 10.0,
+    "duration": 1.2,
+    "icon": "icon_skill_whirlwind",
+    "description": "Spin for 1.2 s: slash all around every 0.2 s, cut bolts, move 40% faster.",
+    "params": {
+     "damage": 3,
+     "interval": 0.2,
+     "radius": 30.0,
+     "speed": 0.4
+    }
+   },
+   "passive": {
+    "id": "riposte",
+    "name": "Riposte",
+    "description": "Hits within 1 s after a dash always crit.",
+    "params": {
+     "window": 1.0,
+     "crit_mult": 1.75
+    }
+   },
+   "unlock": {
+    "type": "shards",
+    "cost": 450
+   },
+   "mastery": [
+    {
+     "level": 2,
+     "xp": 120,
+     "bonus": {
+      "crit": 0.03
+     },
+     "text": "+3% crit"
+    },
+    {
+     "level": 3,
+     "xp": 300,
+     "bonus": {
+      "cooldown_mult": -0.1
+     },
+     "text": "-10% skill cooldown"
+    },
+    {
+     "level": 4,
+     "xp": 600,
+     "bonus": {
+      "max_hp": 1
+     },
+     "text": "+1 HP"
+    },
+    {
+     "level": 5,
+     "xp": 1000,
+     "bonus": {
+      "damage_mult": 0.1
+     },
+     "text": "+10% damage"
+    }
+   ]
+  },
+  {
+   "id": "pyromancer",
+   "name": "Ignis",
+   "title": "Pyromancer",
+   "class": "pyromancer",
+   "difficulty": 2,
+   "description": "Sets the room on fire. Burning foes explode when they fall.",
+   "sprite": "hero_pyromancer",
+   "start_weapon": "cinder_wand",
+   "tags": [
+    "magic",
+    "fire",
+    "aoe"
+   ],
+   "stats": {
+    "max_hp": 5,
+    "max_armor": 4,
+    "speed": 94
+   },
+   "skill": {
+    "id": "flame_nova",
+    "name": "Flame Nova",
+    "cooldown": 9.0,
+    "duration": 0.0,
+    "icon": "icon_skill_flame_nova",
+    "description": "A ring of 16 burning orbs bursts out in every direction.",
+    "params": {
+     "count": 16,
+     "damage": 3,
+     "speed": 170.0,
+     "range": 140.0
+    }
+   },
+   "passive": {
+    "id": "kindling",
+    "name": "Kindling",
+    "description": "20% of hits ignite. Burning enemies explode on death.",
+    "params": {
+     "ignite": 0.2,
+     "radius": 26.0,
+     "damage": 3
+    }
+   },
+   "unlock": {
+    "type": "shards",
+    "cost": 400
+   },
+   "mastery": [
+    {
+     "level": 2,
+     "xp": 120,
+     "bonus": {
+      "damage_mult": 0.05
+     },
+     "text": "+5% damage"
+    },
+    {
+     "level": 3,
+     "xp": 300,
+     "bonus": {
+      "cooldown_mult": -0.1
+     },
+     "text": "-10% skill cooldown"
+    },
+    {
+     "level": 4,
+     "xp": 600,
+     "bonus": {
+      "max_armor": 1
+     },
+     "text": "+1 armour"
+    },
+    {
+     "level": 5,
+     "xp": 1000,
+     "bonus": {
+      "damage_mult": 0.1
+     },
+     "text": "+10% damage"
+    }
+   ]
+  },
+  {
+   "id": "cryomancer",
+   "name": "Rime",
+   "title": "Cryomancer",
+   "class": "cryomancer",
+   "difficulty": 2,
+   "description": "Controls the battlefield with frost. Frozen foes shatter under critical hits.",
+   "sprite": "hero_cryomancer",
+   "start_weapon": "frost_needler",
+   "tags": [
+    "magic",
+    "frost",
+    "control"
+   ],
+   "stats": {
+    "max_hp": 5,
+    "max_armor": 4,
+    "speed": 92
+   },
+   "skill": {
+    "id": "glacial_field",
+    "name": "Glacial Field",
+    "cooldown": 11.0,
+    "duration": 0.0,
+    "icon": "icon_skill_glacial_field",
+    "description": "Chill every enemy within 80 and shatter their bolts.",
+    "params": {
+     "radius": 80.0,
+     "damage": 2
+    }
+   },
+   "passive": {
+    "id": "shatter",
+    "name": "Shatter",
+    "description": "Hits on frozen enemies crit 35% more often.",
+    "params": {
+     "chance": 0.35,
+     "crit_mult": 1.75
+    }
+   },
+   "unlock": {
+    "type": "shards",
+    "cost": 400
+   },
+   "mastery": [
+    {
+     "level": 2,
+     "xp": 120,
+     "bonus": {
+      "crit": 0.03
+     },
+     "text": "+3% crit"
+    },
+    {
+     "level": 3,
+     "xp": 300,
+     "bonus": {
+      "cooldown_mult": -0.1
+     },
+     "text": "-10% skill cooldown"
+    },
+    {
+     "level": 4,
+     "xp": 600,
+     "bonus": {
+      "max_hp": 1
+     },
+     "text": "+1 HP"
+    },
+    {
+     "level": 5,
+     "xp": 1000,
+     "bonus": {
+      "cooldown_mult": -0.1
+     },
+     "text": "-10% skill cooldown"
+    }
+   ]
+  },
+  {
+   "id": "stormcaller",
+   "name": "Volt",
+   "title": "Stormcaller",
+   "class": "stormcaller",
+   "difficulty": 2,
+   "description": "Lightning that jumps from foe to foe. Every fifth hit discharges a chain.",
+   "sprite": "hero_stormcaller",
+   "start_weapon": "storm_coil",
+   "tags": [
+    "magic",
+    "shock",
+    "chain"
+   ],
+   "stats": {
+    "max_hp": 5,
+    "max_armor": 4,
+    "speed": 98
+   },
+   "skill": {
+    "id": "thunderhead",
+    "name": "Thunderhead",
+    "cooldown": 13.0,
+    "duration": 2.4,
+    "icon": "icon_skill_thunderhead",
+    "description": "For 2.4 s, lightning strikes the nearest enemy every 0.4 s and jumps twice.",
+    "params": {
+     "interval": 0.4,
+     "damage": 5,
+     "range": 170.0,
+     "jumps": 2
+    }
+   },
+   "passive": {
+    "id": "static_charge",
+    "name": "Static",
+    "description": "Every 5th hit releases a 2-jump lightning chain.",
+    "params": {
+     "every": 5,
+     "jumps": 2
+    }
+   },
+   "unlock": {
+    "type": "shards",
+    "cost": 550
+   },
+   "mastery": [
+    {
+     "level": 2,
+     "xp": 120,
+     "bonus": {
+      "fire_rate_mult": 0.05
+     },
+     "text": "+5% fire rate"
+    },
+    {
+     "level": 3,
+     "xp": 300,
+     "bonus": {
+      "cooldown_mult": -0.1
+     },
+     "text": "-10% skill cooldown"
+    },
+    {
+     "level": 4,
+     "xp": 600,
+     "bonus": {
+      "max_armor": 1
+     },
+     "text": "+1 armour"
+    },
+    {
+     "level": 5,
+     "xp": 1000,
+     "bonus": {
+      "damage_mult": 0.1
+     },
+     "text": "+10% damage"
+    }
+   ]
+  },
+  {
+   "id": "necromancer",
+   "name": "Morrow",
+   "title": "Necromancer",
+   "class": "necromancer",
+   "difficulty": 1,
+   "description": "Lets the dead fight. Wisps orbit and shoot; kills raise more.",
+   "sprite": "hero_necromancer",
+   "start_weapon": "wisp_lantern",
+   "tags": [
+    "summon",
+    "magic"
+   ],
+   "stats": {
+    "max_hp": 6,
+    "max_armor": 3,
+    "speed": 90
+   },
+   "skill": {
+    "id": "raise_wisps",
+    "name": "Raise Wisps",
+    "cooldown": 15.0,
+    "duration": 8.0,
+    "icon": "icon_skill_raise_wisps",
+    "description": "Three spirit wisps orbit you for 8 s and shoot at enemies.",
+    "params": {
+     "count": 3
+    }
+   },
+   "passive": {
+    "id": "soul_harvest",
+    "name": "Soul Harvest",
+    "description": "Kills have a 25% chance to raise a wisp for 4 s.",
+    "params": {
+     "chance": 0.25,
+     "duration": 4.0
+    }
+   },
+   "unlock": {
+    "type": "shards",
+    "cost": 500
+   },
+   "mastery": [
+    {
+     "level": 2,
+     "xp": 120,
+     "bonus": {
+      "max_hp": 1
+     },
+     "text": "+1 HP"
+    },
+    {
+     "level": 3,
+     "xp": 300,
+     "bonus": {
+      "cooldown_mult": -0.1
+     },
+     "text": "-10% skill cooldown"
+    },
+    {
+     "level": 4,
+     "xp": 600,
+     "bonus": {
+      "max_armor": 1
+     },
+     "text": "+1 armour"
+    },
+    {
+     "level": 5,
+     "xp": 1000,
+     "bonus": {
+      "damage_mult": 0.1
+     },
+     "text": "+10% damage"
+    }
+   ]
+  },
+  {
+   "id": "assassin",
+   "name": "Sable",
+   "title": "Shadow Assassin",
+   "class": "assassin",
+   "difficulty": 3,
+   "description": "Vanishes, picks a target, strikes for triple damage. Deadly against fresh enemies.",
+   "sprite": "hero_assassin",
+   "start_weapon": "thornbow",
+   "tags": [
+    "stealth",
+    "burst",
+    "mobility"
+   ],
+   "stats": {
+    "max_hp": 5,
+    "max_armor": 2,
+    "speed": 106,
+    "dodge": 0.1
+   },
+   "skill": {
+    "id": "veil",
+    "name": "Veil",
+    "cooldown": 12.0,
+    "duration": 3.0,
+    "icon": "icon_skill_veil",
+    "description": "Vanish for 3 s: enemies lose you, +30% speed; your first hit deals x3.",
+    "params": {
+     "speed": 0.3,
+     "ambush_mult": 3.0
+    }
+   },
+   "passive": {
+    "id": "first_strike",
+    "name": "First Strike",
+    "description": "Double damage against enemies at full health. 10% dodge.",
+    "params": {
+     "mult": 2.0
+    }
+   },
+   "unlock": {
+    "type": "achievement",
+    "id": "elite_hunter"
+   },
+   "mastery": [
+    {
+     "level": 2,
+     "xp": 120,
+     "bonus": {
+      "dodge": 0.03
+     },
+     "text": "+3% dodge"
+    },
+    {
+     "level": 3,
+     "xp": 300,
+     "bonus": {
+      "cooldown_mult": -0.1
+     },
+     "text": "-10% skill cooldown"
+    },
+    {
+     "level": 4,
+     "xp": 600,
+     "bonus": {
+      "max_hp": 1
+     },
+     "text": "+1 HP"
+    },
+    {
+     "level": 5,
+     "xp": 1000,
+     "bonus": {
+      "crit": 0.05
+     },
+     "text": "+5% crit"
+    }
+   ]
+  },
+  {
+   "id": "paladin",
+   "name": "Halvard",
+   "title": "Paladin",
+   "class": "paladin",
+   "difficulty": 1,
+   "description": "Holy knight who heals himself and blasts enemies back. Forgiving and sturdy.",
+   "sprite": "hero_paladin",
+   "start_weapon": "sunforge_mace",
+   "tags": [
+    "melee",
+    "sustain",
+    "defense"
+   ],
+   "stats": {
+    "max_hp": 8,
+    "max_armor": 5,
+    "speed": 88
+   },
+   "skill": {
+    "id": "sanctuary",
+    "name": "Sanctuary",
+    "cooldown": 16.0,
+    "duration": 0.0,
+    "icon": "icon_skill_sanctuary",
+    "description": "Heal 2, refill armour, 1.5 s invulnerability and a holy blast around you.",
+    "params": {
+     "heal": 2,
+     "invuln": 1.5,
+     "radius": 44.0,
+     "damage": 4
+    }
+   },
+   "passive": {
+    "id": "devotion",
+    "name": "Devotion",
+    "description": "Clearing a room may heal 1. Armour regenerates 25% faster.",
+    "params": {
+     "chance": 0.5,
+     "regen": 0.25
+    }
+   },
+   "unlock": {
+    "type": "shards",
+    "cost": 350
+   },
+   "mastery": [
+    {
+     "level": 2,
+     "xp": 120,
+     "bonus": {
+      "max_armor": 1
+     },
+     "text": "+1 armour"
+    },
+    {
+     "level": 3,
+     "xp": 300,
+     "bonus": {
+      "cooldown_mult": -0.1
+     },
+     "text": "-10% skill cooldown"
+    },
+    {
+     "level": 4,
+     "xp": 600,
+     "bonus": {
+      "max_hp": 1
+     },
+     "text": "+1 HP"
+    },
+    {
+     "level": 5,
+     "xp": 1000,
+     "bonus": {
+      "damage_mult": 0.1
+     },
+     "text": "+10% damage"
+    }
+   ]
+  },
+  {
+   "id": "artillerist",
+   "name": "Brixa",
+   "title": "Artillerist",
+   "class": "artillerist",
+   "difficulty": 2,
+   "description": "Heavy ordnance. Bigger explosions and a rain of shells on demand.",
+   "sprite": "hero_artillerist",
+   "start_weapon": "boom_tube",
+   "tags": [
+    "explosive",
+    "aoe"
+   ],
+   "stats": {
+    "max_hp": 6,
+    "max_armor": 5,
+    "speed": 88
+   },
+   "skill": {
+    "id": "barrage",
+    "name": "Barrage",
+    "cooldown": 14.0,
+    "duration": 1.6,
+    "icon": "icon_skill_barrage",
+    "description": "For 1.6 s, shells rain down around your aim point.",
+    "params": {
+     "interval": 0.2,
+     "distance": 80.0,
+     "spread": 46.0,
+     "radius": 22.0,
+     "damage": 5
+    }
+   },
+   "passive": {
+    "id": "big_bang",
+    "name": "Big Bang",
+    "description": "All your explosions are 35% larger.",
+    "params": {
+     "radius": 0.35
+    }
+   },
+   "unlock": {
+    "type": "shards",
+    "cost": 600
+   },
+   "mastery": [
+    {
+     "level": 2,
+     "xp": 120,
+     "bonus": {
+      "blast_mult": 0.05
+     },
+     "text": "+5% blast radius"
+    },
+    {
+     "level": 3,
+     "xp": 300,
+     "bonus": {
+      "cooldown_mult": -0.1
+     },
+     "text": "-10% skill cooldown"
+    },
+    {
+     "level": 4,
+     "xp": 600,
+     "bonus": {
+      "max_armor": 1
+     },
+     "text": "+1 armour"
+    },
+    {
+     "level": 5,
+     "xp": 1000,
+     "bonus": {
+      "damage_mult": 0.1
+     },
+     "text": "+10% damage"
+    }
    ]
   }
  ]

@@ -24,6 +24,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "hd"))
 import hd_registry  # noqa: E402
 import weapons as hd_weapons  # noqa: E402
 import tiles as hd_tiles  # noqa: E402
+import icons as hd_icons  # noqa: E402
 from canvas import sheet as hd_sheet  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -127,6 +128,19 @@ def main() -> None:
                                            "source": mod.SPEC["source"]})
         else:
             add_sheet(f"enemy_{eid}", f"sprites/enemies/{eid}.png", fn(), enemies.FPS, enemies.LOOP)
+    # heroes that only exist in HD (no 16 px ancestor)
+    for hid, mod in hd_registry.HEROES.items():
+        if hid in characters.HEROES:
+            continue
+        add_sheet(f"hero_{hid}", f"sprites/heroes/hd/{hid}.png", mod.animations(), mod.FPS, mod.LOOP,
+                  pivot=mod.PIVOT, hd={"density": hd_registry.DENSITY, "version": mod.SPEC["version"],
+                                       "source": mod.SPEC["source"]})
+    # HD skill icons
+    for iid, fn in hd_icons.ICONS.items():
+        add_image(f"icon_{iid}", f"ui/icons/hd/{iid}.png", fn().image())
+        _hd_import_settings(f"ui/icons/hd/{iid}.png")
+        manifest["images"][f"icon_{iid}"].update({"density": hd_registry.DENSITY, "palette": "hd",
+                                                  "source": "procedural: tools/artgen/hd/icons.py"})
     # externally made art normalised by import_external.py (art_src/external.json)
     ext_index = os.path.join(ROOT, "art_src", "external.json")
     if os.path.exists(ext_index):
@@ -148,7 +162,8 @@ def main() -> None:
         add_sheet(f"prop_{pid}", f"sprites/props/{pid}.png", anims, fps,
                   {k: k in ("idle",) for k in anims})
     # weapons
-    for wid, fn in items.WEAPONS.items():
+    for wid in list(items.WEAPONS) + [w for w in hd_weapons.WEAPONS if w not in items.WEAPONS]:
+        fn = items.WEAPONS.get(wid)
         hdw = hd_weapons.WEAPONS.get(wid)
         if hdw is None:
             add_sheet(f"weapon_{wid}", f"sprites/weapons/{wid}.png", {"idle": [fn()]}, 1, True, items.WEAPON_PIVOT)

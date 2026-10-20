@@ -185,7 +185,7 @@ func _fire_pattern(from_player: bool) -> void:
 				p.range_left = data.weapon_range
 				p.element = data.element
 				p.status_chance = data.status_chance
-				p.explosion_radius = data.explosion_radius
+				p.explosion_radius = data.explosion_radius * maxf(1.0 + _mod("blast_mult"), 0.2)
 				p.explosion_damage = Damage.compute(data.explosion_damage, 1.0 + _mod("damage_mult"), false) if data.explosion_damage > 0 else 0
 				p.radius = 3.0 if data.projectile.begins_with("orb") else 1.5
 				p.source_id = data.id

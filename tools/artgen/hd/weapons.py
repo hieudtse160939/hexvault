@@ -44,6 +44,65 @@ def rift_pistol() -> HDCanvas:
     return c
 
 
+def cinder_wand() -> HDCanvas:
+    c = HDCanvas(*FRAME)
+    # charred wood shaft with a leather grip, ember crystal caged at the tip
+    c.draw(c.capsule(20, 31, 56, 21, 2.6, 2.2), "hair_brown", "round", bias=-1, name="shaft")
+    c.draw(c.capsule(20, 31, 30, 28.2, 3.0, 3.0), "leather", "round", name="grip")
+    for x0 in (22, 26):
+        c.line(x0, 33, x0 + 1, 28, "leather", 1)
+    claw = c.ellipse(60, 19, 6.0, 6.5) & ~c.ellipse(60, 19, 4.2, 4.6)
+    c.draw(claw & ~c.rect(61, 10, 70, 16), "amber", "metal", bias=-1, name="cage")
+    c.draw(c.ellipse(60.5, 18.5, 4.0, 4.6), "flame", "glow", name="ember")
+    c.fixed(c.ellipse(59.5, 17.5, 1.4, 1.8), "glow_amber")
+    for x, y in ((66, 12), (68, 16), (63, 10)):
+        c.px(x, y, "flame", 4)
+    c.outline("ink")
+    c.despeckle()
+    return c
+
+
+def wisp_lantern() -> HDCanvas:
+    c = HDCanvas(*FRAME)
+    c.draw(c.capsule(20, 30, 44, 24, 2.0, 1.8), "night", "round", name="pole")
+    c.draw(c.capsule(20, 30, 28, 28, 2.6, 2.6), "bone", "round", bias=-1, name="grip")
+    c.line(44, 24, 50, 16, "steel", 2)
+    body = c.ellipse(56, 25, 7.5, 9.0)
+    c.draw(body, "steel", "metal", bias=-1, name="lantern")
+    glass = c.ellipse(56, 26, 5.0, 6.5)
+    c.draw(glass, "moss", "glow", bias=-1, name="glass")
+    c.fixed(c.ellipse(56, 27, 2.0, 3.0), "glow_teal")
+    for y in (20, 26, 32):
+        c.line(50, y, 62, y, "steel", 1)
+    c.draw(c.ellipse(56, 15.5, 4.0, 2.0), "steel", "plate", name="cap")
+    c.draw(c.ellipse(56, 35, 3.6, 1.8), "steel", "plate", bias=-1, name="base")
+    c.outline("ink")
+    c.despeckle()
+    return c
+
+
+def sunforge_mace() -> HDCanvas:
+    c = HDCanvas(*FRAME)
+    c.draw(c.capsule(18, 31, 52, 23, 2.4, 2.4), "leather", "round", name="haft")
+    for x0 in (20, 24, 28):
+        c.line(x0, 33, x0 + 1, 29, "leather", 0)
+    c.draw(c.ellipse(19, 31.5, 3.0, 3.0), "amber", "metal", name="pommel")
+    head = c.ellipse(60, 21, 8.5, 8.5)
+    for k in range(6):  # flanges
+        import math
+        a = k / 6 * math.tau
+        head |= c.capsule(60, 21, 60 + math.cos(a) * 11, 21 + math.sin(a) * 11, 3.0, 1.6)
+    c.draw(head, "amber", "metal", name="mace_head")
+    c.draw(c.ellipse(60, 21, 3.4, 3.4), "bone", "glow", name="sun_core")
+    c.fixed(c.ellipse(59.4, 20.4, 1.2, 1.2), "glow_amber")
+    c.outline("ink")
+    c.despeckle()
+    return c
+
+
 WEAPONS = {
     "rift_pistol": {"draw": rift_pistol, "muzzle": (68, 20), "version": 1},
+    "cinder_wand": {"draw": cinder_wand, "muzzle": (64, 18), "version": 1},
+    "wisp_lantern": {"draw": wisp_lantern, "muzzle": (62, 26), "version": 1},
+    "sunforge_mace": {"draw": sunforge_mace, "muzzle": (68, 21), "version": 1},
 }

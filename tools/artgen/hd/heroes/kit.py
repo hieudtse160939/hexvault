@@ -436,7 +436,7 @@ def _fit(look: Look, pr: Proportions, p: Pose, margin: int = 2):
     the pose inward and redraw. Only used for death frames, where the body is
     free to move away from the feet anchor."""
     img = draw(look, pr, p).image()
-    for _ in range(4):
+    for _ in range(12):
         bb = img.getbbox()
         if bb is None:
             return img

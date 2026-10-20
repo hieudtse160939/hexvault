@@ -10,7 +10,7 @@ extends Resource
 ## Stat keys a character may set; anything else in "stats" is a data error.
 const STAT_KEYS: PackedStringArray = [
 	"max_hp", "max_armor", "speed", "crit", "damage_mult", "fire_rate_mult", "reload_mult",
-	"cooldown_mult", "dash_cd_mult", "dodge", "pierce", "magnet", "coin_mult", "armor_regen_mult",
+	"cooldown_mult", "dash_cd_mult", "dodge", "pierce", "magnet", "coin_mult", "armor_regen_mult", "blast_mult", "move_speed_mult",
 ]
 
 @export var id: String = ""

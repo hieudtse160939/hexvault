@@ -78,7 +78,11 @@ func _run() -> void:
 		if m is Node and is_instance_valid(m):
 			(m as Node).queue_free()
 		await _frames(5)
-	Game.start_run("ranger", 777)
+	var hero: String = "ranger"
+	for a: String in OS.get_cmdline_user_args():
+		if a.begins_with("--tour-hero="):
+			hero = a.substr(12)
+	Game.start_run(hero, 777)
 	await _frames(40)
 	await _shot("03_dungeon_start")
 	Game.god_mode = true

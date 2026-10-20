@@ -210,6 +210,17 @@
    "version": 1,
    "w": 16
   },
+  "icon_skill_barrage": {
+   "density": 4,
+   "h": 64,
+   "palette": "hd",
+   "path": "res://assets/ui/icons/hd/skill_barrage.png",
+   "sha": "077e6b8bee64ceb6",
+   "source": "procedural: tools/artgen/hd/icons.py",
+   "type": "ui",
+   "version": 1,
+   "w": 64
+  },
   "icon_skill_bulwark": {
    "density": 1,
    "h": 16,
@@ -219,6 +230,28 @@
    "type": "ui",
    "version": 1,
    "w": 16
+  },
+  "icon_skill_flame_nova": {
+   "density": 4,
+   "h": 64,
+   "palette": "hd",
+   "path": "res://assets/ui/icons/hd/skill_flame_nova.png",
+   "sha": "83f83280ecec34a1",
+   "source": "procedural: tools/artgen/hd/icons.py",
+   "type": "ui",
+   "version": 1,
+   "w": 64
+  },
+  "icon_skill_glacial_field": {
+   "density": 4,
+   "h": 64,
+   "palette": "hd",
+   "path": "res://assets/ui/icons/hd/skill_glacial_field.png",
+   "sha": "3ad7fefc6a3bce88",
+   "source": "procedural: tools/artgen/hd/icons.py",
+   "type": "ui",
+   "version": 1,
+   "w": 64
   },
   "icon_skill_overclock": {
    "density": 1,
@@ -240,6 +273,39 @@
    "version": 1,
    "w": 16
   },
+  "icon_skill_raise_wisps": {
+   "density": 4,
+   "h": 64,
+   "palette": "hd",
+   "path": "res://assets/ui/icons/hd/skill_raise_wisps.png",
+   "sha": "eb8f7b69ac5f331e",
+   "source": "procedural: tools/artgen/hd/icons.py",
+   "type": "ui",
+   "version": 1,
+   "w": 64
+  },
+  "icon_skill_sanctuary": {
+   "density": 4,
+   "h": 64,
+   "palette": "hd",
+   "path": "res://assets/ui/icons/hd/skill_sanctuary.png",
+   "sha": "27ff8612a687ad31",
+   "source": "procedural: tools/artgen/hd/icons.py",
+   "type": "ui",
+   "version": 1,
+   "w": 64
+  },
+  "icon_skill_thunderhead": {
+   "density": 4,
+   "h": 64,
+   "palette": "hd",
+   "path": "res://assets/ui/icons/hd/skill_thunderhead.png",
+   "sha": "dece440b3d9429bb",
+   "source": "procedural: tools/artgen/hd/icons.py",
+   "type": "ui",
+   "version": 1,
+   "w": 64
+  },
   "icon_skill_turret": {
    "density": 1,
    "h": 16,
@@ -249,6 +315,28 @@
    "type": "ui",
    "version": 1,
    "w": 16
+  },
+  "icon_skill_veil": {
+   "density": 4,
+   "h": 64,
+   "palette": "hd",
+   "path": "res://assets/ui/icons/hd/skill_veil.png",
+   "sha": "a980cdb7ec402199",
+   "source": "procedural: tools/artgen/hd/icons.py",
+   "type": "ui",
+   "version": 1,
+   "w": 64
+  },
+  "icon_skill_whirlwind": {
+   "density": 4,
+   "h": 64,
+   "palette": "hd",
+   "path": "res://assets/ui/icons/hd/skill_whirlwind.png",
+   "sha": "9e2d12bb68044bbf",
+   "source": "procedural: tools/artgen/hd/icons.py",
+   "type": "ui",
+   "version": 1,
+   "w": 64
   },
   "icon_trophy": {
    "density": 1,
@@ -805,6 +893,218 @@
    "type": "fx",
    "version": 1
   },
+  "hero_artillerist": {
+   "anims": {
+    "dash": {
+     "fps": 16,
+     "frames": 4,
+     "loop": true,
+     "row": 2
+    },
+    "death": {
+     "fps": 9,
+     "frames": 8,
+     "loop": false,
+     "row": 5
+    },
+    "hurt": {
+     "fps": 12,
+     "frames": 3,
+     "loop": false,
+     "row": 4
+    },
+    "idle": {
+     "fps": 6,
+     "frames": 6,
+     "loop": true,
+     "row": 0
+    },
+    "run": {
+     "fps": 12,
+     "frames": 8,
+     "loop": true,
+     "row": 1
+    },
+    "skill": {
+     "fps": 12,
+     "frames": 6,
+     "loop": false,
+     "row": 3
+    }
+   },
+   "density": 4,
+   "frame_h": 128,
+   "frame_w": 128,
+   "palette": "hd",
+   "path": "res://assets/sprites/heroes/hd/artillerist.png",
+   "pivot": [
+    64,
+    112
+   ],
+   "sha": "d2f147fee1a7d43b",
+   "source": "procedural: tools/artgen/hd/heroes/artillerist.py",
+   "type": "heroes",
+   "version": 1
+  },
+  "hero_assassin": {
+   "anims": {
+    "dash": {
+     "fps": 16,
+     "frames": 4,
+     "loop": true,
+     "row": 2
+    },
+    "death": {
+     "fps": 9,
+     "frames": 8,
+     "loop": false,
+     "row": 5
+    },
+    "hurt": {
+     "fps": 12,
+     "frames": 3,
+     "loop": false,
+     "row": 4
+    },
+    "idle": {
+     "fps": 6,
+     "frames": 6,
+     "loop": true,
+     "row": 0
+    },
+    "run": {
+     "fps": 12,
+     "frames": 8,
+     "loop": true,
+     "row": 1
+    },
+    "skill": {
+     "fps": 12,
+     "frames": 6,
+     "loop": false,
+     "row": 3
+    }
+   },
+   "density": 4,
+   "frame_h": 128,
+   "frame_w": 128,
+   "palette": "hd",
+   "path": "res://assets/sprites/heroes/hd/assassin.png",
+   "pivot": [
+    64,
+    112
+   ],
+   "sha": "74abf5add87f05ab",
+   "source": "procedural: tools/artgen/hd/heroes/assassin.py",
+   "type": "heroes",
+   "version": 1
+  },
+  "hero_cryomancer": {
+   "anims": {
+    "dash": {
+     "fps": 16,
+     "frames": 4,
+     "loop": true,
+     "row": 2
+    },
+    "death": {
+     "fps": 9,
+     "frames": 8,
+     "loop": false,
+     "row": 5
+    },
+    "hurt": {
+     "fps": 12,
+     "frames": 3,
+     "loop": false,
+     "row": 4
+    },
+    "idle": {
+     "fps": 6,
+     "frames": 6,
+     "loop": true,
+     "row": 0
+    },
+    "run": {
+     "fps": 12,
+     "frames": 8,
+     "loop": true,
+     "row": 1
+    },
+    "skill": {
+     "fps": 12,
+     "frames": 6,
+     "loop": false,
+     "row": 3
+    }
+   },
+   "density": 4,
+   "frame_h": 128,
+   "frame_w": 128,
+   "palette": "hd",
+   "path": "res://assets/sprites/heroes/hd/cryomancer.png",
+   "pivot": [
+    64,
+    112
+   ],
+   "sha": "14b295997faeda83",
+   "source": "procedural: tools/artgen/hd/heroes/cryomancer.py",
+   "type": "heroes",
+   "version": 1
+  },
+  "hero_duelist": {
+   "anims": {
+    "dash": {
+     "fps": 16,
+     "frames": 4,
+     "loop": true,
+     "row": 2
+    },
+    "death": {
+     "fps": 9,
+     "frames": 8,
+     "loop": false,
+     "row": 5
+    },
+    "hurt": {
+     "fps": 12,
+     "frames": 3,
+     "loop": false,
+     "row": 4
+    },
+    "idle": {
+     "fps": 6,
+     "frames": 6,
+     "loop": true,
+     "row": 0
+    },
+    "run": {
+     "fps": 12,
+     "frames": 8,
+     "loop": true,
+     "row": 1
+    },
+    "skill": {
+     "fps": 12,
+     "frames": 6,
+     "loop": false,
+     "row": 3
+    }
+   },
+   "density": 4,
+   "frame_h": 128,
+   "frame_w": 128,
+   "palette": "hd",
+   "path": "res://assets/sprites/heroes/hd/duelist.png",
+   "pivot": [
+    64,
+    112
+   ],
+   "sha": "618f5c8608ef43bd",
+   "source": "procedural: tools/artgen/hd/heroes/duelist.py",
+   "type": "heroes",
+   "version": 1
+  },
   "hero_hexer": {
    "anims": {
     "dash": {
@@ -853,7 +1153,7 @@
     64,
     112
    ],
-   "sha": "9f39418b5ae69d3f",
+   "sha": "c29c80ffd080795a",
    "source": "procedural: tools/artgen/hd/heroes/hexer.py",
    "type": "heroes",
    "version": 1
@@ -904,6 +1204,165 @@
    "path": "res://assets/sprites/heroes/hexer_16.png",
    "sha": "b13253f31ff1a590",
    "source": "procedural: tools/artgen",
+   "type": "heroes",
+   "version": 1
+  },
+  "hero_necromancer": {
+   "anims": {
+    "dash": {
+     "fps": 16,
+     "frames": 4,
+     "loop": true,
+     "row": 2
+    },
+    "death": {
+     "fps": 9,
+     "frames": 8,
+     "loop": false,
+     "row": 5
+    },
+    "hurt": {
+     "fps": 12,
+     "frames": 3,
+     "loop": false,
+     "row": 4
+    },
+    "idle": {
+     "fps": 6,
+     "frames": 6,
+     "loop": true,
+     "row": 0
+    },
+    "run": {
+     "fps": 12,
+     "frames": 8,
+     "loop": true,
+     "row": 1
+    },
+    "skill": {
+     "fps": 12,
+     "frames": 6,
+     "loop": false,
+     "row": 3
+    }
+   },
+   "density": 4,
+   "frame_h": 128,
+   "frame_w": 128,
+   "palette": "hd",
+   "path": "res://assets/sprites/heroes/hd/necromancer.png",
+   "pivot": [
+    64,
+    112
+   ],
+   "sha": "9016329fa5768017",
+   "source": "procedural: tools/artgen/hd/heroes/necromancer.py",
+   "type": "heroes",
+   "version": 1
+  },
+  "hero_paladin": {
+   "anims": {
+    "dash": {
+     "fps": 16,
+     "frames": 4,
+     "loop": true,
+     "row": 2
+    },
+    "death": {
+     "fps": 9,
+     "frames": 8,
+     "loop": false,
+     "row": 5
+    },
+    "hurt": {
+     "fps": 12,
+     "frames": 3,
+     "loop": false,
+     "row": 4
+    },
+    "idle": {
+     "fps": 6,
+     "frames": 6,
+     "loop": true,
+     "row": 0
+    },
+    "run": {
+     "fps": 12,
+     "frames": 8,
+     "loop": true,
+     "row": 1
+    },
+    "skill": {
+     "fps": 12,
+     "frames": 6,
+     "loop": false,
+     "row": 3
+    }
+   },
+   "density": 4,
+   "frame_h": 128,
+   "frame_w": 128,
+   "palette": "hd",
+   "path": "res://assets/sprites/heroes/hd/paladin.png",
+   "pivot": [
+    64,
+    112
+   ],
+   "sha": "35ff2ed9f52d7c66",
+   "source": "procedural: tools/artgen/hd/heroes/paladin.py",
+   "type": "heroes",
+   "version": 1
+  },
+  "hero_pyromancer": {
+   "anims": {
+    "dash": {
+     "fps": 16,
+     "frames": 4,
+     "loop": true,
+     "row": 2
+    },
+    "death": {
+     "fps": 9,
+     "frames": 8,
+     "loop": false,
+     "row": 5
+    },
+    "hurt": {
+     "fps": 12,
+     "frames": 3,
+     "loop": false,
+     "row": 4
+    },
+    "idle": {
+     "fps": 6,
+     "frames": 6,
+     "loop": true,
+     "row": 0
+    },
+    "run": {
+     "fps": 12,
+     "frames": 8,
+     "loop": true,
+     "row": 1
+    },
+    "skill": {
+     "fps": 12,
+     "frames": 6,
+     "loop": false,
+     "row": 3
+    }
+   },
+   "density": 4,
+   "frame_h": 128,
+   "frame_w": 128,
+   "palette": "hd",
+   "path": "res://assets/sprites/heroes/hd/pyromancer.png",
+   "pivot": [
+    64,
+    112
+   ],
+   "sha": "7499273c73cba4cd",
+   "source": "procedural: tools/artgen/hd/heroes/pyromancer.py",
    "type": "heroes",
    "version": 1
   },
@@ -1006,6 +1465,59 @@
    "path": "res://assets/sprites/heroes/ranger_16.png",
    "sha": "3885606310b7f932",
    "source": "procedural: tools/artgen",
+   "type": "heroes",
+   "version": 1
+  },
+  "hero_stormcaller": {
+   "anims": {
+    "dash": {
+     "fps": 16,
+     "frames": 4,
+     "loop": true,
+     "row": 2
+    },
+    "death": {
+     "fps": 9,
+     "frames": 8,
+     "loop": false,
+     "row": 5
+    },
+    "hurt": {
+     "fps": 12,
+     "frames": 3,
+     "loop": false,
+     "row": 4
+    },
+    "idle": {
+     "fps": 6,
+     "frames": 6,
+     "loop": true,
+     "row": 0
+    },
+    "run": {
+     "fps": 12,
+     "frames": 8,
+     "loop": true,
+     "row": 1
+    },
+    "skill": {
+     "fps": 12,
+     "frames": 6,
+     "loop": false,
+     "row": 3
+    }
+   },
+   "density": 4,
+   "frame_h": 128,
+   "frame_w": 128,
+   "palette": "hd",
+   "path": "res://assets/sprites/heroes/hd/stormcaller.png",
+   "pivot": [
+    64,
+    112
+   ],
+   "sha": "c137f2a8af65feda",
+   "source": "procedural: tools/artgen/hd/heroes/stormcaller.py",
    "type": "heroes",
    "version": 1
   },
@@ -1818,6 +2330,33 @@
    "type": "weapons",
    "version": 1
   },
+  "weapon_cinder_wand": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 48,
+   "frame_w": 96,
+   "muzzle": [
+    64,
+    18
+   ],
+   "palette": "hd",
+   "path": "res://assets/sprites/weapons/hd/cinder_wand.png",
+   "pivot": [
+    24,
+    28
+   ],
+   "sha": "225ac154529efa4b",
+   "source": "procedural: tools/artgen/hd/weapons.py",
+   "type": "weapons",
+   "version": 1
+  },
   "weapon_ember_blade": {
    "anims": {
     "idle": {
@@ -2029,6 +2568,33 @@
    "type": "weapons",
    "version": 1
   },
+  "weapon_sunforge_mace": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 48,
+   "frame_w": 96,
+   "muzzle": [
+    68,
+    21
+   ],
+   "palette": "hd",
+   "path": "res://assets/sprites/weapons/hd/sunforge_mace.png",
+   "pivot": [
+    24,
+    28
+   ],
+   "sha": "ed253478d9562c52",
+   "source": "procedural: tools/artgen/hd/weapons.py",
+   "type": "weapons",
+   "version": 1
+  },
   "weapon_thornbow": {
    "anims": {
     "idle": {
@@ -2049,6 +2615,33 @@
    ],
    "sha": "6144cc9cb7cb0106",
    "source": "procedural: tools/artgen",
+   "type": "weapons",
+   "version": 1
+  },
+  "weapon_wisp_lantern": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 48,
+   "frame_w": 96,
+   "muzzle": [
+    62,
+    26
+   ],
+   "palette": "hd",
+   "path": "res://assets/sprites/weapons/hd/wisp_lantern.png",
+   "pivot": [
+    24,
+    28
+   ],
+   "sha": "1235e5427e6979ad",
+   "source": "procedural: tools/artgen/hd/weapons.py",
    "type": "weapons",
    "version": 1
   }

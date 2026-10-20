@@ -78,7 +78,7 @@ func _ready() -> void:
 	Events.save_status.connect(_on_save)
 	if player != null:
 		var c: CharacterData = player.character
-		_skill_icon.texture = SpriteLib.texture(c.skill_icon)
+		SpriteLib.fit_icon(_skill_icon, c.skill_icon)
 	_refresh_stats()
 	_refresh_weapon()
 

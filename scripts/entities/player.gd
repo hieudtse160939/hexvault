@@ -201,6 +201,9 @@ func recompute_stats(initial: bool = false) -> void:
 		"magnet": b.call("magnet") + cs.call("magnet"),
 		"coin_mult": b.call("coin_mult") + cs.call("coin_mult"),
 		"cooldown_mult": cs.call("cooldown_mult"),
+		"dash_cd_mult": cs.call("dash_cd_mult"),  # run boons for the dash are added in dash_cooldown()
+		"blast_mult": cs.call("blast_mult"),
+		"move_speed_mult": cs.call("move_speed_mult"),
 		"dodge": cs.call("dodge"),
 		"armor_regen_mult": b.call("armor_regen_mult"),
 		"free_ammo": 0.0,
@@ -315,7 +318,7 @@ func _physics_process(delta: float) -> void:
 		if _dash_left <= 0.0:
 			state = State.NORMAL
 	else:
-		var target_v: Vector2 = move * speed
+		var target_v: Vector2 = move * speed * maxf(1.0 + weapon_mod("move_speed_mult"), 0.2)
 		velocity = velocity.move_toward(target_v, speed * 12.0 * delta)
 	velocity += _knock
 	_knock = _knock.move_toward(Vector2.ZERO, 600.0 * delta)

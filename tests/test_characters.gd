@@ -168,3 +168,94 @@ func test_stonehide_blocks_first_hit_per_room() -> void:
 	p.health.invulnerable = false
 	await wait_seconds(0.9)
 	assert_false(p.receive_hit(HitInfo.make(1, Vector2.ZERO, false, Vector2.ZERO)), "recharged in a new room")
+
+
+func _target(lvl: Level, tile: Vector2i, id: String = "golem") -> Enemy:
+	var e: Enemy = Enemy.create(Db.enemy(id), false, 1, 0, 11)
+	e.position = Level.to_world(tile)
+	e.aggro = true
+	lvl.add_entity(e)
+	return e
+
+
+func test_veil_hides_player_and_ambush_triples_damage() -> void:
+	var lvl: Level = _arena()
+	var p: Player = _spawn(lvl, "assassin", Vector2i(5, 6))
+	var e: Enemy = _target(lvl, Vector2i(14, 6))
+	await wait_physics_frames(3)
+	assert_true(e.call("_player") != null, "enemy sees the player before the veil")
+	assert_true(p.try_skill())
+	assert_true(p.is_hidden(), "veiled")
+	assert_null(e.call("_player"), "enemy lost the target")
+	var info: HitInfo = HitInfo.make(4, Vector2.ZERO, true, p.global_position)
+	p.modify_outgoing_hit(info, e)
+	assert_true(info.damage >= 12, "ambush x3 (got %d)" % info.damage)
+	assert_false(p.is_hidden(), "the ambush breaks the veil")
+
+
+func test_whirlwind_hurts_adjacent_enemy() -> void:
+	var lvl: Level = _arena()
+	var p: Player = _spawn(lvl, "duelist", Vector2i(6, 6))
+	var e: Enemy = _target(lvl, Vector2i(7, 6))
+	await wait_physics_frames(3)
+	var hp0: int = e.health.hp
+	assert_true(p.try_skill())
+	assert_gt(p.weapon_mod("move_speed_mult"), 0.0, "faster while spinning")
+	await wait_physics_frames(40)
+	assert_lt(e.health.hp, hp0, "whirlwind damaged the golem")
+
+
+func test_flame_nova_launches_burning_ring() -> void:
+	var lvl: Level = _arena()
+	var p: Player = _spawn(lvl, "pyromancer", Vector2i(10, 6))
+	await wait_physics_frames(2)
+	var before: int = lvl.pool.active_count()
+	assert_true(p.try_skill())
+	assert_eq(lvl.pool.active_count() - before, 16, "16 orbs")
+
+
+func test_glacial_field_freezes_nearby_only() -> void:
+	var lvl: Level = _arena()
+	var p: Player = _spawn(lvl, "cryomancer", Vector2i(5, 6))
+	var near: Enemy = _target(lvl, Vector2i(8, 6))
+	var far: Enemy = _target(lvl, Vector2i(22, 12))
+	await wait_physics_frames(3)
+	assert_true(p.try_skill())
+	assert_true(near.status.has("frost"), "near enemy frozen")
+	assert_false(far.status.has("frost"), "far enemy untouched")
+
+
+func test_big_bang_enlarges_explosions() -> void:
+	var lvl: Level = _arena()
+	var p: Player = _spawn(lvl, "artillerist", Vector2i(5, 6))
+	await wait_physics_frames(2)
+	assert_almost_eq(p.weapon_mod("blast_mult"), 0.35, 0.001)
+
+
+func test_riposte_crits_after_dash() -> void:
+	var lvl: Level = _arena()
+	var p: Player = _spawn(lvl, "duelist", Vector2i(5, 6))
+	var e: Enemy = _target(lvl, Vector2i(14, 6))
+	await wait_physics_frames(2)
+	var plain: HitInfo = HitInfo.make(4, Vector2.ZERO, true, p.global_position)
+	p.modify_outgoing_hit(plain, e)
+	assert_false(plain.crit, "no crit without a dash")
+	p.passive.on_dash()
+	var after: HitInfo = HitInfo.make(4, Vector2.ZERO, true, p.global_position)
+	p.modify_outgoing_hit(after, e)
+	assert_true(after.crit)
+	assert_eq(after.damage, 7)
+
+
+func test_first_strike_only_on_full_health() -> void:
+	var lvl: Level = _arena()
+	var p: Player = _spawn(lvl, "assassin", Vector2i(5, 6))
+	var e: Enemy = _target(lvl, Vector2i(14, 6))
+	await wait_physics_frames(2)
+	var a: HitInfo = HitInfo.make(3, Vector2.ZERO, true, p.global_position)
+	p.modify_outgoing_hit(a, e)
+	assert_eq(a.damage, 6)
+	e.health.hp -= 1
+	var b: HitInfo = HitInfo.make(3, Vector2.ZERO, true, p.global_position)
+	p.modify_outgoing_hit(b, e)
+	assert_eq(b.damage, 3)
