@@ -168,6 +168,9 @@ func _show_detail() -> void:
 	else:
 		_btn_main.text = "Equip"
 		_btn_main.disabled = not Inventory.can_equip(d, hero, _sel_uid)
+		if not Inventory.style_allowed(hero, inst):
+			_detail_lines.add_child(ItemUi.small_label("%s cannot use %s weapons (class: %s)." % [Db.character(hero).display_name,
+				Inventory.weapon_style_of(inst), ", ".join(Db.allowed_styles(hero))], UiTheme.RED, 136))
 		var cur: Dictionary = Inventory.equipped_in(d, hero, str(inst.get("slot", "")))
 		_detail_lines.add_child(ItemUi.small_label("If equipped%s:" % ((" (replaces %s)" % cur.get("name", "")) if not cur.is_empty() else ""), UiTheme.DIM, 136))
 		var diffs: Array = ItemUi.diff_lines(HeroStats.for_hero(d, hero), HeroStats.preview_equip(d, hero, _sel_uid))

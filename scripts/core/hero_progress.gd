@@ -90,6 +90,11 @@ static func tree_node(hero: String, id: String) -> Dictionary:
 	return {}
 
 
+static func node_active(n: Dictionary, weapon_style: String) -> bool:
+	var req: Variant = n.get("requires_weapon", [])
+	return not (req is Array and not (req as Array).is_empty()) or weapon_style in (req as Array)
+
+
 static func rank(rec: Dictionary, id: String) -> int:
 	return int((rec.get("tree", {}) as Dictionary).get(id, 0))
 
@@ -128,11 +133,14 @@ static func reset_tree(rec: Dictionary) -> int:
 	return spent
 
 
-## Summed stat bonuses of every rank bought.
-static func tree_bonus(hero: String, rec: Dictionary) -> Dictionary:
+## Summed stat bonuses of every rank bought. Nodes with "requires_weapon"
+## only count when `weapon_style` is one of their styles.
+static func tree_bonus(hero: String, rec: Dictionary, weapon_style: String = "") -> Dictionary:
 	var out: Dictionary = {}
 	for n: Variant in tree_nodes(hero):
 		if not n is Dictionary:
+			continue
+		if not node_active(n, weapon_style):
 			continue
 		var r: int = rank(rec, str((n as Dictionary).get("id", "")))
 		if r <= 0:

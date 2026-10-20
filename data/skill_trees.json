@@ -1,6 +1,6 @@
 {
  "version": 1,
- "_doc": "Per-hero skill trees. Each node has ranks; one skill point per rank. A node needs the previous node of its branch at the listed rank. Stats feed HeroStats.",
+ "_doc": "Per-hero skill trees. Each node has ranks; one skill point per rank. A node needs the previous node of its branch at the listed rank. Stats feed HeroStats. Optional 'requires_weapon': weapon styles; the node only counts while such a weapon is equipped.",
  "trees": {
   "duelist": {
    "nodes": [
@@ -111,6 +111,20 @@
      "requires": {
       "duelist_21": 2
      }
+    },
+    {
+     "id": "duelist_w0",
+     "branch": "Weapon Mastery",
+     "name": "Blade Rhythm",
+     "max_rank": 3,
+     "per_rank": {
+      "attack_speed": 0.05
+     },
+     "requires_weapon": [
+      "sword",
+      "dagger"
+     ],
+     "description": "+5% Attack Speed per rank with a sword or dagger"
     }
    ]
   },
@@ -223,6 +237,20 @@
      "requires": {
       "assassin_21": 2
      }
+    },
+    {
+     "id": "assassin_w0",
+     "branch": "Weapon Mastery",
+     "name": "Hunter's Draw",
+     "max_rank": 3,
+     "per_rank": {
+      "crit_chance": 0.03
+     },
+     "requires_weapon": [
+      "bow",
+      "dagger"
+     ],
+     "description": "+3% Crit Chance per rank with a bow or dagger"
     }
    ]
   },
@@ -335,6 +363,20 @@
      "requires": {
       "warden_21": 2
      }
+    },
+    {
+     "id": "warden_w0",
+     "branch": "Weapon Mastery",
+     "name": "Heavy Hands",
+     "max_rank": 3,
+     "per_rank": {
+      "attack": 1.5
+     },
+     "requires_weapon": [
+      "heavy",
+      "spear"
+     ],
+     "description": "+1.5 Attack per rank with a heavy weapon or spear"
     }
    ]
   },
@@ -447,6 +489,20 @@
      "requires": {
       "pyromancer_21": 2
      }
+    },
+    {
+     "id": "pyromancer_w0",
+     "branch": "Weapon Mastery",
+     "name": "Staff Focus",
+     "max_rank": 3,
+     "per_rank": {
+      "skill_power": 0.08
+     },
+     "requires_weapon": [
+      "staff",
+      "wand"
+     ],
+     "description": "+8% Skill Damage per rank with a staff or wand"
     }
    ]
   },
@@ -559,6 +615,20 @@
      "requires": {
       "necromancer_21": 2
      }
+    },
+    {
+     "id": "necromancer_w0",
+     "branch": "Weapon Mastery",
+     "name": "Lantern Bond",
+     "max_rank": 3,
+     "per_rank": {
+      "skill_haste": 0.04
+     },
+     "requires_weapon": [
+      "orb",
+      "staff"
+     ],
+     "description": "+4% Skill Haste per rank with an orb or staff"
     }
    ]
   }

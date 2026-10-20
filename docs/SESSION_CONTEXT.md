@@ -117,3 +117,17 @@ weapon rules (data/classes.json "weapons", Inventory.style_allowed). 86/86 tests
 NEXT: tests for styles; weapon-conditional talents (node "requires_weapon"); scalable skill-tree
 UI; anim coverage report docs/qa/animation_coverage.md; visual QA screenshots per style; then the
 world-region architecture.
+Progress (checkpoint 2): DONE weapon-conditional talents (`requires_weapon` in
+data/skill_trees.json, one "Weapon Mastery" node per hero; HeroStats.for_hero(d, hero, style);
+recompute on swap/load), scrollable skill-tree UI, equip refusal message for class rules,
+tests/test_weapon_styles.gd (9), tools/anim_coverage.py -> docs/qa/animation_coverage.md,
+visual QA `--style-tour=<dir>` (scripts/debug/style_tour.gd, slow-motion captures per phase;
+contact sheets docs/qa/weapon_styles_1.png / _2.png - verified by eye: staff raise+charge+tip
+release+ring, wand flick, lantern raise, bow draw/release frames, sword arc, dagger stab, spear
+thrust, mace overhead slam, gun recoil+muzzle). check.py: 95/95 tests, ALL CHECKS PASSED.
+NOT DONE (next session): open-world region architecture (World > regions > towns/landmarks >
+quests/dungeons), first playable region reached on foot from the Guild door (outdoor HD tiles:
+grass/path/trees/water/cliffs/buildings; roaming enemies; landmarks; a cave entrance into the
+existing dungeon generator; region boss; world-state save), hundreds-of-nodes skill tree content
+(UI already scrolls), crafting/upgrades, endgame; dedicated hero cast/attack sheets (art needed).
+Tip: start a NEW session with this file - a fresh context is much cheaper per step.

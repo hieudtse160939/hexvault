@@ -83,12 +83,25 @@ static func compute(c: CharacterData, level: int, items: Array, tree: Dictionary
 
 
 ## Final stats of a hero in a profile (level, equipment, skill tree).
-static func for_hero(d: Dictionary, hero: String) -> Dictionary:
+## `weapon_style`: style of the weapon in hand ("" = the equipped weapon item,
+## else the hero's own start weapon); it decides weapon-specific talents.
+static func for_hero(d: Dictionary, hero: String, weapon_style: String = "") -> Dictionary:
 	var c: CharacterData = Db.character(hero)
 	if c == null:
 		return {}
 	var rec: Dictionary = HeroProgress.record(d, hero)
-	return compute(c, int(rec["level"]), Inventory.equipped_items(d, hero), HeroProgress.tree_bonus(hero, rec))
+	if weapon_style == "":
+		weapon_style = equipped_style(d, hero)
+	return compute(c, int(rec["level"]), Inventory.equipped_items(d, hero), HeroProgress.tree_bonus(hero, rec, weapon_style))
+
+
+static func equipped_style(d: Dictionary, hero: String) -> String:
+	var st: String = Inventory.weapon_style_of(Inventory.equipped_in(d, hero, "weapon"))
+	if st == "":
+		var c: CharacterData = Db.character(hero)
+		var w: WeaponData = Db.weapon(c.start_weapon) if c != null else null
+		st = w.style if w != null else ""
+	return st
 
 
 ## Stats if `uid` were equipped instead of what is in its slot now (comparison UI).
@@ -104,7 +117,8 @@ static func preview_equip(d: Dictionary, hero: String, uid: String) -> Dictionar
 			items.append(it)
 	items.append(inst)
 	var rec: Dictionary = HeroProgress.record(d, hero)
-	return compute(c, int(rec["level"]), items, HeroProgress.tree_bonus(hero, rec))
+	var st: String = Inventory.weapon_style_of(inst) if str(inst.get("slot", "")) == "weapon" else equipped_style(d, hero)
+	return compute(c, int(rec["level"]), items, HeroProgress.tree_bonus(hero, rec, st))
 
 
 ## Rounded display value.

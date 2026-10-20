@@ -43,6 +43,10 @@ func _ready() -> void:
 	if "--smoke-quit" in args:
 		get_tree().create_timer(3.0).timeout.connect(Game.quit_game)
 	for a: String in args:
+		if a.begins_with("--style-tour=") and OS.is_debug_build():
+			var st: Node = (load("res://scripts/debug/style_tour.gd") as GDScript).new()
+			st.set("out_dir", a.substr(13))
+			add_child(st)
 		if a.begins_with("--tour=") and OS.is_debug_build():
 			var tour: Node = (load("res://scripts/debug/screenshot_tour.gd") as GDScript).new()
 			tour.set("out_dir", a.substr(7))

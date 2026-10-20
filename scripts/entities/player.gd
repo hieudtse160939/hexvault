@@ -118,6 +118,8 @@ func load_run_weapons(run: RunState) -> void:
 			_add_weapon_node(d, int(run.weapon_ammo.get(id, -1)))
 	current = 0
 	_refresh_weapon_visibility()
+	if health != null and is_inside_tree():
+		recompute_stats()
 
 
 func _add_weapon_node(d: WeaponData, ammo_left: int = -1) -> Weapon:
@@ -155,6 +157,7 @@ func swap_weapon() -> void:
 	current = (current + 1) % weapons.size()
 	Sfx.play("ui_move")
 	_refresh_weapon_visibility()
+	recompute_stats()   # weapon-specific talents follow the weapon in hand
 
 
 ## Picks up a weapon; returns the id of the weapon dropped (or "").
@@ -207,7 +210,8 @@ func recompute_stats(initial: bool = false, gain_hp: bool = false) -> void:
 	var run: RunState = Game.run
 	var b: Callable = func(key: String) -> float: return run.boon_total(key) if run != null else 0.0
 	var cs: Callable = func(key: String) -> float: return character.stat(key)
-	stats = HeroStats.for_hero(Profile.data, character.id)
+	var held: Weapon = current_weapon()
+	stats = HeroStats.for_hero(Profile.data, character.id, held.data.style if held != null else "")
 	var base: Dictionary = HeroStats.base(character, Profile.hero_level(character.id))
 	var gear: Callable = func(key: String) -> float: return float(stats[key]) - float(base[key])
 	defense = float(stats["defense"])

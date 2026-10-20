@@ -26,9 +26,13 @@ func _ready() -> void:
 	var body: HBoxContainer = HBoxContainer.new()
 	body.add_theme_constant_override("separation", 8)
 	box.add_child(body)
+	# branches side by side, scrolling both ways so trees can grow to hundreds of nodes
+	var scroll: ScrollContainer = ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(270, 150)
+	body.add_child(scroll)
 	_cols = HBoxContainer.new()
 	_cols.add_theme_constant_override("separation", 4)
-	body.add_child(_cols)
+	scroll.add_child(_cols)
 	var right: VBoxContainer = VBoxContainer.new()
 	right.custom_minimum_size = Vector2(150, 0)
 	body.add_child(right)
@@ -91,6 +95,8 @@ func refresh() -> void:
 				b.add_theme_color_override("font_color", UiTheme.ACCENT)
 			elif block != "" and block != "No skill points":
 				b.add_theme_color_override("font_color", UiTheme.DIM)
+			if not HeroProgress.node_active(nd, HeroStats.equipped_style(Profile.data, hero)):
+				b.modulate = Color(1, 1, 1, 0.55)   # weapon talent inactive with the current weapon
 			if id == _sel:
 				b.add_theme_stylebox_override("normal", UiTheme.box(UiTheme.DUSK, UiTheme.TEXT))
 			col.add_child(b)
@@ -101,8 +107,13 @@ func refresh() -> void:
 		_learn.visible = false
 	else:
 		var why: String = HeroProgress.learn_block(hero, rec, _sel)
-		_detail.text = "%s  (rank %d/%d)\n%s%s" % [node.get("name", ""), HeroProgress.rank(rec, _sel), int(node.get("max_rank", 1)),
-			node.get("description", ""), ("\n" + why) if why != "" else ""]
+		var req: Array = node.get("requires_weapon", [])
+		var req_text: String = ""
+		if not req.is_empty():
+			req_text = "\nActive with: %s%s" % [", ".join(PackedStringArray(req)),
+				"" if HeroProgress.node_active(node, HeroStats.equipped_style(Profile.data, hero)) else "  (inactive now)"]
+		_detail.text = "%s  (rank %d/%d)\n%s%s%s" % [node.get("name", ""), HeroProgress.rank(rec, _sel), int(node.get("max_rank", 1)),
+			node.get("description", ""), req_text, ("\n" + why) if why != "" else ""]
 		_learn.visible = true
 		_learn.disabled = why != ""
 	for ch2: Node in _skills.get_children():
