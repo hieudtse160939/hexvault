@@ -6,7 +6,8 @@ description: Project workflow for the Hexvault Godot 4.7 roguelite in this repo 
 # Hexvault development workflow
 
 Engine: Godot 4.7.2 (portable, `.tools/`, self-contained via `.tools/_sc_`).
-Console binary for automation: `.tools/Godot_v4.7.2-stable_win64_console.exe`.
+Binary: `$GODOT_BIN`, else `tools/godot_bin.py` picks `.tools/Godot_v4.7.2-stable_win64_console.exe` (Windows)
+or `.tools/Godot_v4.7.2-stable_linux.x86_64` (Linux; on a headless box run visual tools under `xvfb-run -a`).
 
 ## Always finish with
 ```bash
@@ -14,7 +15,7 @@ python tools/check.py            # assets + import + all tests; must print ALL C
 ```
 For visual changes also run the tour and LOOK at the PNGs:
 ```bash
-.tools/Godot_v4.7.2-stable_win64_console.exe --path . --resolution 960x540 -- --tour=<abs dir>
+$GODOT_BIN --path . --resolution 1920x1080 -- --tour=<abs dir>
 ```
 (`tour_report.json` holds frame timings incl. a 40-enemy/300-projectile stress test.)
 

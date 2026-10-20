@@ -5,7 +5,7 @@ Usage:
   python tools/check.py --tests-only  # skip asset validation/import
   python tools/check.py --select dungeon
 
-Needs GODOT_BIN (defaults to .tools/Godot_v4.7.2-stable_win64_console.exe).
+Needs GODOT_BIN (defaults to the portable Godot in .tools/ for this OS, see tools/godot_bin.py).
 Exit code 0 only if every step passed.
 """
 from __future__ import annotations
@@ -17,7 +17,10 @@ import subprocess
 import sys
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-DEFAULT_GODOT = os.path.join(ROOT, ".tools", "Godot_v4.7.2-stable_win64_console.exe")
+sys.path.insert(0, os.path.dirname(__file__))
+from godot_bin import godot_bin  # noqa: E402
+
+DEFAULT_GODOT = godot_bin()
 SKILL = os.path.join(ROOT, ".claude", "skills", "godot", "scripts")
 
 

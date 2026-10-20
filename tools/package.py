@@ -6,7 +6,7 @@ Usage:
   python tools/package.py ios          # export Xcode project (macOS only)
   python tools/package.py all
 
-Uses GODOT_BIN or .tools/Godot_v4.7.2-stable_win64_console.exe.
+Uses GODOT_BIN or the portable Godot in .tools/ (see tools/godot_bin.py).
 Writes into build/ (gitignored). Prints sizes and SHA-256 of every artifact.
 """
 from __future__ import annotations
@@ -19,7 +19,10 @@ import sys
 import zipfile
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-GODOT = os.environ.get("GODOT_BIN", os.path.join(ROOT, ".tools", "Godot_v4.7.2-stable_win64_console.exe"))
+sys.path.insert(0, os.path.dirname(__file__))
+from godot_bin import godot_bin  # noqa: E402
+
+GODOT = godot_bin()
 VERSION = "0.9.0"
 
 PLAYER_README = """HEXVAULT {v} - Windows x64

@@ -1,0 +1,1 @@
+Source: https://github.com/Gamezxz/pixel-art-studio @ f8c2466 (MIT). Copied: SKILL.md, LICENSE, README.md, scripts/, references/. Examples and showcase art omitted.
