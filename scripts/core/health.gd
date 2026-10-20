@@ -82,8 +82,13 @@ func restore_armor(amount: int) -> void:
 	changed.emit(hp, max_hp, armor, max_armor)
 
 
-func set_max(p_max_hp: int, p_max_armor: int) -> void:
+## `gain`: a higher maximum also raises current HP by the difference
+## (equipment); a lower maximum always just clamps.
+func set_max(p_max_hp: int, p_max_armor: int, gain: bool = false) -> void:
+	var old_max: int = max_hp
 	max_hp = maxi(p_max_hp, 1)
+	if gain and max_hp > old_max and not dead:
+		hp += max_hp - old_max
 	max_armor = maxi(p_max_armor, 0)
 	hp = mini(hp, max_hp)
 	armor = mini(armor, max_armor)

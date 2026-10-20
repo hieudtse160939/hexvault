@@ -312,6 +312,7 @@ func _on_boss_defeated() -> void:
 	Pickup.spawn(Pickup.Kind.SHARD, c + Vector2(-10, 0), int(b.get("shards", 50)) / 2)
 	Pickup.spawn(Pickup.Kind.SHARD, c + Vector2(10, 0), int(b.get("shards", 50)) / 2)
 	_level.add_entity(Chest.create(Chest.Kind.LOOT, c + Vector2(-30, 20), _rng.randi()))
+	ItemPickup.drop_table("boss", c + Vector2(20, 10), _rng)
 	get_tree().create_timer(2.0, false).timeout.connect(func() -> void:
 		_level.add_entity(Portal.create(Portal.Mode.VICTORY, c + Vector2(0, 30)))
 		Sfx.play("victory"))

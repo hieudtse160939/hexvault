@@ -19,6 +19,20 @@ var achievement_order: PackedStringArray = []
 var quests: Dictionary = {}       # id -> Dictionary
 var quest_order: PackedStringArray = []
 var room_templates: Array[Dictionary] = []
+# --- Adventurers' Guild / RPG data (data/items.json, data/guild.json, data/skill_trees.json)
+var items_cfg: Dictionary = {}    # raw items.json (stats, slots, loot tables, shop)
+var item_templates: Dictionary = {} # id -> template Dictionary
+var item_template_order: PackedStringArray = []
+var affixes: Dictionary = {}      # id -> affix Dictionary
+var rarities: Array[Dictionary] = []
+var rarity_index: Dictionary = {} # id -> tier index (0 = common)
+var books: Dictionary = {}        # id -> book Dictionary
+var book_order: PackedStringArray = []
+var guild: Dictionary = {}        # raw guild.json
+var missions: Dictionary = {}     # id -> mission Dictionary
+var mission_order: PackedStringArray = []
+var roster: PackedStringArray = [] # playable hero ids, in display order
+var skill_trees: Dictionary = {}  # hero id -> Array of node Dictionaries
 var load_errors: PackedStringArray = []
 
 
@@ -88,7 +102,90 @@ func reload() -> void:
 	for t: Variant in read_json("res://data/rooms.json").get("templates", []):
 		if t is Dictionary:
 			room_templates.append(t)
+	_load_rpg()
 	_cross_validate()
+
+
+func _load_rpg() -> void:
+	items_cfg = read_json("res://data/items.json")
+	_index(items_cfg.get("templates", []), item_templates, item_template_order)
+	var tmp_order: PackedStringArray = []
+	_index(items_cfg.get("affixes", []), affixes, tmp_order)
+	_index(items_cfg.get("books", []), books, book_order)
+	rarities.clear(); rarity_index.clear()
+	for r: Variant in items_cfg.get("rarities", []):
+		if r is Dictionary:
+			rarity_index[str(r.get("id", ""))] = rarities.size()
+			rarities.append(r)
+	guild = read_json("res://data/guild.json")
+	_index(guild.get("missions", []), missions, mission_order)
+	roster.clear()
+	for id: Variant in guild.get("roster", []):
+		roster.append(str(id))
+	skill_trees.clear()
+	var st: Dictionary = read_json("res://data/skill_trees.json").get("trees", {})
+	for hid: String in st:
+		skill_trees[hid] = (st[hid] as Dictionary).get("nodes", [])
+
+
+## Problems in the RPG data (unknown stats, slots, weapons, skills, missions).
+func rpg_problems() -> PackedStringArray:
+	var out: PackedStringArray = []
+	var stats: Dictionary = items_cfg.get("stats", {})
+	var slots: Array = items_cfg.get("slots", [])
+	for id: String in item_template_order:
+		var t: Dictionary = item_templates[id]
+		if not str(t.get("slot", "")) in slots:
+			out.append("item %s: unknown slot %s" % [id, t.get("slot", "")])
+		if t.has("weapon") and not weapons.has(str(t["weapon"])):
+			out.append("item %s: unknown weapon %s" % [id, t["weapon"]])
+		for k: String in (t.get("base", {}) as Dictionary):
+			if not stats.has(k):
+				out.append("item %s: unknown stat %s" % [id, k])
+		for r: Variant in t.get("rarity", []):
+			if not rarity_index.has(str(r)):
+				out.append("item %s: unknown rarity %s" % [id, r])
+	for aid: String in affixes:
+		var a: Dictionary = affixes[aid]
+		if not stats.has(str(a.get("stat", ""))):
+			out.append("affix %s: unknown stat" % aid)
+		for sl: Variant in a.get("slots", []):
+			if not sl in slots:
+				out.append("affix %s: unknown slot %s" % [aid, sl])
+	for bid: String in book_order:
+		var b: Dictionary = books[bid]
+		if str(b.get("kind", "")) == "skill" and skill_def_for(str(b.get("skill", ""))).is_empty():
+			out.append("book %s: no hero defines skill %s" % [bid, b.get("skill", "")])
+	for hid: String in roster:
+		if not characters.has(hid):
+			out.append("roster: unknown hero %s" % hid)
+		elif not skill_trees.has(hid):
+			out.append("roster: hero %s has no skill tree" % hid)
+	for mid: String in mission_order:
+		var m: Dictionary = missions[mid]
+		if int(m.get("floors", 0)) < 1:
+			out.append("mission %s: needs at least one floor" % mid)
+		var req: String = str((m.get("unlock", {}) as Dictionary).get("mission", ""))
+		if req != "" and not missions.has(req):
+			out.append("mission %s: unlock references unknown mission %s" % [mid, req])
+	return out
+
+
+## The full skill block (cooldown, duration, params...) of the hero who owns skill `id`.
+func skill_def_for(id: String) -> Dictionary:
+	for cid: String in character_order:
+		var c: CharacterData = characters[cid]
+		if c.skill == id:
+			return c.skill_def
+	return {}
+
+
+func mission(id: String) -> Dictionary:
+	return missions.get(id, {})
+
+
+func is_playable(id: String) -> bool:
+	return id in roster
 
 
 func _index(src: Variant, into: Dictionary, order: PackedStringArray) -> void:
@@ -125,6 +222,7 @@ func _cross_validate() -> void:
 			if str(r).length() != w0:
 				load_errors.append("room %s: ragged rows" % t.get("id", "?"))
 				break
+	load_errors.append_array(rpg_problems())
 	if not load_errors.is_empty():
 		for e: String in load_errors:
 			push_warning("Db: " + e)

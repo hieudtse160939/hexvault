@@ -26,6 +26,7 @@ import hd_registry  # noqa: E402
 import weapons as hd_weapons  # noqa: E402
 import tiles as hd_tiles  # noqa: E402
 import icons as hd_icons  # noqa: E402
+import guild as hd_guild  # noqa: E402
 from canvas import sheet as hd_sheet  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -150,6 +151,21 @@ def main() -> None:
         _hd_import_settings(f"ui/icons/hd/{iid}.png")
         manifest["images"][f"icon_{iid}"].update({"density": hd_registry.DENSITY, "palette": "hd",
                                                   "source": "procedural: tools/artgen/hd/icons.py"})
+    # Adventurers' Guild: furniture, training dummy, equipment icons
+    gsrc = {"density": hd_registry.DENSITY, "version": 1, "source": "procedural: tools/artgen/hd/guild.py"}
+    for gid, (fn, pv) in hd_guild.PROPS.items():
+        art = fn().image()
+        framed = Image.new("RGBA", (art.width + 4, art.height + 4), (0, 0, 0, 0))  # 2 px QA margin
+        framed.paste(art, (2, 2))
+        add_sheet(f"guild_{gid}", f"sprites/props/hd/guild_{gid}.png", {"idle": [framed]}, 1, True,
+                  (pv[0] + 2, pv[1] + 2), hd=gsrc)
+    add_sheet("guild_dummy", "sprites/props/hd/guild_dummy.png", hd_guild.dummy_anims(), {"idle": 1, "hit": 14},
+              {"idle": True, "hit": False}, hd_guild.DUMMY_PIVOT, hd=gsrc)
+    for iid, fn in hd_guild.ICONS.items():
+        add_image(f"icon_{iid}", f"ui/icons/hd/{iid}.png", fn().image())
+        _hd_import_settings(f"ui/icons/hd/{iid}.png")
+        manifest["images"][f"icon_{iid}"].update({"density": hd_registry.DENSITY, "palette": "hd",
+                                                  "source": "procedural: tools/artgen/hd/guild.py"})
     # externally made art normalised by import_external.py (art_src/external.json)
     ext_index = os.path.join(ROOT, "art_src", "external.json")
     if os.path.exists(ext_index):

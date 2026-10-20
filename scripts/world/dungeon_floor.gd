@@ -14,6 +14,8 @@ var minimap: Minimap
 var touch: TouchControls
 var _modal: Control = null
 var _hit_stop_left: float = 0.0
+var _objective_t: float = 0.0
+var _objective: String = ""
 
 
 func setup(args: Dictionary) -> void:
@@ -25,11 +27,11 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	var run: RunState = Game.run
 	if run == null:
-		Game.start_run("ranger")
+		Game.start_run(Profile.selected_hero())
 		return
 	run.floor_index = floor_index
 	Profile.set_stat_max("max_floor", floor_index)
-	var cfg: Dictionary = DungeonGenerator.floor_config(floor_index, RunState.TOTAL_FLOORS)
+	var cfg: Dictionary = DungeonGenerator.floor_config(floor_index, run.total_floors)
 	var layout: DungeonLayout = DungeonGenerator.generate(run.seed_value, floor_index, cfg, Db.room_templates)
 	if layout.used_fallback:
 		push_warning("Dungeon: fallback layout used for seed %d floor %d" % [run.seed_value, floor_index])
@@ -83,10 +85,36 @@ func _build_ui() -> void:
 
 
 func _process(delta: float) -> void:
+	_objective_t -= delta
+	if _objective_t <= 0.0:
+		_objective_t = 0.25
+		var o: String = objective_text()
+		if o != _objective:
+			_objective = o
+			Events.objective_changed.emit(o)
 	if _hit_stop_left > 0.0:
 		_hit_stop_left -= delta / maxf(Engine.time_scale, 0.01)
 		if _hit_stop_left <= 0.0:
 			Engine.time_scale = 1.0
+
+
+## The player's current goal on this floor (shown in the HUD).
+func objective_text() -> String:
+	if level == null or Game.run == null:
+		return ""
+	var run: RunState = Game.run
+	var r: Room = level.active_room
+	if r != null and r.active:
+		if r.room_type == "boss":
+			return "Defeat the boss!"
+		return "Defeat the enemies (%d left)" % maxi(r._alive + r._pending, 1)
+	for n: Node in level.entities.get_children():
+		if n is Portal and (n as Portal).mode == Portal.Mode.VICTORY and not (n as Portal).used:
+			return "Boss defeated! Take the portal home"
+	var head: String = ("%s  F%d/%d" % [str(Db.mission(run.mission_id).get("name", "Expedition")), run.floor_index, run.total_floors])
+	if run.floor_index >= run.total_floors:
+		return head + "\nFind and defeat the boss"
+	return head + "\nFind the portal to descend"
 
 
 func _on_hit_stop(duration: float) -> void:
@@ -101,6 +129,9 @@ func _exit_tree() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause") and _modal == null:
 		request_pause()
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("inventory") and _modal == null and player != null and player.is_alive():
+		_show_modal(InventoryPanel.new())
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("toggle_map"):
 		minimap.toggle_expanded()
@@ -120,6 +151,8 @@ func _show_modal(c: Control) -> void:
 	get_tree().paused = true
 	ui_root.add_child(c)
 	c.tree_exited.connect(func() -> void:
+		if is_instance_valid(player):
+			player.fire_lock = true
 		if _modal == c:
 			_modal = null
 		if is_inside_tree():

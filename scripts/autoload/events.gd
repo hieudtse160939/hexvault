@@ -27,4 +27,10 @@ signal save_status(ok: bool, message: String)
 signal settings_changed
 signal screen_shake(strength: float)
 signal hit_stop(duration: float)
+signal gold_changed(amount: int)
+signal hero_exp_changed(hero_id: String)
+signal hero_leveled(hero_id: String, level: int)
+signal item_found(item: Dictionary)
+signal inventory_changed
+signal objective_changed(text: String)
 @warning_ignore_restore("unused_signal")

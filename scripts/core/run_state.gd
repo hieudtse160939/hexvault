@@ -3,8 +3,15 @@ extends RefCounted
 ## Temporary state for one dungeon run. Discarded when the run ends; only the
 ## summary is banked into Profile.
 
-const TOTAL_FLOORS: int = 3
+const TOTAL_FLOORS: int = 3   # floors of a run without a mission (free dive, tests)
 
+var mission_id: String = ""          # Guild mission this expedition belongs to ("" = free dive)
+var total_floors: int = TOTAL_FLOORS
+var item_level: int = 1              # base item level of drops (mission item_level + floor - 1)
+var rarity_bonus: float = 0.0        # mission loot quality bonus
+var loot: Array[Dictionary] = []     # copies of items found this run (summary)
+var exp_gained: int = 0
+var levels_gained: int = 0
 var seed_value: int = 0
 var character_id: String = "ranger"
 var difficulty: int = 0
@@ -48,4 +55,11 @@ func summary() -> Dictionary:
 		"victory": victory, "floor": floor_index, "kills": kills, "elites": elites,
 		"coins": coins, "shards": shards, "rooms": rooms_cleared, "time": elapsed_seconds(),
 		"character": character_id, "seed": seed_value, "boons": boons.duplicate(),
+		"mission": mission_id, "total_floors": total_floors, "loot": loot.duplicate(true),
+		"exp": exp_gained, "levels": levels_gained,
 	}
+
+
+## Item level of drops on the current floor.
+func drop_level() -> int:
+	return maxi(item_level + floor_index - 1, 1)

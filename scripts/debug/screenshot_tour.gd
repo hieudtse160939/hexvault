@@ -61,60 +61,82 @@ func _run() -> void:
 	Settings.data["show_fps"] = true
 	await _frames(20)
 	await _shot("01_title")
-	Game.goto("hub")
-	await _frames(40)
-	await _shot("02_hub")
-	var hub: Node = get_tree().get_first_node_in_group("hub")
-	if hub == null:
-		for n: Node in get_tree().root.find_children("*", "", true, false):
-			if n.has_method("_open_heroes"):
-				hub = n
-				break
-	if hub != null:
-		hub.call("_open_heroes")
-		await _frames(10)
-		await _shot("02b_hero_select")
-		var m: Variant = hub.get("_modal")
-		if m is Node and is_instance_valid(m):
-			(m as Node).queue_free()
-		await _frames(5)
-	var hero: String = "ranger"
+	var hero: String = "duelist"
 	for a: String in OS.get_cmdline_user_args():
 		if a.begins_with("--tour-hero="):
 			hero = a.substr(12)
-	Game.start_run(hero, 777)
+	Game.goto("select")
+	await _frames(20)
+	var sel: Node = get_tree().root.find_children("*", "Control", true, false).filter(func(n: Node) -> bool: return n.has_method("_begin")).front()
+	sel.call("_show", hero)
+	await _frames(20)
+	await _shot("02_character_select")
+	Profile.new_game(hero)
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 4
+	for i: int in 10:
+		Profile.give_item(ItemGen.random_equipment(rng, 4, 1.5))
+	Profile.give_item(ItemGen.make_book("book_flame_nova"))
+	Profile.data["gold"] = 400
+	Profile.grant_exp(hero, 300)
+	Game.goto("hub")
 	await _frames(40)
-	await _shot("03_dungeon_start")
+	await _shot("03_guild")
+	var guild: Node = get_tree().get_first_node_in_group("guild")
+	var p0: Player = guild.get("player")
+	for spot: Array in [["04_guild_reception", Vector2i(17, 7)], ["05_guild_training", Vector2i(6, 15)], ["06_guild_shop_corner", Vector2i(28, 12)]]:
+		p0.global_position = Level.to_world(spot[1])
+		await _frames(30)
+		await _shot(spot[0])
+	for pair: Array in [["_open_reception", "07_reception"], ["_open_missions", "08_mission_board"],
+			["_open_equipment", "09_inventory"], ["_open_shop", "10_shop"], ["_open_skills", "11_skill_tree"]]:
+		guild.call(pair[0])
+		await _frames(12)
+		if pair[0] == "_open_equipment":
+			var inv: Node = guild.get("_modal")
+			inv.call("select", str(Inventory.bag(Profile.data)[0]))
+			await _frames(4)
+		if pair[0] == "_open_shop":
+			guild.get("_modal").call("_pick", 1)
+			await _frames(4)
+		await _shot(pair[1])
+		var m: Variant = guild.get("_modal")
+		if m is Node and is_instance_valid(m):
+			(m as Node).queue_free()
+		await _frames(5)
+	Game.start_mission("forgotten_catacombs", 777)
+	await _frames(40)
+	await _shot("12_dungeon_start")
 	Game.god_mode = true
 	var room: Room = _teleport_to("combat")
 	await _frames(70)
-	await _shot("04_combat_spawn")
+	await _shot("13_combat_spawn")
 	# Fire at enemies for a while (simulated input).
 	Input.action_press("fire")
 	Controls.device = Controls.Device.GAMEPAD
 	Settings.data["aim_assist"] = true
 	await _measure("combat", 120)
-	await _shot("05_combat_fire")
+	await _shot("14_combat_fire")
 	Input.action_release("fire")
 	Game.debug_show_full_map = true
 	var fl: Node = get_tree().get_first_node_in_group("dungeon_floor")
 	(fl.get("minimap") as Minimap).toggle_expanded()
 	await _frames(5)
-	await _shot("06_debug_map")
+	await _shot("15_debug_map")
 	(fl.get("minimap") as Minimap).toggle_expanded()
 	_teleport_to("shop")
 	Game.god_mode = true
 	await _frames(45)
-	await _shot("07_shop")
-	Game.run.floor_index = RunState.TOTAL_FLOORS - 1
+	await _shot("16_dungeon_shop")
+	Game.run.floor_index = Game.run.total_floors - 1
 	Game.next_floor()
 	await _frames(30)
 	_teleport_to("boss")
 	await _frames(150)
-	await _shot("08_boss")
+	await _shot("17_boss")
 	Input.action_press("fire")
 	await _measure("boss", 180)
-	await _shot("09_boss_fight")
+	await _shot("18_boss_fight")
 	Input.action_release("fire")
 	# Stress: 40 enemies + 300 projectiles in the boss room.
 	var lvl: Level = Level.current
@@ -134,7 +156,16 @@ func _run() -> void:
 		lvl.pool.launch(pr, _player().global_position, Vector2.from_angle(i * 0.37) * 40.0, "proj_orb_red")
 	report["stress_entities"] = {"enemies": get_tree().get_nodes_in_group("enemies").size(), "projectiles": lvl.pool.active_count()}
 	await _measure("stress", 300)
-	await _shot("10_stress")
+	await _shot("19_stress")
+	for c: Node in lvl.entities.get_children():
+		if c is ItemPickup:
+			(c as ItemPickup).try_collect(_player())
+	Game.end_run(true)
+	await _frames(20)
+	await _shot("20_results")
+	Game.return_to_guild()
+	await _frames(30)
+	await _shot("21_back_in_guild")
 	var f: FileAccess = FileAccess.open(out_dir.path_join("tour_report.json"), FileAccess.WRITE)
 	f.store_string(JSON.stringify(report, " "))
 	f.close()

@@ -23,8 +23,8 @@ func _ready() -> void:
 		add_text("Revive already used this run.", UiTheme.DIM)
 	elif not can_revive:
 		add_text("You have %d shards." % Profile.shards(), UiTheme.DIM)
-	add_button("Return to the Hub", func() -> void:
+	add_button("Return to the Guild", func() -> void:
 		give_up.emit()
 		queue_free())
-	add_text("Unlocks and banked shards are always kept.", UiTheme.ACCENT)
+	add_text("Items, experience and shards are kept; %d%% of the coins become gold." % roundi(float(Db.guild.get("death_gold_keep", 0.5)) * 100.0), UiTheme.ACCENT, 240)
 	super._ready()

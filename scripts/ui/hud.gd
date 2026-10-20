@@ -19,6 +19,9 @@ var _boss: Vector2i = Vector2i.ZERO
 var _boss_visible: bool = false
 var _save_dot: Label
 var _floor: Label
+var _level: Label
+var _objective: Label
+var _exp_ratio: float = 0.0
 
 const X: float = 4.0
 const BAR_W: float = 64.0
@@ -68,6 +71,12 @@ func _ready() -> void:
 	_save_dot.offset_left = -60
 	_save_dot.offset_top = -12
 	add_child(_save_dot)
+	_level = _label(Vector2(X, 101), UiTheme.GOLD)
+	_objective = _label(Vector2(X, 114), Color("#ffe28a"))
+	_objective.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_objective.custom_minimum_size = Vector2(120, 0)
+	Events.objective_changed.connect(func(t: String) -> void: _objective.text = t)
+	Events.hero_exp_changed.connect(func(_h: String) -> void: _refresh_level())
 	Events.player_stats_changed.connect(_refresh_stats)
 	Events.coins_changed.connect(func(_n: int) -> void: _refresh_stats())
 	Events.run_shards_changed.connect(func(_n: int) -> void: _refresh_stats())
@@ -77,10 +86,20 @@ func _ready() -> void:
 	Events.boss_health_changed.connect(_on_boss)
 	Events.save_status.connect(_on_save)
 	if player != null:
-		var c: CharacterData = player.character
-		SpriteLib.fit_icon(_skill_icon, c.skill_icon)
+		SpriteLib.fit_icon(_skill_icon, player.skill_icon())
 	_refresh_stats()
 	_refresh_weapon()
+	_refresh_level()
+
+
+func _refresh_level() -> void:
+	if player == null or not is_instance_valid(player):
+		return
+	var rec: Dictionary = Profile.character_record(player.character.id)
+	var lvl: int = int(rec["level"])
+	_level.text = "Lv %d" % lvl
+	_exp_ratio = 1.0 if lvl >= HeroProgress.max_level() else float(rec["exp"]) / float(maxi(HeroProgress.xp_to_next(lvl), 1))
+	queue_redraw()
 
 
 func _icon(key: String, pos: Vector2) -> TextureRect:
@@ -139,12 +158,7 @@ func _on_hint(text: String) -> void:
 	if text.is_empty():
 		_hint.text = ""
 		return
-	var key: String = "[E]"
-	if Controls.device == Controls.Device.GAMEPAD:
-		key = "(X)"
-	elif Controls.device == Controls.Device.TOUCH:
-		key = "Tap USE:"
-	_hint.text = "%s %s" % [key, text]
+	_hint.text = "Press %s: %s" % [Controls.action_label("interact"), text]
 
 
 func _on_boss(cur: int, mx: int, name_text: String) -> void:
@@ -200,6 +214,8 @@ func _draw() -> void:
 		# dash pips
 		var dr: float = player.dash_ready_ratio()
 		_bar(Vector2(X, 96), 16, 2, dr, UiTheme.ACCENT if dr >= 1.0 else UiTheme.DIM)
+		# experience toward the next level, right of "Lv N"
+		_bar(Vector2(X + 26, 106), 44, 2, _exp_ratio, UiTheme.GOLD)
 	if _boss_visible:
 		var bw: float = minf(size.x * 0.45, 200.0)
 		_bar(Vector2((size.x - bw) / 2.0, 15), bw, 5, float(_boss.x) / maxf(_boss.y, 1), UiTheme.RED, Color("#3b1020"))

@@ -1,7 +1,7 @@
 extends Node
 ## Owns the save file locations and the profile/settings schemas + migrations.
 
-const PROFILE_VERSION: int = 3
+const PROFILE_VERSION: int = 4
 const SETTINGS_VERSION: int = 1
 
 var profile_path: String = "user://profile.save"
@@ -22,10 +22,19 @@ static func profile_defaults() -> Dictionary:
 			"rooms_cleared": 0, "floors_cleared": 0, "shards_earned": 0,
 		},
 		"quests": {},
-		"selected_character": "ranger",
-		"characters": {},  # id -> {"xp": int, "runs": int, "wins": int, "best_floor": int}
+		"selected_character": "duelist",
+		"characters": {},  # id -> HeroProgress record (mastery, level, tree, skills, equipment)
 		"difficulty_unlocked": 0,
 		"seen_tutorial": false,
+		# v4: Adventurers' Guild
+		"guild_started": false,   # a New Game was started (enables Continue)
+		"gold": 0,
+		"items": {},              # uid -> item instance (exact rolls, never re-rolled)
+		"bag": [],                # unequipped item uids
+		"next_uid": 1,
+		"missions": {},           # id -> {"completed": int, "attempts": int, "best_time": int}
+		"expeditions": 0,         # expeditions finished (shop restock counter)
+		"shop": {},               # {"restock": int, "stock": [{"item": inst, "price": int, "sold": bool}]}
 	}
 
 
@@ -64,8 +73,44 @@ static func migrate_profile_v2(d: Dictionary) -> Dictionary:
 	return out
 
 
+## v3 had no Guild: no gold, items, levels or missions. Existing players keep
+## everything; a profile that already played runs can Continue straight into
+## the Guild, and the selected hero moves to the playable roster if needed.
+## Defaults for the new keys are added by SaveStore.conform afterwards.
+static func migrate_profile_v3(d: Dictionary) -> Dictionary:
+	var out: Dictionary = d.duplicate(true)
+	var stats: Dictionary = out.get("stats", {}) if out.get("stats", {}) is Dictionary else {}
+	out["guild_started"] = int(stats.get("runs", 0)) > 0 or int(stats.get("runs_started", 0)) > 0
+	out["gold"] = 0
+	var chars: Variant = out.get("characters", {})
+	if chars is Dictionary:
+		for id: Variant in chars:
+			if chars[id] is Dictionary:
+				var rec: Dictionary = chars[id]
+				rec["level"] = 1
+				rec["exp"] = 0
+				rec["sp"] = 0
+	return out
+
+
 func profile_migrations() -> Dictionary:
-	return {1: migrate_profile_v1, 2: migrate_profile_v2}
+	return {1: migrate_profile_v1, 2: migrate_profile_v2, 3: migrate_profile_v3}
+
+
+## Copies the current profile to profile.previous.save before a New Game
+## replaces it. Returns the archive path ("" if there was nothing to keep).
+func archive_profile() -> String:
+	if not FileAccess.file_exists(profile_path):
+		return ""
+	var dst: String = profile_path.get_basename() + ".previous.save"
+	if DirAccess.copy_absolute(profile_path, dst) != OK:
+		push_warning("SaveManager: could not archive the profile")
+		return ""
+	return dst
+
+
+func has_profile_file() -> bool:
+	return FileAccess.file_exists(profile_path) or FileAccess.file_exists(profile_path + ".bak")
 
 
 func load_profile() -> Dictionary:

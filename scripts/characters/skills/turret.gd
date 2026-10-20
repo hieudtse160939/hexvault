@@ -5,4 +5,4 @@ extends HeroSkill
 func activate() -> void:
 	var lvl: Level = level()
 	if lvl != null:
-		lvl.add_entity(Turret.create(player.global_position + player.aim_direction() * 10.0, player.character.skill_duration, player))
+		lvl.add_entity(Turret.create(player.global_position + player.aim_direction() * 10.0, player.skill_duration(), player))

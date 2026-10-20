@@ -1,0 +1,71 @@
+{
+ "version": 1,
+ "_doc": "Adventurers' Guild: playable roster, hero levels, missions, guild ranks. Read by scripts/autoload/db.gd.",
+ "roster": ["duelist", "assassin", "warden", "pyromancer", "necromancer"],
+ "default_hero": "duelist",
+ "start_gold": 40,
+ "leveling": {
+  "max_level": 30,
+  "xp_base": 40,
+  "xp_linear": 25,
+  "xp_quad": 4,
+  "skill_points_per_level": 1,
+  "base": {"attack": 10, "defense": 0, "crit_chance": 0.05, "crit_damage": 2.0},
+  "growth": {"attack": 0.8, "defense": 0.4, "max_hp": 0.25}
+ },
+ "xp": {"per_enemy_cost": 3, "elite_mult": 3, "boss": 120},
+ "defense_k": 40,
+ "defense_cap": 0.6,
+ "death_gold_keep": 0.5,
+ "missions": [
+  {
+   "id": "forgotten_catacombs",
+   "name": "Forgotten Catacombs",
+   "description": "Old guild crypts beneath the city have woken. Clear them out and break whatever leads the dead.",
+   "difficulty": "Normal",
+   "difficulty_tier": 0,
+   "recommended_level": 1,
+   "floors": 2,
+   "item_level": 1,
+   "rarity_bonus": 0.0,
+   "objectives": ["Explore every floor", "Defeat the boss Ossifex"],
+   "rewards": {"gold": 60, "xp": 60, "shards": 20},
+   "unlock": {}
+  },
+  {
+   "id": "ember_vault",
+   "name": "Ember Vault",
+   "description": "A sealed forge-vault spilling cinders. Stronger guardians, better treasure.",
+   "difficulty": "Hard",
+   "difficulty_tier": 1,
+   "recommended_level": 5,
+   "floors": 3,
+   "item_level": 4,
+   "rarity_bonus": 0.4,
+   "objectives": ["Descend three floors", "Defeat the boss Ossifex"],
+   "rewards": {"gold": 140, "xp": 150, "shards": 45},
+   "unlock": {"mission": "forgotten_catacombs"}
+  },
+  {
+   "id": "clockwork_abyss",
+   "name": "Clockwork Abyss",
+   "description": "The deepest vault. Only seasoned adventurers return.",
+   "difficulty": "Nightmare",
+   "difficulty_tier": 2,
+   "recommended_level": 10,
+   "floors": 3,
+   "item_level": 8,
+   "rarity_bonus": 0.9,
+   "objectives": ["Descend three floors", "Defeat the empowered Ossifex"],
+   "rewards": {"gold": 260, "xp": 320, "shards": 90},
+   "unlock": {"mission": "ember_vault"}
+  }
+ ],
+ "ranks": [
+  {"name": "Copper", "missions": 0},
+  {"name": "Iron", "missions": 1},
+  {"name": "Silver", "missions": 3},
+  {"name": "Gold", "missions": 6},
+  {"name": "Mithril", "missions": 10}
+ ]
+}

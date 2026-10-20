@@ -68,5 +68,6 @@ func level() -> Level:
 	return Level.current
 
 
+## Skill damage scales with Attack (damage_mult) and Skill Damage (skill tree).
 func damage_mult() -> float:
-	return 1.0 + player.weapon_mod("damage_mult")
+	return (1.0 + player.weapon_mod("damage_mult")) * (1.0 + player.weapon_mod("skill_power"))

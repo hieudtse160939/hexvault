@@ -1,5 +1,11 @@
 # Adding a hero
 
+> Playable roster: only heroes listed in `data/guild.json` `"roster"` are offered at New Game and the
+> Hero Shrine (currently Kaida, Sable, Bramble, Ignis, Morrow). A new playable hero also needs a talent
+> tree in `data/skill_trees.json`; `Db.rpg_problems()` (run by the tests) reports anything missing.
+> The other heroes in `data/characters.json` stay as data: their skills are taught by skill books and
+> two of them appear as Guild NPCs.
+
 A hero is **data + two small scripts + an art module**. Nothing in `Player`, the HUD or the
 Hero Shrine changes. Tests pick the new hero up automatically.
 

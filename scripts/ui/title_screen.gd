@@ -21,14 +21,12 @@ func _ready() -> void:
 	portal.position = Vector2(0, -30)
 	portal.modulate = Color(1, 1, 1, 0.5)
 	portal_holder.add_child(portal)
-	for i: int in 4:
+	for i: int in mini(Db.roster.size(), 5):
 		var hero: AnimatedSprite2D = AnimatedSprite2D.new()
-		var id: String = Db.character_order[i % Db.character_order.size()]
+		var id: String = Db.roster[i]
 		SpriteLib.apply(hero, Db.character(id).sprite)
 		hero.play(&"idle")
-		hero.position = Vector2(-54 + i * 36, 10)
-		if not Profile.is_character_unlocked(id):
-			hero.modulate = Color(0.1, 0.1, 0.15)
+		hero.position = Vector2(-72 + i * 36, 10)
 		portal_holder.add_child(hero)
 	var v: VBoxContainer = VBoxContainer.new()
 	v.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
@@ -40,17 +38,31 @@ func _ready() -> void:
 	_logo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_logo.add_theme_font_size_override("font_size", 24)
 	v.add_child(_logo)
-	var sub: Label = UiTheme.label("a clockwork dungeon roguelite", UiTheme.DIM)
+	var sub: Label = UiTheme.label("an Adventurers' Guild dungeon RPG", UiTheme.DIM)
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(sub)
 	var spacer: Control = Control.new()
 	spacer.custom_minimum_size = Vector2(0, 52)
 	v.add_child(spacer)
-	var play: Button = UiTheme.button("Enter the Sanctum", func() -> void: Game.goto("hub"))
-	v.add_child(play)
+	var cont: Button = UiTheme.button("Continue", _continue)
+	var has_game: bool = Profile.has_game()
+	cont.disabled = not has_game
+	if has_game:
+		var c: CharacterData = Db.character(Profile.selected_hero())
+		cont.text = "Continue  (%s Lv %d)" % [c.display_name if c != null else "?", Profile.hero_level(Profile.selected_hero())]
+	else:
+		cont.tooltip_text = "No saved adventure yet"
+	var newg: Button = UiTheme.button("New Game", func() -> void: Game.goto("select"))
+	v.add_child(cont)
+	v.add_child(newg)
+	if not has_game:
+		var none: Label = UiTheme.label("No saved adventure yet", UiTheme.DIM)
+		none.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		v.add_child(none)
 	v.add_child(UiTheme.button("Settings", func() -> void: add_child(SettingsPanel.new())))
 	if not OS.has_feature("mobile") and not OS.has_feature("web"):
 		v.add_child(UiTheme.button("Quit", Game.quit_game))
+	var play: Button = cont if has_game else newg
 	var info: Label = UiTheme.label("v%s  -  %d shards  -  %d/%d achievements" % [
 		ProjectSettings.get_setting("application/config/version", "0"), Profile.shards(),
 		(Profile.data["achievements"] as Dictionary).size(), Db.achievement_order.size()], UiTheme.DIM)
@@ -66,6 +78,15 @@ func _ready() -> void:
 		add_child(warn)
 	Sfx.play_music("hub")
 	play.grab_focus.call_deferred()
+
+
+## Loads the saved profile (already loaded and validated at startup) into the Guild.
+func _continue() -> void:
+	if not Profile.has_game():
+		Sfx.play("ui_deny")
+		return
+	Profile.select_hero(Profile.selected_hero())
+	Game.goto("hub")
 
 
 func _process(delta: float) -> void:

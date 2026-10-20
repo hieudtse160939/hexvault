@@ -525,3 +525,4 @@ func _drop_loot() -> void:
 		Pickup.spawn(Pickup.Kind.SHARD, global_position, 2 if elite else 1)
 	if _rng.randf() < (0.25 if elite else 0.04):
 		Pickup.spawn(Pickup.Kind.HEART if _rng.randf() < 0.5 else Pickup.Kind.ARMOR, global_position, 1)
+	ItemPickup.drop_table("elite" if elite else "enemy", global_position, _rng)

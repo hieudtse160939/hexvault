@@ -146,7 +146,7 @@ func _matches(c: CharacterData) -> bool:
 
 func _refresh_list() -> void:
 	var ids: Array[String] = []
-	for id: String in Db.character_order:
+	for id: String in Db.roster:  # only the Guild's playable roster is listed
 		if _matches(Db.character(id)):
 			ids.append(id)
 	var order: Dictionary = {}
@@ -175,10 +175,10 @@ func _refresh_list() -> void:
 	_page = clampi(_page, 0, pages - 1)
 	_page_label.text = "%d/%d" % [_page + 1, pages]
 	var unlocked: int = 0
-	for id: String in Db.character_order:
+	for id: String in Db.roster:
 		if Profile.is_character_unlocked(id):
 			unlocked += 1
-	_count_label.text = "%d heroes  -  %d unlocked  -  showing %d" % [Db.character_order.size(), unlocked, _ids.size()]
+	_count_label.text = "%d heroes  -  %d unlocked  -  showing %d" % [Db.roster.size(), unlocked, _ids.size()]
 	_filter_btn.text = "Type: %s" % (_archetype.capitalize() if _archetype != "" else "All")
 	_sort_btn.text = "Sort: %s" % SORTS[_sort]
 	_rebuild_grid()
@@ -278,7 +278,8 @@ func _show(id: String) -> void:
 	for m: Variant in c.mastery:
 		if m is Dictionary and int((m as Dictionary).get("level", 0)) == lvl + 1:
 			next_text = " next: %s" % str((m as Dictionary).get("text", ""))
-	_mastery.text = "Mastery %d  %s%s\n%s" % [lvl, ("%d/%d xp" % [int(rec.get("xp", 0)), nxt]) if nxt > 0 else "MAX",
+	var hrec: Dictionary = Profile.character_record(id)
+	_mastery.text = "Level %d (%d/%d exp)  -  Mastery %d  %s%s\n%s" % [int(hrec["level"]), int(hrec["exp"]), HeroProgress.xp_to_next(int(hrec["level"])), lvl, ("%d/%d xp" % [int(rec.get("xp", 0)), nxt]) if nxt > 0 else "MAX",
 		next_text, c.description]
 	if unlocked:
 		_action.text = "Selected" if str(Profile.data["selected_character"]) == id else "Select"

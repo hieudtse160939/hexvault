@@ -43,6 +43,16 @@ var _invuln_left: float = 0.0
 var _interact_target: Node = null
 var _mods: Dictionary = {}
 var _hand_x: float = 2.0
+## Skill block in the hero's skill slot (own skill or one learned from a book).
+var skill_def: Dictionary = {}
+## Final RPG stats (HeroStats.for_hero) from the last recompute_stats().
+var stats: Dictionary = {}
+var defense: float = 0.0
+var luck: float = 0.0
+var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
+## Set when control returns from a menu: firing waits until the button is
+## released, so the click that closed a menu never fires a shot.
+var fire_lock: bool = false
 
 
 static func create(c: CharacterData) -> Player:
@@ -85,7 +95,9 @@ func _ready() -> void:
 	hurtbox = Hurtbox.create(self, 5.0, true)
 	hurtbox.position = Vector2(0, 1)
 	add_child(hurtbox)
-	skill = CharacterModules.make_skill(self, character.skill_def)
+	_rng.randomize()
+	skill_def = HeroProgress.active_skill_def(character.id, Profile.character_record(character.id))
+	skill = CharacterModules.make_skill(self, skill_def)
 	passive = CharacterModules.make_passive(self, character.passive_def)
 	Events.room_entered.connect(_on_room_entered)
 	Events.room_cleared.connect(_on_room_cleared)
@@ -184,26 +196,35 @@ func store_run_state() -> void:
 
 
 # --- stats ------------------------------------------------------------------------
-## Modifier totals from character stats, permanent upgrades and run boons.
+## Modifier totals from the hero's final RPG stats (level, equipment, skill
+## tree: see HeroStats), character data, permanent upgrades and run boons.
 ## Skills and passives adjust them on read in weapon_mod().
-func recompute_stats(initial: bool = false) -> void:
+## `gain_hp`: when max HP rises (equipping mid-run), current HP rises with it.
+func recompute_stats(initial: bool = false, gain_hp: bool = false) -> void:
 	var run: RunState = Game.run
 	var b: Callable = func(key: String) -> float: return run.boon_total(key) if run != null else 0.0
 	var cs: Callable = func(key: String) -> float: return character.stat(key)
+	stats = HeroStats.for_hero(Profile.data, character.id)
+	var base: Dictionary = HeroStats.base(character, Profile.hero_level(character.id))
+	var gear: Callable = func(key: String) -> float: return float(stats[key]) - float(base[key])
+	defense = float(stats["defense"])
+	luck = float(stats["luck"])
 	_mods = {
-		"damage_mult": b.call("damage_mult") + cs.call("damage_mult"),
-		"fire_rate_mult": b.call("fire_rate_mult") + cs.call("fire_rate_mult"),
+		"damage_mult": b.call("damage_mult") + cs.call("damage_mult") + (float(stats["attack"]) / HeroStats.base_attack() - 1.0),
+		"fire_rate_mult": b.call("fire_rate_mult") + cs.call("fire_rate_mult") + gear.call("attack_speed"),
 		"reload_mult": b.call("reload_mult") + cs.call("reload_mult"),
-		"crit": b.call("crit") + Profile.upgrade_bonus("crit") + cs.call("crit"),
+		"crit": b.call("crit") + Profile.upgrade_bonus("crit") + float(stats["crit_chance"]),
+		"crit_mult": float(stats["crit_damage"]),
+		"skill_power": float(stats["skill_power"]),
 		"pierce": b.call("pierce") + cs.call("pierce"),
 		"extra_shots": b.call("extra_shots"),
 		"leech": b.call("leech"),
 		"magnet": b.call("magnet") + cs.call("magnet"),
 		"coin_mult": b.call("coin_mult") + cs.call("coin_mult"),
-		"cooldown_mult": cs.call("cooldown_mult"),
+		"cooldown_mult": cs.call("cooldown_mult") - gear.call("skill_haste"),
 		"dash_cd_mult": cs.call("dash_cd_mult"),  # run boons for the dash are added in dash_cooldown()
 		"blast_mult": cs.call("blast_mult"),
-		"move_speed_mult": cs.call("move_speed_mult"),
+		"move_speed_mult": cs.call("move_speed_mult") + gear.call("move_speed"),
 		"dodge": cs.call("dodge"),
 		"armor_regen_mult": b.call("armor_regen_mult"),
 		"free_ammo": 0.0,
@@ -214,15 +235,15 @@ func recompute_stats(initial: bool = false) -> void:
 			continue
 		_mods[k] = float(_mods.get(k, 0.0)) + float(mastery[k])
 	speed = character.speed * (1.0 + float(b.call("speed_mult")) + float(mastery.get("speed", 0.0)))
-	var max_hp: int = character.max_hp + int(Profile.upgrade_bonus("max_hp")) + int(b.call("max_hp")) + int(mastery.get("max_hp", 0))
-	var max_armor: int = character.max_armor + int(Profile.upgrade_bonus("max_armor")) + int(b.call("max_armor")) + int(mastery.get("max_armor", 0))
+	var max_hp: int = int(stats["max_hp"]) + int(Profile.upgrade_bonus("max_hp")) + int(b.call("max_hp")) + int(mastery.get("max_hp", 0))
+	var max_armor: int = int(stats["max_armor"]) + int(Profile.upgrade_bonus("max_armor")) + int(b.call("max_armor")) + int(mastery.get("max_armor", 0))
 	if initial:
 		health.setup(max_hp, max_armor, 0.8)
 		if run != null and run.hp > 0:
 			health.hp = mini(run.hp, max_hp)
 			health.armor = clampi(run.armor, 0, max_armor)
 	else:
-		health.set_max(max_hp, max_armor)
+		health.set_max(max_hp, max_armor, gain_hp)
 	health.regen_mult = 1.0 + weapon_mod("armor_regen_mult")
 	Events.player_stats_changed.emit()
 
@@ -239,7 +260,26 @@ func weapon_mod(key: String) -> float:
 
 ## Cooldown of the active skill after cooldown reduction (floored at 35 %).
 func skill_cooldown_total() -> float:
-	return character.skill_cooldown * clampf(1.0 + weapon_mod("cooldown_mult"), 0.35, 2.0)
+	return float(skill_def.get("cooldown", 10.0)) * clampf(1.0 + weapon_mod("cooldown_mult"), 0.35, 2.0)
+
+
+func skill_duration() -> float:
+	return float(skill_def.get("duration", 0.0))
+
+
+func skill_icon() -> String:
+	return str(skill_def.get("icon", ""))
+
+
+## Equipment, level or skill-tree changed (inventory opened mid-run, level-up).
+func refresh_equipment() -> void:
+	recompute_stats(false, true)
+	var want: Dictionary = HeroProgress.active_skill_def(character.id, Profile.character_record(character.id))
+	if str(want.get("id", "")) != str(skill_def.get("id", "")) and skill_active_left <= 0.0:
+		skill_def = want
+		skill = CharacterModules.make_skill(self, skill_def)
+		skill_cd_left = 0.0
+		Events.skill_cooldown_changed.emit(0.0, skill_cooldown_total())
 
 
 func dash_cooldown() -> float:
@@ -338,7 +378,9 @@ func _physics_process(delta: float) -> void:
 
 func _handle_actions() -> void:
 	var w: Weapon = current_weapon()
-	if w != null and Controls.fire_held() and state != State.DASH:
+	if fire_lock and not Controls.fire_held():
+		fire_lock = false
+	if w != null and Controls.fire_held() and state != State.DASH and not fire_lock:
 		w.try_fire(_aim, true)
 	if Input.is_action_just_pressed("reload") and w != null:
 		w.start_reload()
@@ -395,7 +437,7 @@ func try_skill() -> bool:
 	if not skill.can_activate():
 		return false
 	skill_cd_left = skill_cooldown_total()
-	skill_active_left = character.skill_duration
+	skill_active_left = skill_duration()
 	_anim_lock = 0.3
 	body.play(&"skill")
 	Sfx.play("skill")
@@ -478,6 +520,14 @@ func receive_hit(info: HitInfo) -> bool:
 			FX.float_text(global_position, "DODGE", Color("#b4fff0"))
 			grant_invulnerability(0.3)
 			return false
+	if defense > 0.0 and info.damage > 0:
+		var before: int = info.damage
+		info.damage = Damage.mitigate(info.damage, defense, _rng.randf(),
+				float(Db.guild.get("defense_k", 40.0)), float(Db.guild.get("defense_cap", 0.6)))
+		if info.damage <= 0 and before > 0:
+			FX.float_text(global_position, "BLOCK", Color("#c9c6dc"))
+			grant_invulnerability(0.25)
+			return false
 	var taken: int = health.take(info)
 	if taken <= 0:
 		return false
@@ -559,7 +609,7 @@ func _update_interact() -> void:
 		if n2 == null or not n2.has_method("can_interact") or not bool(n2.call("can_interact", self)):
 			continue
 		var d: float = n2.global_position.distance_squared_to(global_position)
-		if d < best_d:
+		if d < best_d and (Level.current == null or Level.current.tiles_clear(global_position, n2.global_position)):
 			best = n2
 			best_d = d
 	if best != _interact_target:

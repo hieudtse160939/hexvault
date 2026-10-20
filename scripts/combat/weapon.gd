@@ -125,7 +125,8 @@ func try_fire(dir: Vector2, from_player: bool = true) -> bool:
 
 func _make_info(from_player: bool) -> HitInfo:
 	var crit: bool = _rng.randf() < data.crit_chance + _mod("crit")
-	var dmg: int = Damage.compute(data.damage, 1.0 + _mod("damage_mult"), crit)
+	var cm: float = _mod("crit_mult")
+	var dmg: int = Damage.compute(data.damage, 1.0 + _mod("damage_mult"), crit, cm if cm > 0.0 else Damage.CRIT_MULT)
 	var info: HitInfo = HitInfo.make(dmg, _aim * data.knockback, from_player, global_position)
 	info.crit = crit
 	info.element = data.element

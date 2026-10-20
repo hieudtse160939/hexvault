@@ -137,7 +137,8 @@ def tileset() -> list[HDCanvas]:
 
 def atlas(cols: int = 8):
     from PIL import Image
-    tiles = tileset()
+    import guild
+    tiles = tileset() + guild.tiles()   # 16-23: Adventurers' Guild interior
     img = Image.new("RGBA", (T * cols, T * ((len(tiles) + cols - 1) // cols)), (0, 0, 0, 0))
     for i, t in enumerate(tiles):
         img.paste(t.image(), ((i % cols) * T, (i // cols) * T))

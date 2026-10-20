@@ -111,12 +111,14 @@ func test_death_keeps_permanent_unlocks() -> void:
 	Profile.data = SaveManager.profile_defaults()
 	Profile.data["shards"] = 1000
 	assert_true(Profile.buy_weapon("thornbow"))
-	assert_true(Profile.buy_character("warden"))
+	# warden is in the Guild's free roster now; tinker is still bought with shards
+	assert_false(Profile.buy_character("warden"), "roster heroes are free, nothing to buy")
+	assert_true(Profile.buy_character("tinker"))
 	var before: int = Profile.shards()
 	var earned: int = Profile.bank_run({"shards": 12, "victory": false, "floor": 2})
 	assert_eq(earned, 12)
 	assert_true(Profile.is_weapon_unlocked("thornbow"), "weapon unlock survives death")
-	assert_true(Profile.is_character_unlocked("warden"), "character unlock survives death")
+	assert_true(Profile.is_character_unlocked("tinker"), "character unlock survives death")
 	assert_eq(Profile.shards(), before + 12, "run shards are banked even on death")
 	assert_eq(Profile.stat("deaths"), 1)
 	Profile.data = saved_data

@@ -5,12 +5,30 @@ extends RefCounted
 const CRIT_MULT: float = 2.0
 
 
-## base * mult, doubled on crit, never below 1.
-static func compute(base: int, mult: float, crit: bool) -> int:
+## base * mult, times crit_mult on a crit (default x2), never below 1.
+static func compute(base: int, mult: float, crit: bool, crit_mult: float = CRIT_MULT) -> int:
 	var v: float = float(base) * maxf(mult, 0.0)
 	if crit:
-		v *= CRIT_MULT
+		v *= maxf(crit_mult, 1.0)
 	return maxi(int(round(v)), 1)
+
+
+## Share of incoming damage removed by Defense: def / (def + k), capped.
+static func defense_reduction(defense: float, k: float = 40.0, cap: float = 0.6) -> float:
+	if defense <= 0.0:
+		return 0.0
+	return minf(defense / (defense + maxf(k, 1.0)), cap)
+
+
+## Incoming damage after Defense. Damage values are small integers, so the
+## fractional part is kept as a chance (`roll` in [0, 1)) instead of always
+## rounding: 1 damage vs 25 % reduction is blocked one time in four.
+static func mitigate(amount: int, defense: float, roll: float, k: float = 40.0, cap: float = 0.6) -> int:
+	if amount <= 0:
+		return 0
+	var v: float = float(amount) * (1.0 - defense_reduction(defense, k, cap))
+	var whole: int = int(floor(v))
+	return whole + (1 if roll < v - float(whole) else 0)
 
 
 ## Splits incoming damage between armor and health.

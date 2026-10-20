@@ -27,7 +27,14 @@ $GODOT_BIN --path . --resolution 1920x1080 -- --tour=<abs dir>
 | Enemy | entry in `data/enemies.json` with an existing `behavior` + sheet in `tools/artgen/enemies.py::SHEETS` (needs idle/move/attack/hurt/death). New behaviours go in `scripts/entities/enemy.gd` match blocks. |
 | Room | template in `data/rooms.json` (odd width/height, door approaches open). `tests/test_data.gd` flood-fills every template. |
 | Boon / upgrade / achievement / quest | `data/progression.json` only. |
+| Equipment, affix, skill book, loot table, mission, playable roster, talents | `data/items.json`, `data/guild.json`, `data/skill_trees.json` - see `docs/GUILD_RPG.md`. |
 | Sound | add to `sfx_defs()` in `tools/audiogen/build.py`, rebuild, call `Sfx.play("name")`. |
+
+## Game flow
+Title -> New Game (5-hero roster) / Continue -> Guild hub (`scripts/world/hub.gd`) -> Mission Board ->
+`Game.start_mission(id)` -> dungeon -> results -> `Game.return_to_guild()`. Final stats come only from
+`HeroStats`; items only change hands through `Inventory`. Guild flow tests: `tests/test_guild.gd`,
+RPG systems: `tests/test_rpg.gd`.
 
 ## Rules that bit us
 - Type every variable; `:=` from Variant/dictionary reads is a parse error in 4.7.
@@ -35,6 +42,8 @@ $GODOT_BIN --path . --resolution 1920x1080 -- --tour=<abs dir>
 - World-space Labels do not inherit the UI theme: use `UiTheme.label()` (sets font + size 8).
 - Do not `watch_signals(Events)` in tests (global autoload keeps recorders alive); connect/disconnect counters instead (see `tests/test_gameplay.gd::_count`).
 - A `match` inside a multi-line lambda passed as an argument fails to parse - use a method.
+- Item rolls are stored with 3 decimals (`ItemGen.roll_value`) so JSON save/load is exact; keep it that way.
+- Item pickups free themselves when walked over: snapshot a list and check `is_instance_valid` before using one in tests.
 - Input actions are registered at runtime in `scripts/autoload/controls.gd`; the skill linter reports them as undefined (false positive).
 
 ## Exports

@@ -10,7 +10,7 @@ The user writes in Vietnamese; answer in Vietnamese.
 
 ## Commands
 ```bash
-python tools/check.py                 # assets + asset QA + import + 58 tests (must be ALL CHECKS PASSED)
+python tools/check.py                 # assets + asset QA + import + 86 tests (must be ALL CHECKS PASSED)
 python tools/artgen/build.py          # regenerate all art + assets/manifest.json
 xvfb-run -a $GODOT_BIN --path . --resolution 1920x1080 --rendering-driver opengl3 -- --tour=<abs dir> [--tour-hero=<id>]
 python tools/package.py linux|windows # exports (templates in .tools/editor_data/export_templates/4.7.2.stable)
@@ -26,7 +26,7 @@ download per BUILD_GUIDE.md).
   (part masks, dome lighting, selout, outline, despeckle), `rig.py` (2D skeleton + IK),
   `heroes/kit.py` (Look-driven hero painter, anime profile face, hand-made eye templates,
   standard animation set), hero modules, `enemies/` (golem, gloop, sparkeye, skitter, acolyte,
-  ossifex boss), `weapons.py` (4 HD weapons), `tiles.py` (HD tileset), `icons.py`.
+  ossifex boss), `weapons.py` (all 14 HD weapons), `guild.py` (guild tiles 16-23, furniture, dummy, item icons), `tiles.py` (HD tileset), `icons.py`.
 - **QA:** `tools/validate_assets.py` (palette, binary alpha, grid) + `tools/asset_qa.py`
   (clipping, anchor drift, jitter, noise, colour budget 56, metadata) -> `docs/qa/`.
 - **External art:** `tools/artgen/import_external.py` (pixel-art-studio cleanup: background
@@ -40,6 +40,15 @@ download per BUILD_GUIDE.md).
   (`WeaponPickup.roll`: common 10, rare 7, epic 2.5+floor, legendary 0.5+0.5*floor), only
   from unlocked weapons.
 - **Builds:** Linux export built and run-verified; Windows exported, not run; Android/iOS not built.
+
+## Adventurers' Guild RPG (master prompt "ANIME FANTASY DUNGEON CRAWLER RPG")
+Implemented: Title New Game / Continue, 5-hero New Game selection, playable Guild hall (reception,
+mission board + gate, equipment rack, skill library, shop, training dummies, hero shrine, forge,
+quest board), 3 missions on the existing dungeon, randomized equipment (6 slots, 5 rarities, 13
+affixes, 31 templates incl. all 14 weapons), HeroStats, levels/XP, skill trees (5 x 9 talents),
+12 skill books + Tome of Insight, loot tables, gold economy, save v4. Design: `docs/GUILD_RPG.md`.
+Tests: `tests/test_rpg.gd` (21), `tests/test_guild.gd` (7, full expedition loop through real screens).
+Roster = duelist, assassin, warden, pyromancer, necromancer (user: more heroes later).
 
 ## Still 16 px (to convert)
 Props (crate, barrel, pillar, lamp, chest, portal, fountain, statue, pedestal, turret,

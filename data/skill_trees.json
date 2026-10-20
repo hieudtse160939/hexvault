@@ -1,0 +1,566 @@
+{
+ "version": 1,
+ "_doc": "Per-hero skill trees. Each node has ranks; one skill point per rank. A node needs the previous node of its branch at the listed rank. Stats feed HeroStats.",
+ "trees": {
+  "duelist": {
+   "nodes": [
+    {
+     "id": "duelist_00",
+     "branch": "Blade",
+     "name": "Keen Edge",
+     "max_rank": 3,
+     "per_rank": {
+      "attack": 1.5
+     },
+     "description": "+1.5 Attack per rank"
+    },
+    {
+     "id": "duelist_01",
+     "branch": "Blade",
+     "name": "Flurry",
+     "max_rank": 3,
+     "per_rank": {
+      "attack_speed": 0.04
+     },
+     "description": "+4% Attack Speed per rank",
+     "requires": {
+      "duelist_00": 1
+     }
+    },
+    {
+     "id": "duelist_02",
+     "branch": "Blade",
+     "name": "Dancing Death",
+     "max_rank": 1,
+     "per_rank": {
+      "crit_damage": 0.25
+     },
+     "description": "+25% Crit Damage",
+     "requires": {
+      "duelist_01": 2
+     }
+    },
+    {
+     "id": "duelist_10",
+     "branch": "Footwork",
+     "name": "Light Step",
+     "max_rank": 3,
+     "per_rank": {
+      "move_speed": 0.03
+     },
+     "description": "+3% Move Speed per rank"
+    },
+    {
+     "id": "duelist_11",
+     "branch": "Footwork",
+     "name": "Parry Stance",
+     "max_rank": 3,
+     "per_rank": {
+      "defense": 2
+     },
+     "description": "+2 Defense per rank",
+     "requires": {
+      "duelist_10": 1
+     }
+    },
+    {
+     "id": "duelist_12",
+     "branch": "Footwork",
+     "name": "Second Wind",
+     "max_rank": 1,
+     "per_rank": {
+      "max_hp": 1
+     },
+     "description": "+1 Max HP",
+     "requires": {
+      "duelist_11": 2
+     }
+    },
+    {
+     "id": "duelist_20",
+     "branch": "Tempest",
+     "name": "Spin Drill",
+     "max_rank": 3,
+     "per_rank": {
+      "skill_haste": 0.05
+     },
+     "description": "+5% Skill Haste per rank"
+    },
+    {
+     "id": "duelist_21",
+     "branch": "Tempest",
+     "name": "Cyclone",
+     "max_rank": 3,
+     "per_rank": {
+      "skill_power": 0.15
+     },
+     "description": "+15% Skill Damage per rank",
+     "requires": {
+      "duelist_20": 1
+     }
+    },
+    {
+     "id": "duelist_22",
+     "branch": "Tempest",
+     "name": "Eye of the Storm",
+     "max_rank": 1,
+     "per_rank": {
+      "crit_chance": 0.06
+     },
+     "description": "+6% Crit Chance",
+     "requires": {
+      "duelist_21": 2
+     }
+    }
+   ]
+  },
+  "assassin": {
+   "nodes": [
+    {
+     "id": "assassin_00",
+     "branch": "Shadow",
+     "name": "Sharpened Thorns",
+     "max_rank": 3,
+     "per_rank": {
+      "attack": 1.5
+     },
+     "description": "+1.5 Attack per rank"
+    },
+    {
+     "id": "assassin_01",
+     "branch": "Shadow",
+     "name": "Vital Points",
+     "max_rank": 3,
+     "per_rank": {
+      "crit_chance": 0.03
+     },
+     "description": "+3% Crit Chance per rank",
+     "requires": {
+      "assassin_00": 1
+     }
+    },
+    {
+     "id": "assassin_02",
+     "branch": "Shadow",
+     "name": "Death Mark",
+     "max_rank": 1,
+     "per_rank": {
+      "crit_damage": 0.3
+     },
+     "description": "+30% Crit Damage",
+     "requires": {
+      "assassin_01": 2
+     }
+    },
+    {
+     "id": "assassin_10",
+     "branch": "Evasion",
+     "name": "Fleet Foot",
+     "max_rank": 3,
+     "per_rank": {
+      "move_speed": 0.03
+     },
+     "description": "+3% Move Speed per rank"
+    },
+    {
+     "id": "assassin_11",
+     "branch": "Evasion",
+     "name": "Smoke Cloak",
+     "max_rank": 3,
+     "per_rank": {
+      "defense": 2
+     },
+     "description": "+2 Defense per rank",
+     "requires": {
+      "assassin_10": 1
+     }
+    },
+    {
+     "id": "assassin_12",
+     "branch": "Evasion",
+     "name": "Nine Lives",
+     "max_rank": 1,
+     "per_rank": {
+      "max_hp": 1
+     },
+     "description": "+1 Max HP",
+     "requires": {
+      "assassin_11": 2
+     }
+    },
+    {
+     "id": "assassin_20",
+     "branch": "Veilcraft",
+     "name": "Quiet Mind",
+     "max_rank": 3,
+     "per_rank": {
+      "skill_haste": 0.05
+     },
+     "description": "+5% Skill Haste per rank"
+    },
+    {
+     "id": "assassin_21",
+     "branch": "Veilcraft",
+     "name": "Ambush",
+     "max_rank": 3,
+     "per_rank": {
+      "skill_power": 0.15
+     },
+     "description": "+15% Skill Damage per rank",
+     "requires": {
+      "assassin_20": 1
+     }
+    },
+    {
+     "id": "assassin_22",
+     "branch": "Veilcraft",
+     "name": "Rapid Draw",
+     "max_rank": 1,
+     "per_rank": {
+      "attack_speed": 0.08
+     },
+     "description": "+8% Attack Speed",
+     "requires": {
+      "assassin_21": 2
+     }
+    }
+   ]
+  },
+  "warden": {
+   "nodes": [
+    {
+     "id": "warden_00",
+     "branch": "Bastion",
+     "name": "Thick Bark",
+     "max_rank": 3,
+     "per_rank": {
+      "defense": 3
+     },
+     "description": "+3 Defense per rank"
+    },
+    {
+     "id": "warden_01",
+     "branch": "Bastion",
+     "name": "Rooted",
+     "max_rank": 3,
+     "per_rank": {
+      "max_hp": 1
+     },
+     "description": "+1 Max HP per rank",
+     "requires": {
+      "warden_00": 1
+     }
+    },
+    {
+     "id": "warden_02",
+     "branch": "Bastion",
+     "name": "Living Wall",
+     "max_rank": 1,
+     "per_rank": {
+      "max_armor": 1
+     },
+     "description": "+1 Shield",
+     "requires": {
+      "warden_01": 2
+     }
+    },
+    {
+     "id": "warden_10",
+     "branch": "Thorns",
+     "name": "Splinter Shot",
+     "max_rank": 3,
+     "per_rank": {
+      "attack": 1.5
+     },
+     "description": "+1.5 Attack per rank"
+    },
+    {
+     "id": "warden_11",
+     "branch": "Thorns",
+     "name": "Heavy Recoil",
+     "max_rank": 3,
+     "per_rank": {
+      "crit_damage": 0.15
+     },
+     "description": "+15% Crit Damage per rank",
+     "requires": {
+      "warden_10": 1
+     }
+    },
+    {
+     "id": "warden_12",
+     "branch": "Thorns",
+     "name": "Bramble Burst",
+     "max_rank": 1,
+     "per_rank": {
+      "attack_speed": 0.08
+     },
+     "description": "+8% Attack Speed",
+     "requires": {
+      "warden_11": 2
+     }
+    },
+    {
+     "id": "warden_20",
+     "branch": "Grove",
+     "name": "Verdant Pulse",
+     "max_rank": 3,
+     "per_rank": {
+      "skill_haste": 0.05
+     },
+     "description": "+5% Skill Haste per rank"
+    },
+    {
+     "id": "warden_21",
+     "branch": "Grove",
+     "name": "Oakheart",
+     "max_rank": 3,
+     "per_rank": {
+      "skill_power": 0.15
+     },
+     "description": "+15% Skill Damage per rank",
+     "requires": {
+      "warden_20": 1
+     }
+    },
+    {
+     "id": "warden_22",
+     "branch": "Grove",
+     "name": "Elder Guard",
+     "max_rank": 1,
+     "per_rank": {
+      "defense_pct": 0.2
+     },
+     "description": "+20% Defense",
+     "requires": {
+      "warden_21": 2
+     }
+    }
+   ]
+  },
+  "pyromancer": {
+   "nodes": [
+    {
+     "id": "pyromancer_00",
+     "branch": "Inferno",
+     "name": "Kindled Wand",
+     "max_rank": 3,
+     "per_rank": {
+      "attack": 1.5
+     },
+     "description": "+1.5 Attack per rank"
+    },
+    {
+     "id": "pyromancer_01",
+     "branch": "Inferno",
+     "name": "Searing",
+     "max_rank": 3,
+     "per_rank": {
+      "crit_chance": 0.03
+     },
+     "description": "+3% Crit Chance per rank",
+     "requires": {
+      "pyromancer_00": 1
+     }
+    },
+    {
+     "id": "pyromancer_02",
+     "branch": "Inferno",
+     "name": "Wildfire",
+     "max_rank": 1,
+     "per_rank": {
+      "attack_pct": 0.12
+     },
+     "description": "+12% Attack",
+     "requires": {
+      "pyromancer_01": 2
+     }
+    },
+    {
+     "id": "pyromancer_10",
+     "branch": "Ember Ward",
+     "name": "Ash Veil",
+     "max_rank": 3,
+     "per_rank": {
+      "defense": 2
+     },
+     "description": "+2 Defense per rank"
+    },
+    {
+     "id": "pyromancer_11",
+     "branch": "Ember Ward",
+     "name": "Warm Blood",
+     "max_rank": 3,
+     "per_rank": {
+      "max_hp": 1
+     },
+     "description": "+1 Max HP per rank",
+     "requires": {
+      "pyromancer_10": 1
+     }
+    },
+    {
+     "id": "pyromancer_12",
+     "branch": "Ember Ward",
+     "name": "Phoenix Down",
+     "max_rank": 1,
+     "per_rank": {
+      "max_armor": 1
+     },
+     "description": "+1 Shield",
+     "requires": {
+      "pyromancer_11": 2
+     }
+    },
+    {
+     "id": "pyromancer_20",
+     "branch": "Combustion",
+     "name": "Fuel",
+     "max_rank": 3,
+     "per_rank": {
+      "skill_haste": 0.06
+     },
+     "description": "+6% Skill Haste per rank"
+    },
+    {
+     "id": "pyromancer_21",
+     "branch": "Combustion",
+     "name": "Supernova",
+     "max_rank": 3,
+     "per_rank": {
+      "skill_power": 0.2
+     },
+     "description": "+20% Skill Damage per rank",
+     "requires": {
+      "pyromancer_20": 1
+     }
+    },
+    {
+     "id": "pyromancer_22",
+     "branch": "Combustion",
+     "name": "Heat Haze",
+     "max_rank": 1,
+     "per_rank": {
+      "move_speed": 0.06
+     },
+     "description": "+6% Move Speed",
+     "requires": {
+      "pyromancer_21": 2
+     }
+    }
+   ]
+  },
+  "necromancer": {
+   "nodes": [
+    {
+     "id": "necromancer_00",
+     "branch": "Soulfire",
+     "name": "Grave Wisps",
+     "max_rank": 3,
+     "per_rank": {
+      "attack": 1.5
+     },
+     "description": "+1.5 Attack per rank"
+    },
+    {
+     "id": "necromancer_01",
+     "branch": "Soulfire",
+     "name": "Hollow Gaze",
+     "max_rank": 3,
+     "per_rank": {
+      "crit_chance": 0.03
+     },
+     "description": "+3% Crit Chance per rank",
+     "requires": {
+      "necromancer_00": 1
+     }
+    },
+    {
+     "id": "necromancer_02",
+     "branch": "Soulfire",
+     "name": "Reaper",
+     "max_rank": 1,
+     "per_rank": {
+      "crit_damage": 0.3
+     },
+     "description": "+30% Crit Damage",
+     "requires": {
+      "necromancer_01": 2
+     }
+    },
+    {
+     "id": "necromancer_10",
+     "branch": "Bone Ward",
+     "name": "Bone Plating",
+     "max_rank": 3,
+     "per_rank": {
+      "defense": 2
+     },
+     "description": "+2 Defense per rank"
+    },
+    {
+     "id": "necromancer_11",
+     "branch": "Bone Ward",
+     "name": "Lich Vigor",
+     "max_rank": 3,
+     "per_rank": {
+      "max_hp": 1
+     },
+     "description": "+1 Max HP per rank",
+     "requires": {
+      "necromancer_10": 1
+     }
+    },
+    {
+     "id": "necromancer_12",
+     "branch": "Bone Ward",
+     "name": "Phylactery",
+     "max_rank": 1,
+     "per_rank": {
+      "hp_pct": 0.15
+     },
+     "description": "+15% Max HP",
+     "requires": {
+      "necromancer_11": 2
+     }
+    },
+    {
+     "id": "necromancer_20",
+     "branch": "Legion",
+     "name": "Dark Pact",
+     "max_rank": 3,
+     "per_rank": {
+      "skill_haste": 0.06
+     },
+     "description": "+6% Skill Haste per rank"
+    },
+    {
+     "id": "necromancer_21",
+     "branch": "Legion",
+     "name": "Soul Legion",
+     "max_rank": 3,
+     "per_rank": {
+      "skill_power": 0.2
+     },
+     "description": "+20% Skill Damage per rank",
+     "requires": {
+      "necromancer_20": 1
+     }
+    },
+    {
+     "id": "necromancer_22",
+     "branch": "Legion",
+     "name": "Spirit Haste",
+     "max_rank": 1,
+     "per_rank": {
+      "attack_speed": 0.08
+     },
+     "description": "+8% Attack Speed",
+     "requires": {
+      "necromancer_21": 2
+     }
+    }
+   ]
+  }
+ }
+}

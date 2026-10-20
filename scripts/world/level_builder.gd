@@ -97,7 +97,7 @@ static func build(level: Level, layout: DungeonLayout) -> void:
 						corridor[t3] = true
 			a.add_door([Vector2i(cx - 1, y0), Vector2i(cx, y0), Vector2i(cx + 1, y0)], Vector2i(0, 1))
 			b.add_door([Vector2i(cx - 1, y1), Vector2i(cx, y1), Vector2i(cx + 1, y1)], Vector2i(0, -1))
-	paint(level, corridor, runes, layout.floor_index >= RunState.TOTAL_FLOORS)
+	paint(level, corridor, runes, layout.floor_index >= (Game.run.total_floors if Game.run != null else RunState.TOTAL_FLOORS))
 	level.build_nav()
 	# 3. props from template glyphs
 	for room: Room in level.rooms:

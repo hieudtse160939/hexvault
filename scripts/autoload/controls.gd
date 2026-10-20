@@ -68,6 +68,7 @@ static func bindings() -> Dictionary:
 		"reload": [_key(KEY_R), _pad(JOY_BUTTON_B)],
 		"pause": [_key(KEY_ESCAPE), _key(KEY_P), _pad(JOY_BUTTON_START)],
 		"toggle_map": [_key(KEY_M), _pad(JOY_BUTTON_BACK)],
+		"inventory": [_key(KEY_I), _key(KEY_C), _pad(JOY_BUTTON_RIGHT_SHOULDER)],
 		"dev_menu": [_key(KEY_F1), _key(KEY_QUOTELEFT)],
 	}
 
@@ -138,3 +139,23 @@ func fire_held() -> bool:
 	if device == Device.TOUCH:
 		return touch_fire
 	return Input.is_action_pressed("fire")
+
+
+## Prompt text for an action on the active device, read from the actual
+## InputMap binding ("E", "X button", "USE") so prompts never show a key that
+## is not bound.
+func action_label(action: String) -> String:
+	if device == Device.TOUCH:
+		return "USE" if action == "interact" else action.capitalize()
+	if not InputMap.has_action(action):
+		return "?"
+	for ev: InputEvent in InputMap.action_get_events(action):
+		if device == Device.GAMEPAD and ev is InputEventJoypadButton:
+			return {JOY_BUTTON_A: "A", JOY_BUTTON_B: "B", JOY_BUTTON_X: "X", JOY_BUTTON_Y: "Y",
+				JOY_BUTTON_LEFT_SHOULDER: "LB", JOY_BUTTON_RIGHT_SHOULDER: "RB", JOY_BUTTON_BACK: "Back",
+				JOY_BUTTON_START: "Start"}.get((ev as InputEventJoypadButton).button_index, "Pad")
+		if device == Device.KEYBOARD_MOUSE and ev is InputEventKey:
+			return OS.get_keycode_string((ev as InputEventKey).physical_keycode)
+		if device == Device.KEYBOARD_MOUSE and ev is InputEventMouseButton:
+			return {MOUSE_BUTTON_LEFT: "LMB", MOUSE_BUTTON_RIGHT: "RMB"}.get((ev as InputEventMouseButton).button_index, "Mouse")
+	return "?"

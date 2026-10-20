@@ -30,7 +30,7 @@ func _ready() -> void:
 	root.add_child(_fps_label)
 	_toast_box = VBoxContainer.new()
 	_toast_box.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
-	_toast_box.offset_top = 24
+	_toast_box.offset_top = 40
 	_toast_box.alignment = BoxContainer.ALIGNMENT_BEGIN
 	_toast_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_toast_box.grow_horizontal = Control.GROW_DIRECTION_BOTH
@@ -39,7 +39,7 @@ func _ready() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
 	Game.goto("title")
 	if "--smoke-dungeon" in args:
-		Game.start_run("ranger", 12345)
+		Game.start_run(Profile.selected_hero(), 12345)
 	if "--smoke-quit" in args:
 		get_tree().create_timer(3.0).timeout.connect(Game.quit_game)
 	for a: String in args:

@@ -20,7 +20,16 @@ const WALL_BANNER: int = 12
 const HUB_FLOOR: int = 13
 const HUB_RUNE: int = 14
 const BOSS_RUNE: int = 15
-const SOLID_TILES: Array[int] = [8, 9, 10, 11, 12]
+# Adventurers' Guild interior (tools/artgen/hd/guild.py::tiles)
+const GUILD_WOOD: Array[int] = [16, 17]
+const GUILD_RUG: int = 18
+const GUILD_STAGE: int = 19
+const GUILD_WALL: int = 20
+const GUILD_WALL_BANNER: int = 21
+const GUILD_WALL_LANTERN: int = 22
+const GUILD_WALL_MAP: int = 23
+const COUNT: int = 24
+const SOLID_TILES: Array[int] = [8, 9, 10, 11, 12, 20, 21, 22, 23]
 
 static var _tileset: TileSet = null
 
@@ -52,7 +61,7 @@ static func tileset() -> TileSet:
 	ts.add_source(src, 0)
 	var h: float = px / 2.0
 	var square: PackedVector2Array = [Vector2(-h, -h), Vector2(h, -h), Vector2(h, h), Vector2(-h, h)]
-	for i: int in 16:
+	for i: int in COUNT:
 		var c: Vector2i = coords(i)
 		src.create_tile(c)
 		if i in SOLID_TILES:

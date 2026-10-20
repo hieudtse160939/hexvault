@@ -28,7 +28,7 @@ func _ready() -> void:
 	grid.add_child(UiTheme.button("Kill room", _kill_all))
 	grid.add_child(UiTheme.button("Skip to boss", func() -> void:
 		if Game.is_in_run():
-			Game.run.floor_index = RunState.TOTAL_FLOORS - 1
+			Game.run.floor_index = Game.run.total_floors - 1
 			Game.next_floor()
 		else:
 			_log("Start a run first")))

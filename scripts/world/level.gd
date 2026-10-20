@@ -125,6 +125,16 @@ func nearest_open(t: Vector2i, radius: int) -> Vector2i:
 	return Vector2i(-99999, -99999)
 
 
+## True if the segment stays over walkable ground (no wall tile in between).
+## Used for interaction checks, where the target's own collider must not count.
+func tiles_clear(a: Vector2, b: Vector2) -> bool:
+	var n: int = maxi(int(a.distance_to(b) / 4.0), 1)
+	for i: int in range(1, n):
+		if not floor_tiles.has(to_tile(a.lerp(b, float(i) / n))):
+			return false
+	return true
+
+
 ## True if nothing on the world/breakable layers blocks the segment.
 func line_clear(a: Vector2, b: Vector2) -> bool:
 	var space: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
