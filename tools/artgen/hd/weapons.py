@@ -3,6 +3,8 @@
 Each weapon records its muzzle point so shots leave the barrel tip."""
 from __future__ import annotations
 
+import math
+
 from canvas import HDCanvas
 
 FRAME = (96, 48)
@@ -100,9 +102,190 @@ def sunforge_mace() -> HDCanvas:
     return c
 
 
+def _grip(c: HDCanvas, ramp: str = "leather", x0: float = 20, y0: float = 40, x1: float = 26, y1: float = 28) -> None:
+    c.draw(c.capsule(x0, y0, x1, y1, 3.0, 3.0), ramp, "round", name="grip")
+    for k in range(3):
+        yy = y0 - 3 - k * 3.5
+        c.line(x0 - 2 + k * 1.5, yy, x0 + 3 + k * 1.5, yy - 1, ramp, 1)
+
+
+def scatter_cannon() -> HDCanvas:
+    c = HDCanvas(*FRAME)
+    c.draw(c.poly([(6, 24), (22, 22), (26, 31), (8, 36)]), "hair_brown", "plate", name="stock")
+    _grip(c, "hair_brown", 22, 39, 27, 29)
+    c.draw(c.poly([(20, 17), (46, 16), (48, 30), (22, 31)]), "amber", "plate", bias=-1, name="receiver")
+    for y in (18.5, 25.5):
+        c.draw(c.capsule(44, y, 68, y, 3.3, 3.3), "steel", "metal", name="barrel")
+    c.draw(c.ellipse(70, 22, 4, 9), "amber", "metal", name="muzzle_flare")
+    c.fixed(c.ellipse(71.5, 18.5, 1.2, 1.6) | c.ellipse(71.5, 25.5, 1.2, 1.6), "void")
+    c.draw(c.rect(30, 30, 36, 34), "steel", "plate", bias=-1, name="trigger_guard")
+    for x in (26, 34, 42):
+        c.px(x, 19, "amber", 5)
+    c.outline("ink")
+    c.despeckle()
+    return c
+
+
+def ember_blade() -> HDCanvas:
+    c = HDCanvas(*FRAME)
+    _grip(c, "leather", 16, 32, 25, 28)
+    c.draw(c.ellipse(16, 32.5, 2.6, 2.6), "amber", "metal", name="pommel")
+    c.draw(c.poly([(26, 20), (31, 21), (31, 36), (26, 37)]), "amber", "metal", name="guard")
+    blade = c.poly([(31, 25), (78, 22), (88, 26), (78, 31), (31, 32)])
+    c.draw(blade, "steel", "metal", bias=1, name="blade")
+    edge = c.poly([(34, 30), (78, 29), (86, 26.5), (78, 31.5), (34, 32.5)])
+    c.draw(edge, "flame", "glow", name="ember_edge", selout=False)
+    c.line(33, 26.5, 76, 24.5, "steel", 5)
+    for x, y in ((48, 33), (62, 32), (74, 33)):
+        c.px(x, y + 1, "flame", 4)
+    c.outline("ink")
+    c.despeckle()
+    return c
+
+
+def thornbow() -> HDCanvas:
+    c = HDCanvas(*FRAME)
+    pts = [(38 + 10 * math.sin(t / 10 * math.pi), 6 + t * 3.6) for t in range(11)]
+    for (ax, ay), (bx, by) in zip(pts, pts[1:]):
+        c.draw(c.capsule(ax, ay, bx, by, 2.6, 2.6), "hair_brown", "round", name="limb")
+    for t in (2, 4, 6, 8):
+        x, y = pts[t]
+        c.draw(c.poly([(x + 1, y), (x + 5, y - 3), (x + 2, y + 2)]), "moss", "round", name="thorn")
+    c.line(pts[0][0], pts[0][1], pts[-1][0], pts[-1][1], "bone", 4)
+    c.draw(c.capsule(24, 28, 70, 28, 1.1, 1.1), "hair_brown", "round", bias=1, name="arrow")
+    c.draw(c.poly([(70, 25), (77, 28), (70, 31)]), "steel", "metal", name="arrowhead")
+    c.draw(c.poly([(24, 28), (19, 24), (21, 28), (19, 32)]), "moss", "cloth", name="fletching")
+    _grip(c, "leather", 44, 33, 47, 24)
+    c.outline("ink")
+    c.despeckle()
+    return c
+
+
+def pulse_rifle() -> HDCanvas:
+    c = HDCanvas(*FRAME)
+    c.draw(c.poly([(4, 22), (20, 21), (21, 30), (6, 33)]), "slate", "plate", name="stock")
+    _grip(c, "night", 22, 39, 26, 29)
+    c.draw(c.poly([(18, 17), (62, 17), (64, 28), (20, 29)]), "slate", "plate", name="body")
+    c.draw(c.rect(34, 28, 40, 40), "steel", "plate", bias=-1, name="magazine")
+    c.draw(c.capsule(62, 21, 84, 21, 2.6, 2.4), "steel", "metal", name="barrel")
+    c.draw(c.rect(30, 11, 46, 15), "night", "plate", name="scope")
+    c.draw(c.ellipse(46.5, 13, 1.6, 2.2), "teal", "glow", selout=False, name="scope_lens")
+    for x in range(24, 58, 6):
+        c.draw(c.rect(x, 20, x + 3, 24), "teal", "glow", selout=False, name="coil")
+    c.outline("ink")
+    c.despeckle()
+    return c
+
+
+def frost_needler() -> HDCanvas:
+    c = HDCanvas(*FRAME)
+    _grip(c, "slate", 22, 39, 26, 29)
+    c.draw(c.poly([(18, 19), (50, 18), (52, 29), (20, 30)]), "steel", "plate", name="body")
+    tank = c.ellipse(34, 14, 9, 5.5)
+    c.draw(tank, "frost", "glow", name="cryo_tank")
+    c.fixed(c.ellipse(31, 12.5, 2, 1.2), "glow_frost")
+    c.draw(c.capsule(50, 23, 74, 23, 1.6, 1.0), "frost", "metal", bias=1, name="needle_barrel")
+    for x in (56, 62, 68):
+        c.draw(c.poly([(x, 21), (x + 3, 18), (x + 2, 22)]), "frost", "metal", bias=1, name="ice_spur")
+    c.outline("ink")
+    c.despeckle()
+    return c
+
+
+def hex_staff() -> HDCanvas:
+    c = HDCanvas(*FRAME)
+    c.draw(c.capsule(10, 32, 70, 22, 2.0, 2.0), "night", "round", name="staff")
+    _grip(c, "violet", 20, 31, 28, 29)
+    c.draw(c.ellipse(78, 20, 7.5, 7.5) & ~c.ellipse(78, 20, 5.8, 5.8), "amber", "metal", name="halo_ring")
+    gem = c.poly([(78, 11), (84, 20), (78, 29), (72, 20)])
+    c.draw(gem, "violet", "glow", name="hex_gem")
+    c.fixed(c.ellipse(76.5, 17.5, 1.4, 2), "glow_violet")
+    for x, y in ((66, 12), (89, 26), (84, 10)):
+        c.px(x, y, "violet", 5)
+    c.outline("ink")
+    c.despeckle()
+    return c
+
+
+def longshot() -> HDCanvas:
+    c = HDCanvas(*FRAME)
+    c.draw(c.poly([(2, 23), (20, 22), (22, 31), (4, 34)]), "hair_brown", "plate", name="stock")
+    _grip(c, "hair_brown", 22, 38, 26, 29)
+    c.draw(c.poly([(18, 19), (46, 19), (46, 29), (20, 29)]), "slate", "plate", name="receiver")
+    c.draw(c.capsule(44, 23, 92, 23, 2.0, 1.8), "steel", "metal", name="long_barrel")
+    c.draw(c.rect(88, 20, 92, 26), "slate", "plate", name="brake")
+    c.draw(c.capsule(24, 13, 44, 13, 3.0, 3.0), "night", "plate", name="scope")
+    c.draw(c.ellipse(45, 13, 1.5, 2.6), "azure", "glow", selout=False, name="lens")
+    c.line(60, 26, 54, 38, "steel", 1)
+    c.line(62, 26, 68, 38, "steel", 1)
+    c.outline("ink")
+    c.despeckle()
+    return c
+
+
+def boom_tube() -> HDCanvas:
+    c = HDCanvas(*FRAME)
+    tube = c.capsule(10, 20, 74, 20, 8.0, 8.0)
+    c.draw(tube, "moss", "metal", bias=-1, name="tube")
+    for x in (22, 30):
+        c.draw(c.rect(x, 12, x + 3, 28) & tube, "amber", "flat", name="hazard")
+    c.draw(c.ellipse(76, 20, 3.0, 8.5), "slate", "plate", name="rim")
+    c.draw(c.poly([(76, 15), (86, 20), (76, 25)]), "crimson", "round", name="warhead")
+    _grip(c, "night", 26, 40, 30, 28)
+    c.draw(c.rect(40, 9, 50, 12), "steel", "plate", name="sight")
+    c.outline("ink")
+    c.despeckle()
+    return c
+
+
+def storm_coil() -> HDCanvas:
+    c = HDCanvas(*FRAME)
+    _grip(c, "night", 22, 39, 26, 29)
+    c.draw(c.poly([(18, 18), (44, 17), (46, 30), (20, 31)]), "steel", "plate", name="body")
+    for x in range(44, 66, 5):
+        c.draw(c.ellipse(x, 24, 2.6, 6.5), "amber", "metal", name="copper_coil")
+    c.draw(c.capsule(44, 24, 66, 24, 1.6, 1.6), "steel", "metal", bias=-1, name="core")
+    for dy in (-6, 6):
+        c.draw(c.capsule(66, 24, 76, 24 + dy, 1.4, 1.0), "steel", "metal", name="prong")
+    for (x, y) in ((79, 17), (81, 24), (79, 31)):
+        c.fixed(c.ellipse(x, y, 1.2, 1.2), "glow_violet")
+    c.line(76, 18, 80, 24, "violet", 4)
+    c.line(80, 24, 76, 30, "violet", 4)
+    c.outline("ink")
+    c.despeckle()
+    return c
+
+
+def prism_lance() -> HDCanvas:
+    c = HDCanvas(*FRAME)
+    _grip(c, "bone", 18, 33, 27, 28)
+    c.draw(c.poly([(26, 21), (34, 22), (34, 34), (26, 35)]), "amber", "metal", name="guard")
+    shaft = c.poly([(34, 25), (70, 24), (70, 31), (34, 31)])
+    c.draw(shaft, "bone", "metal", bias=1, name="shaft")
+    prism = c.poly([(70, 20), (90, 27.5), (70, 35)])
+    c.draw(prism, "frost", "glow", name="prism")
+    c.fixed(c.poly([(72, 25), (84, 27.5), (72, 30)]), "white")
+    for i, ramp in enumerate(("crimson", "amber", "moss", "azure", "violet")):
+        c.line(36 + i * 6, 26, 38 + i * 6, 29, ramp, 4)
+    c.outline("ink")
+    c.despeckle()
+    return c
+
+
+
 WEAPONS = {
     "rift_pistol": {"draw": rift_pistol, "muzzle": (68, 20), "version": 1},
     "cinder_wand": {"draw": cinder_wand, "muzzle": (64, 18), "version": 1},
     "wisp_lantern": {"draw": wisp_lantern, "muzzle": (62, 26), "version": 1},
     "sunforge_mace": {"draw": sunforge_mace, "muzzle": (68, 21), "version": 1},
+    "scatter_cannon": {"draw": scatter_cannon, "muzzle": (72, 22), "version": 1},
+    "ember_blade": {"draw": ember_blade, "muzzle": (86, 26), "version": 1},
+    "thornbow": {"draw": thornbow, "muzzle": (76, 28), "version": 1},
+    "pulse_rifle": {"draw": pulse_rifle, "muzzle": (86, 21), "version": 1},
+    "frost_needler": {"draw": frost_needler, "muzzle": (75, 23), "version": 1},
+    "hex_staff": {"draw": hex_staff, "muzzle": (82, 20), "version": 1},
+    "longshot": {"draw": longshot, "muzzle": (93, 23), "version": 1},
+    "boom_tube": {"draw": boom_tube, "muzzle": (86, 20), "version": 1},
+    "storm_coil": {"draw": storm_coil, "muzzle": (81, 24), "version": 1},
+    "prism_lance": {"draw": prism_lance, "muzzle": (90, 27), "version": 1},
 }
