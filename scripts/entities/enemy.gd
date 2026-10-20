@@ -378,9 +378,16 @@ func _summon(p: Player) -> void:
 		var tile: Vector2i = Level.to_tile(global_position + off)
 		if not lvl.is_walkable(tile):
 			tile = Level.to_tile(global_position)
+		var e: Enemy
 		if room != null:
-			var e: Enemy = room.spawn_enemy(sd, false, Level.to_world(tile), 0.5)
-			_summons.append(e)
+			e = room.spawn_enemy(sd, false, Level.to_world(tile), 0.5)
+		else:
+			# Outside a room controller (tests, hub, custom arenas): spawn directly.
+			e = Enemy.create(sd, false, floor_index, difficulty, _rng.randi())
+			e.position = Level.to_world(tile)
+			e.aggro = true
+			lvl.add_entity(e)
+		_summons.append(e)
 
 
 func _contact_damage(p: Player) -> void:

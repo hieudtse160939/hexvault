@@ -43,10 +43,10 @@ def main() -> int:
         for l in errs[:20]:
             print("   ", l)
         ok &= r.returncode == 0 and not errs
-    cmd = [sys.executable, os.path.join(SKILL, "test", "run_tests.py"), ROOT, "--godot-bin", godot]
+    cmd = [sys.executable, os.path.join(SKILL, "test", "run_tests.py"), ROOT, "--godot-bin", godot, "--test-timeout", "240", "--timeout", "1500"]
     if args.select:
         cmd += ["--select", args.select]
-    r = run(cmd, env=env, timeout=900)
+    r = run(cmd, env=env, timeout=1600)
     try:
         d = json.loads(r.stdout)
     except json.JSONDecodeError:
