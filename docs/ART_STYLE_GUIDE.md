@@ -45,11 +45,12 @@ a 2 px transparent margin; `asset_qa.py` fails any frame with opaque pixels on i
   units, x figure scale k ≈ 1.2–1.35). Defaults in `kit.proportions()`; a hero may change k
   (a hulking Warden 1.35, a small Tinker 1.2) but keeps feet on the ground line and the body
   centred.
-- **Face (anime 3/4):** the head turns toward the camera, so both eyes show — the near eye
-  bigger (3.4 × 4.8), the far eye narrower (2.4 × 4.4). Each eye: thick ink lash line swept at
-  the outer corner, white, two-tone iris (darker top third), pupil, white catch-lights. Short
-  brows in the hair colour, one-pixel nose tip, a small mouth, rose blush lines. Hoods and
-  helms are open-faced so the face always reads.
+- **Face (anime 3/4):** the head turns toward the camera, so both eyes show. Eyes are
+  hand-made pixel templates (`kit.EYE_NEAR` 7 × 7, `kit.EYE_FAR` 5 × 6), never scaled
+  rectangles: rounded shape, ink lash line flicked at the outer corner, iris graded dark at the
+  top to light at the bottom, pupil, two white catch-lights, a single white-of-eye pixel.
+  Thin one-pixel brows two pixels above the lashes. Faces use flat, light cel shading (no
+  dome shading on skin), a tiny mouth and rose blush. Hoods and helms are open-faced.
 - **Hair:** big volume over the skull, pointed bangs down to the brows, a side lock framing the
   face, a broken "shine ring" in the brightest shade. Styles: short, spiky, long, ponytail.
 - **Near / far limbs:** the far arm and leg are drawn first and one shade darker (`bias=-1`).

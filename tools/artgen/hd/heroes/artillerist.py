@@ -27,7 +27,7 @@ def _gear(x) -> None:
     c.draw(band, "crimson", "cloth", name="bandana")
     k0, k1 = x.hp(-11.0, -8.0), x.hp(-16.0 - x.p.sway * 2, -4.0)
     c.draw(c.capsule(k0[0], k0[1], k1[0], k1[1], R(1.6), R(0.8)), "crimson", "cloth", bias=-1, name="bandana_tail")
-    ex, ey = x.hp(-3.5, 2.0)
+    ex, ey = x.hp(-8.5, 2.5)
     c.draw(c.ellipse(ex, ey, R(3.8), R(4.4), rot=x.sk.angle), "amber", "plate", name="ear_muff")
     c.draw(c.ellipse(ex, ey, R(2.0), R(2.4), rot=x.sk.angle), "night", "flat", name="ear_pad")
     # bandolier with shells across the chest

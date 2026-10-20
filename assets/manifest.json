@@ -941,7 +941,7 @@
     64,
     112
    ],
-   "sha": "d2f147fee1a7d43b",
+   "sha": "00ea9fdcee8eb798",
    "source": "procedural: tools/artgen/hd/heroes/artillerist.py",
    "type": "heroes",
    "version": 1
@@ -994,7 +994,7 @@
     64,
     112
    ],
-   "sha": "74abf5add87f05ab",
+   "sha": "99d83a30943eec9e",
    "source": "procedural: tools/artgen/hd/heroes/assassin.py",
    "type": "heroes",
    "version": 1
@@ -1047,7 +1047,7 @@
     64,
     112
    ],
-   "sha": "14b295997faeda83",
+   "sha": "1e9c881cbef9c237",
    "source": "procedural: tools/artgen/hd/heroes/cryomancer.py",
    "type": "heroes",
    "version": 1
@@ -1100,7 +1100,7 @@
     64,
     112
    ],
-   "sha": "618f5c8608ef43bd",
+   "sha": "c31663c92d245ccf",
    "source": "procedural: tools/artgen/hd/heroes/duelist.py",
    "type": "heroes",
    "version": 1
@@ -1153,7 +1153,7 @@
     64,
     112
    ],
-   "sha": "c29c80ffd080795a",
+   "sha": "9b87f54626352609",
    "source": "procedural: tools/artgen/hd/heroes/hexer.py",
    "type": "heroes",
    "version": 1
@@ -1255,7 +1255,7 @@
     64,
     112
    ],
-   "sha": "9016329fa5768017",
+   "sha": "0f18913d22352cef",
    "source": "procedural: tools/artgen/hd/heroes/necromancer.py",
    "type": "heroes",
    "version": 1
@@ -1308,7 +1308,7 @@
     64,
     112
    ],
-   "sha": "35ff2ed9f52d7c66",
+   "sha": "e0fc02e8089786ea",
    "source": "procedural: tools/artgen/hd/heroes/paladin.py",
    "type": "heroes",
    "version": 1
@@ -1361,7 +1361,7 @@
     64,
     112
    ],
-   "sha": "7499273c73cba4cd",
+   "sha": "c240ad39f62b22ce",
    "source": "procedural: tools/artgen/hd/heroes/pyromancer.py",
    "type": "heroes",
    "version": 1
@@ -1414,7 +1414,7 @@
     64,
     112
    ],
-   "sha": "c7f4e476fe0dc498",
+   "sha": "0c72b8c4f388d0c0",
    "source": "procedural: tools/artgen/hd/heroes/ranger.py",
    "type": "heroes",
    "version": 3
@@ -1516,7 +1516,7 @@
     64,
     112
    ],
-   "sha": "c137f2a8af65feda",
+   "sha": "2d58e3c9fd1e61a1",
    "source": "procedural: tools/artgen/hd/heroes/stormcaller.py",
    "type": "heroes",
    "version": 1
@@ -1569,7 +1569,7 @@
     64,
     112
    ],
-   "sha": "60688f6db34d1aff",
+   "sha": "1a638693c14baa40",
    "source": "procedural: tools/artgen/hd/heroes/tinker.py",
    "type": "heroes",
    "version": 1
@@ -1671,7 +1671,7 @@
     64,
     112
    ],
-   "sha": "cc3b42b4ecf5542f",
+   "sha": "8e5397a2202e5581",
    "source": "procedural: tools/artgen/hd/heroes/warden.py",
    "type": "heroes",
    "version": 1
