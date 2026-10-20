@@ -8,7 +8,7 @@ var used: bool = false
 func _ready() -> void:
 	super._ready()
 	var s: Sprite2D = Sprite2D.new()
-	s.texture = SpriteLib.still("prop_statue")
+	SpriteLib.apply(s, "prop_statue")
 	s.offset = Vector2(0, -8)
 	add_child(s)
 	var body: StaticBody2D = StaticBody2D.new()

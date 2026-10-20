@@ -18,7 +18,7 @@ static func create(pos: Vector2, duration: float, p: Player) -> Turret:
 
 func _ready() -> void:
 	_sprite = AnimatedSprite2D.new()
-	_sprite.sprite_frames = SpriteLib.frames("turret")
+	SpriteLib.apply(_sprite, "turret")
 	_sprite.play(&"idle")
 	add_child(_sprite)
 	FX.burst("puff", global_position)

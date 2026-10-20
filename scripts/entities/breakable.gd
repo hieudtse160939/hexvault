@@ -26,7 +26,7 @@ static func create(k: int, t: Vector2i) -> Breakable:
 	cs.position = Vector2(0, 1)
 	b.add_child(cs)
 	b._sprite = AnimatedSprite2D.new()
-	b._sprite.sprite_frames = SpriteLib.frames("prop_crate" if k == Kind.CRATE else "prop_barrel")
+	SpriteLib.apply(b._sprite, "prop_crate" if k == Kind.CRATE else "prop_barrel")
 	b._sprite.play(&"idle")
 	b.add_child(b._sprite)
 	b.add_to_group("breakables")

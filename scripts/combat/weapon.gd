@@ -26,7 +26,7 @@ func setup(d: WeaponData, ammo_left: int = -1) -> void:
 	if _sprite == null:
 		_sprite = Sprite2D.new()
 		add_child(_sprite)
-	_sprite.texture = SpriteLib.still("weapon_" + d.id)
+	SpriteLib.apply(_sprite, "weapon_" + d.id)
 	var pv: Vector2 = SpriteLib.pivot("weapon_" + d.id)
 	var fs: Vector2i = SpriteLib.frame_size("weapon_" + d.id)
 	_sprite.centered = false
@@ -54,7 +54,8 @@ func set_aim(dir: Vector2) -> void:
 
 
 func muzzle_position() -> Vector2:
-	var reach: float = float(SpriteLib.frame_size("weapon_" + data.id).x - SpriteLib.pivot("weapon_" + data.id).x)
+	var key: String = "weapon_" + data.id
+	var reach: float = SpriteLib.frame_size_world(key).x - SpriteLib.pivot_world(key).x
 	return global_position + _aim * maxf(reach - 2.0, 4.0)
 
 

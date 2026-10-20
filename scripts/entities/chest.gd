@@ -21,7 +21,7 @@ static func create(k: int, pos: Vector2, seed_value: int) -> Chest:
 func _ready() -> void:
 	super._ready()
 	_sprite = AnimatedSprite2D.new()
-	_sprite.sprite_frames = SpriteLib.frames("prop_chest")
+	SpriteLib.apply(_sprite, "prop_chest")
 	_sprite.play(&"closed")
 	if kind == Kind.WEAPON:
 		_sprite.modulate = Color(0.85, 1.0, 1.15)

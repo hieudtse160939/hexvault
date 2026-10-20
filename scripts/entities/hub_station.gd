@@ -23,7 +23,7 @@ static func create(t: String, p: String, sprite: String, pos: Vector2, cb: Calla
 func _ready() -> void:
 	super._ready()
 	var spr: AnimatedSprite2D = AnimatedSprite2D.new()
-	spr.sprite_frames = SpriteLib.frames(sprite_key)
+	SpriteLib.apply(spr, sprite_key)
 	spr.play(spr.sprite_frames.get_animation_names()[0])
 	if SpriteLib.frame_size(sprite_key).y > 16:
 		spr.offset = Vector2(0, -8)

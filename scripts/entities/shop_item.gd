@@ -21,7 +21,7 @@ static func create(type: String, id: String, cost: int, pos: Vector2) -> ShopIte
 func _ready() -> void:
 	super._ready()
 	var ped: Sprite2D = Sprite2D.new()
-	ped.texture = SpriteLib.still("prop_pedestal")
+	SpriteLib.apply(ped, "prop_pedestal")
 	add_child(ped)
 	var body: StaticBody2D = StaticBody2D.new()
 	body.collision_layer = Level.WORLD_MASK
@@ -36,7 +36,7 @@ func _ready() -> void:
 	_icon.position = Vector2(0, -6)
 	match item_type:
 		"weapon":
-			_icon.texture = SpriteLib.still("weapon_" + item_id)
+			SpriteLib.apply(_icon, "weapon_" + item_id)
 		"heart":
 			_icon.texture = SpriteLib.texture("icon_heart")
 		"armor":

@@ -21,7 +21,6 @@ func _ready() -> void:
 	box.add_child(holder)
 	_preview = AnimatedSprite2D.new()
 	_preview.position = Vector2(120, 16)
-	_preview.scale = Vector2(2, 2)
 	holder.add_child(_preview)
 	_detail = add_text("", UiTheme.TEXT, 240)
 	_action = add_button("", _on_action)
@@ -54,7 +53,7 @@ func _rebuild() -> void:
 func _show(id: String) -> void:
 	_current = id
 	var c: CharacterData = Db.character(id)
-	_preview.sprite_frames = SpriteLib.frames(c.sprite)
+	SpriteLib.apply(_preview, c.sprite, 2.0)
 	_preview.play(&"run")
 	var w: WeaponData = Db.weapon(c.start_weapon)
 	var txt: String = "%s the %s\nHP %d  Armor %d  Speed %d\nStarts with: %s\n%s" % [

@@ -58,12 +58,12 @@ func _ready() -> void:
 	cs.position = Vector2(0, 4)
 	add_child(cs)
 	var shadow: Sprite2D = Sprite2D.new()
-	shadow.texture = SpriteLib.still("prop_shadow_s")
+	SpriteLib.apply(shadow, "prop_shadow_s")
 	shadow.position = Vector2(0, 7)
 	shadow.z_index = -1
 	add_child(shadow)
 	body = AnimatedSprite2D.new()
-	body.sprite_frames = SpriteLib.frames(character.sprite)
+	SpriteLib.apply(body, character.sprite)
 	body.position = Vector2(0, -1)
 	FX.make_flashable(body)
 	add_child(body)
@@ -343,6 +343,8 @@ func _spawn_ghost() -> void:
 	var g: Sprite2D = Sprite2D.new()
 	g.texture = body.sprite_frames.get_frame_texture(body.animation, body.frame)
 	g.flip_h = body.flip_h
+	g.scale = body.scale
+	g.texture_filter = body.texture_filter
 	g.global_position = body.global_position
 	g.modulate = Color(0.45, 0.95, 0.9, 0.55)
 	lvl.fx_layer.add_child(g)

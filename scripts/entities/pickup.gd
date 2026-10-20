@@ -40,7 +40,7 @@ static func spawn_coins(pos: Vector2, amount: int) -> void:
 
 func _ready() -> void:
 	_sprite = AnimatedSprite2D.new()
-	_sprite.sprite_frames = SpriteLib.frames(SPRITES[kind])
+	SpriteLib.apply(_sprite, SPRITES[kind])
 	_sprite.play(&"idle")
 	_sprite.frame = randi() % maxi(_sprite.sprite_frames.get_frame_count(&"idle"), 1)
 	add_child(_sprite)

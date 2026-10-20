@@ -1,5 +1,10 @@
 extends Node
 ## Builds and caches SpriteFrames / textures from the asset manifest.
+##
+## Pixel density: every manifest entry may carry "density" = art pixels per
+## world unit (1 for the original 16 px art, 4 for HD art). World code always
+## works in world units; use apply() to put a sprite on a node at the right
+## size, and the *_world() helpers for offsets measured on the art.
 
 var _frames: Dictionary = {}   # key -> SpriteFrames
 var _textures: Dictionary = {} # key -> Texture2D
@@ -34,6 +39,46 @@ func frames(key: String) -> SpriteFrames:
 		push_warning("SpriteLib: unknown sprite '%s'" % key)
 	_frames[key] = sf
 	return sf
+
+
+## Art pixels per world unit for a sprite or image key (1 when unspecified).
+func density(key: String) -> float:
+	var entry: Variant = SpriteManifest.sprites().get(key, SpriteManifest.images().get(key, null))
+	if entry is Dictionary:
+		return maxf(float((entry as Dictionary).get("density", 1.0)), 0.01)
+	return 1.0
+
+
+func is_hd(key: String) -> bool:
+	return density(key) > 1.0
+
+
+## Puts the sprite `key` on an AnimatedSprite2D (frames) or Sprite2D (first
+## frame / image) and sizes it to world units. HD art also gets linear
+## filtering + the pixel-aware shader so fractional window scales stay clean.
+## `scale_mul` multiplies the density scale (elite size-ups, pulsing FX...).
+func apply(node: Node2D, key: String, scale_mul: float = 1.0) -> void:
+	if node is AnimatedSprite2D:
+		(node as AnimatedSprite2D).sprite_frames = frames(key)
+	elif node is Sprite2D:
+		(node as Sprite2D).texture = texture(key) if SpriteManifest.has_image(key) else still(key)
+	node.scale = Vector2.ONE * (scale_mul / density(key))
+	if is_hd(key):
+		node.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+		if node.material == null:
+			FX.make_flashable(node)
+	else:
+		node.texture_filter = CanvasItem.TEXTURE_FILTER_PARENT_NODE
+
+
+## Frame size in world units.
+func frame_size_world(key: String) -> Vector2:
+	return Vector2(frame_size(key)) / density(key)
+
+
+## Pivot in world units.
+func pivot_world(key: String) -> Vector2:
+	return pivot(key) / density(key)
 
 
 func frame_size(key: String) -> Vector2i:

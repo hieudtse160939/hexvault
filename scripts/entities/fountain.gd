@@ -9,7 +9,7 @@ var _sprite: AnimatedSprite2D
 func _ready() -> void:
 	super._ready()
 	_sprite = AnimatedSprite2D.new()
-	_sprite.sprite_frames = SpriteLib.frames("prop_fountain")
+	SpriteLib.apply(_sprite, "prop_fountain")
 	_sprite.play(&"idle")
 	add_child(_sprite)
 	var body: StaticBody2D = StaticBody2D.new()

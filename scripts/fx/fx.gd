@@ -40,10 +40,9 @@ static func burst(name: String, pos: Vector2, rot: float = 0.0, scale_mul: float
 	if Settings.reduced_effects() and name in ["impact", "impact_teal", "impact_red", "muzzle", "sparkle", "sparkle_teal"]:
 		return
 	var s: AnimatedSprite2D = AnimatedSprite2D.new()
-	s.sprite_frames = SpriteLib.frames("fx_" + name)
+	SpriteLib.apply(s, "fx_" + name, scale_mul)
 	s.global_position = pos
 	s.rotation = rot
-	s.scale = Vector2.ONE * scale_mul
 	layer.add_child(s)
 	s.animation_finished.connect(s.queue_free)
 	s.play(&"idle")

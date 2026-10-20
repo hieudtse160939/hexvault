@@ -168,7 +168,7 @@ func _lock() -> void:
 			cs.shape = sh
 			b.add_child(cs)
 			var s: AnimatedSprite2D = AnimatedSprite2D.new()
-			s.sprite_frames = SpriteLib.frames("prop_barrier")
+			SpriteLib.apply(s, "prop_barrier")
 			s.play(&"idle")
 			s.modulate.a = 0.85
 			b.add_child(s)
@@ -240,7 +240,7 @@ func spawn_enemy(d: EnemyData, is_elite: bool, pos: Vector2, delay: float) -> En
 	e.aggro = true
 	_pending += 1
 	var rune: AnimatedSprite2D = AnimatedSprite2D.new()
-	rune.sprite_frames = SpriteLib.frames("prop_spawn_rune")
+	SpriteLib.apply(rune, "prop_spawn_rune")
 	rune.play(&"idle")
 	rune.position = pos + Vector2(0, 4)
 	_level.fx_layer.add_child(rune)

@@ -16,16 +16,15 @@ func _ready() -> void:
 	portal_holder.set_anchors_preset(Control.PRESET_CENTER)
 	add_child(portal_holder)
 	var portal: AnimatedSprite2D = AnimatedSprite2D.new()
-	portal.sprite_frames = SpriteLib.frames("prop_portal")
+	SpriteLib.apply(portal, "prop_portal", 3.0)
 	portal.play(&"idle")
-	portal.scale = Vector2(3, 3)
 	portal.position = Vector2(0, -30)
 	portal.modulate = Color(1, 1, 1, 0.5)
 	portal_holder.add_child(portal)
 	for i: int in 4:
 		var hero: AnimatedSprite2D = AnimatedSprite2D.new()
 		var id: String = Db.character_order[i % Db.character_order.size()]
-		hero.sprite_frames = SpriteLib.frames(Db.character(id).sprite)
+		SpriteLib.apply(hero, Db.character(id).sprite)
 		hero.play(&"idle")
 		hero.position = Vector2(-54 + i * 36, 10)
 		if not Profile.is_character_unlocked(id):

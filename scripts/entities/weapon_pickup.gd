@@ -18,10 +18,10 @@ func _ready() -> void:
 	super._ready()
 	var d: WeaponData = Db.weapon(weapon_id)
 	_sprite = Sprite2D.new()
-	_sprite.texture = SpriteLib.still("weapon_" + weapon_id)
+	SpriteLib.apply(_sprite, "weapon_" + weapon_id)
 	add_child(_sprite)
 	var glow: Sprite2D = Sprite2D.new()
-	glow.texture = SpriteLib.still("prop_shadow_m")
+	SpriteLib.apply(glow, "prop_shadow_m")
 	glow.position = Vector2(0, 8)
 	glow.z_index = -1
 	add_child(glow)

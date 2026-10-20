@@ -15,7 +15,7 @@ static func create(sprite_key: String, pos: Vector2, box: Vector2, sprite_offset
 	cs.position = Vector2(0, 2)
 	p.add_child(cs)
 	var spr: AnimatedSprite2D = AnimatedSprite2D.new()
-	spr.sprite_frames = SpriteLib.frames(sprite_key)
+	SpriteLib.apply(spr, sprite_key)
 	spr.offset = sprite_offset
 	spr.play(&"idle")
 	p.add_child(spr)

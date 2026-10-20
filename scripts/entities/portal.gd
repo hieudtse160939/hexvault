@@ -19,7 +19,7 @@ static func create(m: int, pos: Vector2) -> Portal:
 func _ready() -> void:
 	super._ready()
 	var s: AnimatedSprite2D = AnimatedSprite2D.new()
-	s.sprite_frames = SpriteLib.frames("prop_portal")
+	SpriteLib.apply(s, "prop_portal")
 	s.play(&"idle")
 	s.offset = Vector2(0, -6)
 	add_child(s)

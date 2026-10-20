@@ -75,12 +75,12 @@ func _ready() -> void:
 	cs.position = Vector2(0, 3)
 	add_child(cs)
 	var sh: Sprite2D = Sprite2D.new()
-	sh.texture = SpriteLib.still("prop_" + data.shadow)
+	SpriteLib.apply(sh, "prop_" + data.shadow)
 	sh.position = Vector2(0, data.radius + (6.0 if data.flying else 1.0))
 	sh.z_index = -1
 	add_child(sh)
 	sprite = AnimatedSprite2D.new()
-	sprite.sprite_frames = SpriteLib.frames(data.sprite)
+	SpriteLib.apply(sprite, data.sprite)
 	sprite.play(&"idle")
 	_mat = FX.make_flashable(sprite)
 	if elite:

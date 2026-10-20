@@ -44,7 +44,7 @@ func launch(p: Projectile, pos: Vector2, vel: Vector2, sprite_key: String) -> vo
 	p.global_position = pos
 	p.velocity = vel
 	p.rotation = vel.angle()
-	p.sprite_frames = SpriteLib.frames(sprite_key)
+	SpriteLib.apply(p, sprite_key)
 	p.play(&"idle")
 	p.active = true
 	p.visible = true
