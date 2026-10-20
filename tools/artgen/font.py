@@ -128,6 +128,12 @@ def build(png_path: str, fnt_path: str, png_name: str) -> None:
                     p[cx + x, cy + y] = (255, 255, 255, 255)
         adv = w + 1 if ch != " " else 4
         lines.append(f"char id={ord(ch)} x={cx} y={cy} width={w} height=8 xoffset=0 yoffset=1 xadvance={adv} page=0 chnl=15")
-    img.save(png_path)
+    import os
+    same = False
+    if os.path.exists(png_path):
+        with Image.open(png_path) as old:
+            same = old.size == img.size and old.convert("RGBA").tobytes() == img.tobytes()
+    if not same:  # pixel-identical files are kept (PNG bytes vary by Pillow version)
+        img.save(png_path)
     with open(fnt_path, "w", encoding="ascii", newline="\n") as f:
         f.write("\n".join(lines) + "\n")

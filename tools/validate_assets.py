@@ -15,6 +15,11 @@ from PIL import Image
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "artgen"))
 from px import PAL_RGBA  # noqa: E402
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "artgen", "hd"))
+from canvas import palette_rgb  # noqa: E402
+
+HD_RGBA = {(*c, 255) for c in palette_rgb()}
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 
@@ -36,6 +41,7 @@ def main() -> int:
         if img.width % fw or img.height % fh:
             errors.append(f"{key}: {img.size} not a multiple of {fw}x{fh}")
         px = img.load()
+        allowed = HD_RGBA if s.get("palette") == "hd" else PAL_RGBA
         for name, a in s["anims"].items():
             if a["frames"] < 1:
                 errors.append(f"{key}.{name}: no frames")
@@ -51,7 +57,7 @@ def main() -> int:
                 v = px[x, y]
                 if v[3] not in (0, 255):
                     errors.append(f"{key}: semi-transparent pixel at {x},{y}"); break
-                if v[3] == 255 and v not in PAL_RGBA:
+                if v[3] == 255 and v not in allowed:
                     errors.append(f"{key}: off-palette colour {v} at {x},{y}"); break
         checked += 1
     for key, s in m["images"].items():

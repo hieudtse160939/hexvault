@@ -40,6 +40,12 @@ def main() -> int:
         r = run([sys.executable, "tools/validate_assets.py"])
         print("[assets]", r.stdout.strip().splitlines()[-1] if r.stdout.strip() else r.stderr[-500:])
         ok &= r.returncode == 0
+        r = run([sys.executable, "tools/asset_qa.py"])
+        print("[asset-qa]", r.stdout.strip().splitlines()[-1] if r.stdout.strip() else r.stderr[-500:])
+        for l in r.stdout.splitlines():
+            if l.startswith("ERROR"):
+                print("   ", l)
+        ok &= r.returncode == 0
         r = run([godot, "--headless", "--path", ".", "--import"], timeout=600)
         errs = [l for l in (r.stdout + r.stderr).splitlines() if "ERROR" in l or "SCRIPT ERROR" in l]
         print(f"[import] exit={r.returncode} errors={len(errs)}")

@@ -50,11 +50,16 @@ func set_aim(dir: Vector2) -> void:
 	rotation = _aim.angle()
 	_sprite.flip_v = _aim.x < 0.0
 	_sprite.offset.y = -SpriteLib.pivot("weapon_" + data.id).y if not _sprite.flip_v else -(SpriteLib.frame_size("weapon_" + data.id).y - SpriteLib.pivot("weapon_" + data.id).y)
-	z_index = -1 if _aim.y < -0.3 else 1
+	# Behind the body only when aiming nearly straight up; otherwise the
+	# (now larger) HD bodies would hide the gun for most upward angles.
+	z_index = -1 if _aim.y < -0.7 else 1
 
 
 func muzzle_position() -> Vector2:
 	var key: String = "weapon_" + data.id
+	var mz: Vector2 = SpriteLib.muzzle(key)
+	if mz != Vector2.INF:
+		return global_position + _aim * maxf((mz.x - SpriteLib.pivot(key).x) / SpriteLib.density(key), 4.0)
 	var reach: float = SpriteLib.frame_size_world(key).x - SpriteLib.pivot_world(key).x
 	return global_position + _aim * maxf(reach - 2.0, 4.0)
 

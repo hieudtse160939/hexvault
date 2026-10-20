@@ -11,6 +11,8 @@ const DASH_TIME: float = 0.17
 const BASE_DASH_CD: float = 0.9
 const MAX_WEAPONS: int = 2
 const INTERACT_RANGE: float = 22.0
+## Where the hero's soles meet the ground, relative to the actor origin.
+const FEET_Y: float = 8.0
 
 var character: CharacterData
 var health: Health
@@ -38,6 +40,7 @@ var _ghost_t: float = 0.0
 var _shield_vis: Node2D = null
 var _interact_target: Node = null
 var _mods: Dictionary = {}
+var _hand_x: float = 2.0
 
 
 static func create(c: CharacterData) -> Player:
@@ -65,6 +68,10 @@ func _ready() -> void:
 	body = AnimatedSprite2D.new()
 	SpriteLib.apply(body, character.sprite)
 	body.position = Vector2(0, -1)
+	if SpriteLib.is_hd(character.sprite):
+		# stand the sprite's feet (manifest pivot) on the shadow line
+		body.position = Vector2(0, FEET_Y) - SpriteLib.pivot_from_centre_world(character.sprite)
+		_hand_x = 3.5
 	FX.make_flashable(body)
 	add_child(body)
 	body.play(&"idle")
@@ -295,7 +302,7 @@ func _physics_process(delta: float) -> void:
 	if absf(_aim.x) > 0.15:
 		facing = 1 if _aim.x > 0.0 else -1
 	body.flip_h = facing < 0
-	weapon_holder.position = Vector2(2 * facing, 2)
+	weapon_holder.position = Vector2(_hand_x * facing, 2)
 	if input_enabled:
 		_handle_actions()
 	_update_interact()

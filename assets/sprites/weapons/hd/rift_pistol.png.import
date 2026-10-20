@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://du0ocqybqtfvr"
-path="res://.godot/imported/rift_pistol.png-b4f530057f268cc1095c26313e80171d.ctex"
+uid="uid://1x7xhjd2bpun"
+path="res://.godot/imported/rift_pistol.png-16a0705947cee82cc0ee70a5b20362f9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/weapons/rift_pistol.png"
-dest_files=["res://.godot/imported/rift_pistol.png-b4f530057f268cc1095c26313e80171d.ctex"]
+source_file="res://assets/sprites/weapons/hd/rift_pistol.png"
+dest_files=["res://.godot/imported/rift_pistol.png-16a0705947cee82cc0ee70a5b20362f9.ctex"]
 
 [params]
 
@@ -23,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

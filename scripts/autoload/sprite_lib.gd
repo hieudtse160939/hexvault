@@ -71,6 +71,21 @@ func apply(node: Node2D, key: String, scale_mul: float = 1.0) -> void:
 		node.texture_filter = CanvasItem.TEXTURE_FILTER_PARENT_NODE
 
 
+## Optional "muzzle" point of a weapon sheet in art px (Vector2.INF if absent).
+func muzzle(key: String) -> Vector2:
+	var entry: Variant = SpriteManifest.sprites().get(key, null)
+	if entry is Dictionary and (entry as Dictionary).has("muzzle"):
+		var p: Array = entry["muzzle"]
+		return Vector2(float(p[0]), float(p[1]))
+	return Vector2.INF
+
+
+## Where the art's pivot sits relative to the centre of a centred sprite, in
+## world units (HD heroes store their feet point as the pivot).
+func pivot_from_centre_world(key: String) -> Vector2:
+	return pivot_world(key) - frame_size_world(key) / 2.0
+
+
 ## Frame size in world units.
 func frame_size_world(key: String) -> Vector2:
 	return Vector2(frame_size(key)) / density(key)

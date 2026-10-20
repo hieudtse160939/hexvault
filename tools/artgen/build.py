@@ -20,15 +20,27 @@ import items  # noqa: E402
 import world  # noqa: E402
 from px import Canvas, sheet, strip  # noqa: E402
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "hd"))
+import hd_registry  # noqa: E402
+import weapons as hd_weapons  # noqa: E402
+from canvas import sheet as hd_sheet  # noqa: E402
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 ASSETS = os.path.join(ROOT, "assets")
 
-manifest: dict = {"version": 1, "sprites": {}, "images": {}}
+manifest: dict = {"version": 2, "sprites": {}, "images": {}}
 
 
 def _save(img: Image.Image, rel: str) -> str:
     path = os.path.join(ASSETS, rel)
     os.makedirs(os.path.dirname(path), exist_ok=True)
+    # Only rewrite when pixels change: PNG bytes differ between Pillow
+    # versions even for identical images, which would churn every asset.
+    if os.path.exists(path):
+        with Image.open(path) as old:
+            same = old.size == img.size and old.convert("RGBA").tobytes() == img.convert("RGBA").tobytes()
+        if same:
+            return "res://assets/" + rel.replace(os.sep, "/")
     img.save(path, optimize=False)
     return "res://assets/" + rel.replace(os.sep, "/")
 
@@ -37,15 +49,37 @@ def _digest(img: Image.Image) -> str:
     return hashlib.sha256(img.tobytes()).hexdigest()[:16]
 
 
+def _hd_import_settings(rel: str) -> None:
+    """HD sheets are often drawn below 1:1 (small windows), so give them mipmaps.
+
+    Godot keeps the [params] of an existing .import file and fills in the rest
+    on the next import; 16 px art keeps the defaults (no mipmaps)."""
+    path = os.path.join(ASSETS, rel) + ".import"
+    if os.path.exists(path):
+        return
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
+        f.write('[remap]\n\nimporter="texture"\ntype="CompressedTexture2D"\n\n'
+                "[params]\n\ncompress/mode=0\nmipmaps/generate=true\nprocess/fix_alpha_border=true\n")
+
+
+def _kind(rel: str) -> str:
+    return rel.split("/")[1] if rel.startswith("sprites/") else rel.split("/")[0]
+
+
 def add_sheet(key: str, rel: str, anims: dict[str, list[Canvas]], fps: dict | int,
-              loop: dict | bool = True, pivot=None) -> None:
-    img, meta = sheet(anims)
+              loop: dict | bool = True, pivot=None, hd: dict | None = None) -> None:
+    """hd: for HD sheets, {"density", "version", "source"}; anims then hold PIL images."""
+    img, meta = hd_sheet(anims) if hd else sheet(anims)
     res = _save(img, rel)
     for name, m in meta["anims"].items():
         m["fps"] = fps.get(name, 8) if isinstance(fps, dict) else fps
         m["loop"] = loop.get(name, False) if isinstance(loop, dict) else loop
     entry = {"path": res, "frame_w": meta["frame_w"], "frame_h": meta["frame_h"],
-             "anims": meta["anims"], "sha": _digest(img)}
+             "anims": meta["anims"], "sha": _digest(img), "type": _kind(rel),
+             "density": 1, "palette": "master16", "version": 1, "source": "procedural: tools/artgen"}
+    if hd:
+        _hd_import_settings(rel)
+        entry.update({"density": hd["density"], "palette": "hd", "version": hd["version"], "source": hd["source"]})
     if pivot:
         entry["pivot"] = list(pivot)
     manifest["sprites"][key] = entry
@@ -54,7 +88,8 @@ def add_sheet(key: str, rel: str, anims: dict[str, list[Canvas]], fps: dict | in
 def add_image(key: str, rel: str, c: Canvas | Image.Image) -> None:
     img = c.img if isinstance(c, Canvas) else c
     res = _save(img, rel)
-    manifest["images"][key] = {"path": res, "w": img.width, "h": img.height, "sha": _digest(img)}
+    manifest["images"][key] = {"path": res, "w": img.width, "h": img.height, "sha": _digest(img),
+                               "type": _kind(rel), "density": 1, "version": 1, "source": "procedural: tools/artgen"}
 
 
 def app_icon(size: int) -> Image.Image:
@@ -70,13 +105,35 @@ def app_icon(size: int) -> Image.Image:
 
 
 def main() -> None:
-    # heroes
+    # heroes: HD sheets where a design exists, 16 px otherwise. The 16 px sheet
+    # is always kept as hero_<id>_16 (title screen icon, app icon, fallbacks).
     for hid, spec in characters.HEROES.items():
-        add_sheet(f"hero_{hid}", f"sprites/heroes/{hid}.png", characters.build(spec),
+        add_sheet(f"hero_{hid}_16", f"sprites/heroes/{hid}_16.png", characters.build(spec),
                   characters.FPS, characters.LOOP)
+        mod = hd_registry.HEROES.get(hid)
+        if mod is not None:
+            add_sheet(f"hero_{hid}", f"sprites/heroes/hd/{hid}.png", mod.animations(), mod.FPS, mod.LOOP,
+                      pivot=mod.PIVOT, hd={"density": hd_registry.DENSITY, "version": mod.SPEC["version"], "source": mod.SPEC["source"]})
+        else:
+            add_sheet(f"hero_{hid}", f"sprites/heroes/{hid}.png", characters.build(spec),
+                      characters.FPS, characters.LOOP)
     # enemies + boss
     for eid, fn in enemies.SHEETS.items():
         add_sheet(f"enemy_{eid}", f"sprites/enemies/{eid}.png", fn(), enemies.FPS, enemies.LOOP)
+    # externally made art normalised by import_external.py (art_src/external.json)
+    ext_index = os.path.join(ROOT, "art_src", "external.json")
+    if os.path.exists(ext_index):
+        with open(ext_index, encoding="utf-8") as f:
+            for key, meta_rel in sorted(json.load(f).items()):
+                with open(os.path.join(ROOT, meta_rel), encoding="utf-8") as mf:
+                    em = json.load(mf)
+                src = Image.open(os.path.join(ROOT, "art_src", "processed", key + ".png")).convert("RGBA")
+                fw, fh = em["frame_w"], em["frame_h"]
+                anims = {name: [src.crop((i * fw, row * fh, (i + 1) * fw, (row + 1) * fh)) for i in range(n)]
+                         for row, (name, n) in enumerate(em["anims"].items())}
+                add_sheet(key, f"sprites/external/{key}.png", anims, em.get("fps", {}) or 8,
+                          {k: k in em.get("loop", []) for k in em["anims"]},
+                          hd={"density": hd_registry.DENSITY, "version": 1, "source": "external: " + em["source"]})
     # turret summon
     add_sheet("turret", "sprites/props/turret.png", items.turret_sheet(), 4, True)
     # props
@@ -85,7 +142,14 @@ def main() -> None:
                   {k: k in ("idle",) for k in anims})
     # weapons
     for wid, fn in items.WEAPONS.items():
-        add_sheet(f"weapon_{wid}", f"sprites/weapons/{wid}.png", {"idle": [fn()]}, 1, True, items.WEAPON_PIVOT)
+        hdw = hd_weapons.WEAPONS.get(wid)
+        if hdw is None:
+            add_sheet(f"weapon_{wid}", f"sprites/weapons/{wid}.png", {"idle": [fn()]}, 1, True, items.WEAPON_PIVOT)
+            continue
+        add_sheet(f"weapon_{wid}", f"sprites/weapons/hd/{wid}.png", {"idle": [hdw["draw"]().image()]}, 1, True,
+                  hd_weapons.PIVOT, hd={"density": hd_registry.DENSITY, "version": hdw["version"],
+                                        "source": "procedural: tools/artgen/hd/weapons.py"})
+        manifest["sprites"][f"weapon_{wid}"]["muzzle"] = list(hdw["muzzle"])
     # projectiles / pickups
     for pid, frames in items.PROJECTILES.items():
         add_sheet(f"proj_{pid}", f"sprites/projectiles/{pid}.png", {"idle": frames}, 10, True)

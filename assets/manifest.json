@@ -1,213 +1,353 @@
 {
  "images": {
   "app_icon": {
+   "density": 1,
    "h": 256,
    "path": "res://assets/icon/icon.png",
    "sha": "811fd2eb5140fffc",
+   "source": "procedural: tools/artgen",
+   "type": "icon",
+   "version": 1,
    "w": 256
   },
   "app_icon_1024": {
+   "density": 1,
    "h": 1024,
    "path": "res://assets/icon/icon_1024.png",
    "sha": "240e18573c1ae073",
+   "source": "procedural: tools/artgen",
+   "type": "icon",
+   "version": 1,
    "w": 1024
   },
   "app_icon_192": {
+   "density": 1,
    "h": 192,
    "path": "res://assets/icon/icon_192.png",
    "sha": "c56d9aca6088ebc5",
+   "source": "procedural: tools/artgen",
+   "type": "icon",
+   "version": 1,
    "w": 192
   },
   "app_icon_bg": {
+   "density": 1,
    "h": 432,
    "path": "res://assets/icon/adaptive_bg.png",
    "sha": "0736f46de693fd97",
+   "source": "procedural: tools/artgen",
+   "type": "icon",
+   "version": 1,
    "w": 432
   },
   "app_icon_fg": {
+   "density": 1,
    "h": 432,
    "path": "res://assets/icon/adaptive_fg.png",
    "sha": "63bb414786be2f2c",
+   "source": "procedural: tools/artgen",
+   "type": "icon",
+   "version": 1,
    "w": 432
   },
   "icon_boon_crit": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/boon_crit.png",
    "sha": "8d7b84fe52a7b242",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_boon_haste": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/boon_haste.png",
    "sha": "1d9a29d27e0ab68c",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_boon_leech": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/boon_leech.png",
    "sha": "9e2d0ec380fc4461",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_boon_magnet": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/boon_magnet.png",
    "sha": "430315e3e26b5095",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_boon_pierce": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/boon_pierce.png",
    "sha": "39d3ba9f3d723946",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_boon_plating": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/boon_plating.png",
    "sha": "359c10a2d786d49c",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_boon_power": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/boon_power.png",
    "sha": "1a768cc1fa25862c",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_boon_reload": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/boon_reload.png",
    "sha": "1879ad4d20ac9654",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_boon_vigor": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/boon_vigor.png",
    "sha": "b82617c68d569a59",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_boon_volley": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/boon_volley.png",
    "sha": "9ac592b738ef6c27",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_coin": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/coin.png",
    "sha": "aa742bbde40d6ad5",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_heart": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/heart.png",
    "sha": "3eef3129c3265b45",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_lock": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/lock.png",
    "sha": "9b9817091f6e3d1b",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_scroll": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/scroll.png",
    "sha": "8f17b63d5f6cc338",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_shard": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/shard.png",
    "sha": "9b80a4f1ac877ca3",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_shield": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/shield.png",
    "sha": "a1f73bb8cf175542",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_skill_bulwark": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/skill_bulwark.png",
    "sha": "11affd76def26b32",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_skill_overclock": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/skill_overclock.png",
    "sha": "6dd28e1c985655ce",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_skill_phase": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/skill_phase.png",
    "sha": "c944f67baa3cc7e2",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_skill_turret": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/skill_turret.png",
    "sha": "660d449af85352b9",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "icon_trophy": {
+   "density": 1,
    "h": 16,
    "path": "res://assets/ui/icons/trophy.png",
    "sha": "cea9f93656e007b7",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 16
   },
   "tiles_dungeon": {
+   "density": 1,
    "h": 32,
    "path": "res://assets/tiles/dungeon.png",
    "sha": "5d97475436c17c65",
+   "source": "procedural: tools/artgen",
+   "type": "tiles",
+   "version": 1,
    "w": 128
   },
   "touch_btn_attack": {
+   "density": 1,
    "h": 24,
    "path": "res://assets/ui/touch/btn_attack.png",
    "sha": "4ac85db9cd41b968",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 24
   },
   "touch_btn_dash": {
+   "density": 1,
    "h": 24,
    "path": "res://assets/ui/touch/btn_dash.png",
    "sha": "f7fd1b1fa178e5bf",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 24
   },
   "touch_btn_interact": {
+   "density": 1,
    "h": 24,
    "path": "res://assets/ui/touch/btn_interact.png",
    "sha": "7bed943ab7309e6d",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 24
   },
   "touch_btn_pause": {
+   "density": 1,
    "h": 24,
    "path": "res://assets/ui/touch/btn_pause.png",
    "sha": "06349af317206d98",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 24
   },
   "touch_btn_skill": {
+   "density": 1,
    "h": 24,
    "path": "res://assets/ui/touch/btn_skill.png",
    "sha": "13d51fedf6aae0d7",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 24
   },
   "touch_btn_swap": {
+   "density": 1,
    "h": 24,
    "path": "res://assets/ui/touch/btn_swap.png",
    "sha": "9e1c9581b75fb52d",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 24
   },
   "touch_joy_base": {
+   "density": 1,
    "h": 48,
    "path": "res://assets/ui/touch/joy_base.png",
    "sha": "8f0c7979b9227528",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 48
   },
   "touch_joy_knob": {
+   "density": 1,
    "h": 24,
    "path": "res://assets/ui/touch/joy_knob.png",
    "sha": "dfdc2a4d2a622983",
+   "source": "procedural: tools/artgen",
+   "type": "ui",
+   "version": 1,
    "w": 24
   }
  },
@@ -245,10 +385,15 @@
      "row": 1
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/enemies/acolyte.png",
-   "sha": "b47654c111d8e463"
+   "sha": "b47654c111d8e463",
+   "source": "procedural: tools/artgen",
+   "type": "enemies",
+   "version": 1
   },
   "enemy_gloop": {
    "anims": {
@@ -283,10 +428,15 @@
      "row": 1
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/enemies/gloop.png",
-   "sha": "86ae195771e3c482"
+   "sha": "86ae195771e3c482",
+   "source": "procedural: tools/artgen",
+   "type": "enemies",
+   "version": 1
   },
   "enemy_golem": {
    "anims": {
@@ -321,10 +471,15 @@
      "row": 1
     }
    },
+   "density": 1,
    "frame_h": 24,
    "frame_w": 24,
+   "palette": "master16",
    "path": "res://assets/sprites/enemies/golem.png",
-   "sha": "d1f4682902bc6298"
+   "sha": "d1f4682902bc6298",
+   "source": "procedural: tools/artgen",
+   "type": "enemies",
+   "version": 1
   },
   "enemy_ossifex": {
    "anims": {
@@ -377,10 +532,15 @@
      "row": 2
     }
    },
+   "density": 1,
    "frame_h": 48,
    "frame_w": 48,
+   "palette": "master16",
    "path": "res://assets/sprites/enemies/ossifex.png",
-   "sha": "6ed4f4db985db0ee"
+   "sha": "6ed4f4db985db0ee",
+   "source": "procedural: tools/artgen",
+   "type": "enemies",
+   "version": 1
   },
   "enemy_skitter": {
    "anims": {
@@ -415,10 +575,15 @@
      "row": 1
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/enemies/skitter.png",
-   "sha": "d39b05db864a10b9"
+   "sha": "d39b05db864a10b9",
+   "source": "procedural: tools/artgen",
+   "type": "enemies",
+   "version": 1
   },
   "enemy_sparkeye": {
    "anims": {
@@ -453,10 +618,15 @@
      "row": 1
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/enemies/sparkeye.png",
-   "sha": "e0342b780998cfae"
+   "sha": "e0342b780998cfae",
+   "source": "procedural: tools/artgen",
+   "type": "enemies",
+   "version": 1
   },
   "fx_explosion": {
    "anims": {
@@ -467,10 +637,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 32,
    "frame_w": 32,
+   "palette": "master16",
    "path": "res://assets/sprites/fx/explosion.png",
-   "sha": "0c37a3860fd767a8"
+   "sha": "0c37a3860fd767a8",
+   "source": "procedural: tools/artgen",
+   "type": "fx",
+   "version": 1
   },
   "fx_impact": {
    "anims": {
@@ -481,10 +656,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/fx/impact.png",
-   "sha": "826ef833135679fa"
+   "sha": "826ef833135679fa",
+   "source": "procedural: tools/artgen",
+   "type": "fx",
+   "version": 1
   },
   "fx_impact_red": {
    "anims": {
@@ -495,10 +675,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/fx/impact_red.png",
-   "sha": "f29442a2346a7017"
+   "sha": "f29442a2346a7017",
+   "source": "procedural: tools/artgen",
+   "type": "fx",
+   "version": 1
   },
   "fx_impact_teal": {
    "anims": {
@@ -509,10 +694,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/fx/impact_teal.png",
-   "sha": "9423c154cc4c5001"
+   "sha": "9423c154cc4c5001",
+   "source": "procedural: tools/artgen",
+   "type": "fx",
+   "version": 1
   },
   "fx_muzzle": {
    "anims": {
@@ -523,10 +713,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/fx/muzzle.png",
-   "sha": "c0ad6c8dede7af14"
+   "sha": "c0ad6c8dede7af14",
+   "source": "procedural: tools/artgen",
+   "type": "fx",
+   "version": 1
   },
   "fx_puff": {
    "anims": {
@@ -537,10 +732,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/fx/puff.png",
-   "sha": "6957087e3a139033"
+   "sha": "6957087e3a139033",
+   "source": "procedural: tools/artgen",
+   "type": "fx",
+   "version": 1
   },
   "fx_slash": {
    "anims": {
@@ -551,10 +751,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 24,
    "frame_w": 24,
+   "palette": "master16",
    "path": "res://assets/sprites/fx/slash.png",
-   "sha": "c5dc3b910114b908"
+   "sha": "c5dc3b910114b908",
+   "source": "procedural: tools/artgen",
+   "type": "fx",
+   "version": 1
   },
   "fx_sparkle": {
    "anims": {
@@ -565,10 +770,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/fx/sparkle.png",
-   "sha": "84317e1e562dae46"
+   "sha": "84317e1e562dae46",
+   "source": "procedural: tools/artgen",
+   "type": "fx",
+   "version": 1
   },
   "fx_sparkle_teal": {
    "anims": {
@@ -579,10 +789,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/fx/sparkle_teal.png",
-   "sha": "8d7de9b15c5c1eed"
+   "sha": "8d7de9b15c5c1eed",
+   "source": "procedural: tools/artgen",
+   "type": "fx",
+   "version": 1
   },
   "hero_hexer": {
    "anims": {
@@ -623,12 +838,17 @@
      "row": 4
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/heroes/hexer.png",
-   "sha": "b13253f31ff1a590"
+   "sha": "b13253f31ff1a590",
+   "source": "procedural: tools/artgen",
+   "type": "heroes",
+   "version": 1
   },
-  "hero_ranger": {
+  "hero_hexer_16": {
    "anims": {
     "dash": {
      "fps": 12,
@@ -667,10 +887,117 @@
      "row": 4
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
-   "path": "res://assets/sprites/heroes/ranger.png",
-   "sha": "3885606310b7f932"
+   "palette": "master16",
+   "path": "res://assets/sprites/heroes/hexer_16.png",
+   "sha": "b13253f31ff1a590",
+   "source": "procedural: tools/artgen",
+   "type": "heroes",
+   "version": 1
+  },
+  "hero_ranger": {
+   "anims": {
+    "dash": {
+     "fps": 16,
+     "frames": 4,
+     "loop": true,
+     "row": 2
+    },
+    "death": {
+     "fps": 9,
+     "frames": 8,
+     "loop": false,
+     "row": 5
+    },
+    "hurt": {
+     "fps": 12,
+     "frames": 3,
+     "loop": false,
+     "row": 4
+    },
+    "idle": {
+     "fps": 6,
+     "frames": 6,
+     "loop": true,
+     "row": 0
+    },
+    "run": {
+     "fps": 12,
+     "frames": 8,
+     "loop": true,
+     "row": 1
+    },
+    "skill": {
+     "fps": 12,
+     "frames": 6,
+     "loop": false,
+     "row": 3
+    }
+   },
+   "density": 4,
+   "frame_h": 128,
+   "frame_w": 128,
+   "palette": "hd",
+   "path": "res://assets/sprites/heroes/hd/ranger.png",
+   "pivot": [
+    64,
+    112
+   ],
+   "sha": "c5b2dfd38abe1d2c",
+   "source": "procedural: tools/artgen/hd/heroes/ranger.py",
+   "type": "heroes",
+   "version": 2
+  },
+  "hero_ranger_16": {
+   "anims": {
+    "dash": {
+     "fps": 12,
+     "frames": 2,
+     "loop": true,
+     "row": 3
+    },
+    "death": {
+     "fps": 8,
+     "frames": 5,
+     "loop": false,
+     "row": 5
+    },
+    "hurt": {
+     "fps": 8,
+     "frames": 2,
+     "loop": false,
+     "row": 2
+    },
+    "idle": {
+     "fps": 4,
+     "frames": 4,
+     "loop": true,
+     "row": 0
+    },
+    "run": {
+     "fps": 10,
+     "frames": 6,
+     "loop": true,
+     "row": 1
+    },
+    "skill": {
+     "fps": 10,
+     "frames": 3,
+     "loop": false,
+     "row": 4
+    }
+   },
+   "density": 1,
+   "frame_h": 16,
+   "frame_w": 16,
+   "palette": "master16",
+   "path": "res://assets/sprites/heroes/ranger_16.png",
+   "sha": "3885606310b7f932",
+   "source": "procedural: tools/artgen",
+   "type": "heroes",
+   "version": 1
   },
   "hero_tinker": {
    "anims": {
@@ -711,10 +1038,64 @@
      "row": 4
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/heroes/tinker.png",
-   "sha": "552460b9213421b9"
+   "sha": "552460b9213421b9",
+   "source": "procedural: tools/artgen",
+   "type": "heroes",
+   "version": 1
+  },
+  "hero_tinker_16": {
+   "anims": {
+    "dash": {
+     "fps": 12,
+     "frames": 2,
+     "loop": true,
+     "row": 3
+    },
+    "death": {
+     "fps": 8,
+     "frames": 5,
+     "loop": false,
+     "row": 5
+    },
+    "hurt": {
+     "fps": 8,
+     "frames": 2,
+     "loop": false,
+     "row": 2
+    },
+    "idle": {
+     "fps": 4,
+     "frames": 4,
+     "loop": true,
+     "row": 0
+    },
+    "run": {
+     "fps": 10,
+     "frames": 6,
+     "loop": true,
+     "row": 1
+    },
+    "skill": {
+     "fps": 10,
+     "frames": 3,
+     "loop": false,
+     "row": 4
+    }
+   },
+   "density": 1,
+   "frame_h": 16,
+   "frame_w": 16,
+   "palette": "master16",
+   "path": "res://assets/sprites/heroes/tinker_16.png",
+   "sha": "552460b9213421b9",
+   "source": "procedural: tools/artgen",
+   "type": "heroes",
+   "version": 1
   },
   "hero_warden": {
    "anims": {
@@ -755,10 +1136,64 @@
      "row": 4
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/heroes/warden.png",
-   "sha": "9857753e12ffe339"
+   "sha": "9857753e12ffe339",
+   "source": "procedural: tools/artgen",
+   "type": "heroes",
+   "version": 1
+  },
+  "hero_warden_16": {
+   "anims": {
+    "dash": {
+     "fps": 12,
+     "frames": 2,
+     "loop": true,
+     "row": 3
+    },
+    "death": {
+     "fps": 8,
+     "frames": 5,
+     "loop": false,
+     "row": 5
+    },
+    "hurt": {
+     "fps": 8,
+     "frames": 2,
+     "loop": false,
+     "row": 2
+    },
+    "idle": {
+     "fps": 4,
+     "frames": 4,
+     "loop": true,
+     "row": 0
+    },
+    "run": {
+     "fps": 10,
+     "frames": 6,
+     "loop": true,
+     "row": 1
+    },
+    "skill": {
+     "fps": 10,
+     "frames": 3,
+     "loop": false,
+     "row": 4
+    }
+   },
+   "density": 1,
+   "frame_h": 16,
+   "frame_w": 16,
+   "palette": "master16",
+   "path": "res://assets/sprites/heroes/warden_16.png",
+   "sha": "9857753e12ffe339",
+   "source": "procedural: tools/artgen",
+   "type": "heroes",
+   "version": 1
   },
   "pickup_armor": {
    "anims": {
@@ -769,10 +1204,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/pickups/armor.png",
-   "sha": "3c5bce74b618a7dc"
+   "sha": "3c5bce74b618a7dc",
+   "source": "procedural: tools/artgen",
+   "type": "pickups",
+   "version": 1
   },
   "pickup_coin": {
    "anims": {
@@ -783,10 +1223,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/pickups/coin.png",
-   "sha": "955c575d3da9d67f"
+   "sha": "955c575d3da9d67f",
+   "source": "procedural: tools/artgen",
+   "type": "pickups",
+   "version": 1
   },
   "pickup_heart": {
    "anims": {
@@ -797,10 +1242,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/pickups/heart.png",
-   "sha": "b29f6e311517e9ee"
+   "sha": "b29f6e311517e9ee",
+   "source": "procedural: tools/artgen",
+   "type": "pickups",
+   "version": 1
   },
   "pickup_shard": {
    "anims": {
@@ -811,10 +1261,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/pickups/shard.png",
-   "sha": "89aacbb27b25afb1"
+   "sha": "89aacbb27b25afb1",
+   "source": "procedural: tools/artgen",
+   "type": "pickups",
+   "version": 1
   },
   "proj_arrow": {
    "anims": {
@@ -825,10 +1280,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/projectiles/arrow.png",
-   "sha": "ac4f2da9e2decaa4"
+   "sha": "ac4f2da9e2decaa4",
+   "source": "procedural: tools/artgen",
+   "type": "projectiles",
+   "version": 1
   },
   "proj_bullet": {
    "anims": {
@@ -839,10 +1299,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/projectiles/bullet.png",
-   "sha": "4616a2cf31fdddfb"
+   "sha": "4616a2cf31fdddfb",
+   "source": "procedural: tools/artgen",
+   "type": "projectiles",
+   "version": 1
   },
   "proj_enemy_bullet": {
    "anims": {
@@ -853,10 +1318,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/projectiles/enemy_bullet.png",
-   "sha": "68f00798ec062ed1"
+   "sha": "68f00798ec062ed1",
+   "source": "procedural: tools/artgen",
+   "type": "projectiles",
+   "version": 1
   },
   "proj_needle": {
    "anims": {
@@ -867,10 +1337,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/projectiles/needle.png",
-   "sha": "54890a6545ff9845"
+   "sha": "54890a6545ff9845",
+   "source": "procedural: tools/artgen",
+   "type": "projectiles",
+   "version": 1
   },
   "proj_orb_amber": {
    "anims": {
@@ -881,10 +1356,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/projectiles/orb_amber.png",
-   "sha": "246fcd6cd0de0e61"
+   "sha": "246fcd6cd0de0e61",
+   "source": "procedural: tools/artgen",
+   "type": "projectiles",
+   "version": 1
   },
   "proj_orb_red": {
    "anims": {
@@ -895,10 +1375,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/projectiles/orb_red.png",
-   "sha": "a55369e1ecc73a3c"
+   "sha": "a55369e1ecc73a3c",
+   "source": "procedural: tools/artgen",
+   "type": "projectiles",
+   "version": 1
   },
   "proj_orb_teal": {
    "anims": {
@@ -909,10 +1394,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/projectiles/orb_teal.png",
-   "sha": "77e19b2f43eaa3b0"
+   "sha": "77e19b2f43eaa3b0",
+   "source": "procedural: tools/artgen",
+   "type": "projectiles",
+   "version": 1
   },
   "proj_orb_vio": {
    "anims": {
@@ -923,10 +1413,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/projectiles/orb_vio.png",
-   "sha": "05d9bd7f25240e90"
+   "sha": "05d9bd7f25240e90",
+   "source": "procedural: tools/artgen",
+   "type": "projectiles",
+   "version": 1
   },
   "proj_pellet": {
    "anims": {
@@ -937,10 +1432,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/projectiles/pellet.png",
-   "sha": "f868917d1bf6b4c2"
+   "sha": "f868917d1bf6b4c2",
+   "source": "procedural: tools/artgen",
+   "type": "projectiles",
+   "version": 1
   },
   "proj_rocket": {
    "anims": {
@@ -951,10 +1451,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/projectiles/rocket.png",
-   "sha": "7a497bf04036cf37"
+   "sha": "7a497bf04036cf37",
+   "source": "procedural: tools/artgen",
+   "type": "projectiles",
+   "version": 1
   },
   "proj_spark": {
    "anims": {
@@ -965,10 +1470,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 8,
    "frame_w": 8,
+   "palette": "master16",
    "path": "res://assets/sprites/projectiles/spark.png",
-   "sha": "b97b0230770ed5d1"
+   "sha": "b97b0230770ed5d1",
+   "source": "procedural: tools/artgen",
+   "type": "projectiles",
+   "version": 1
   },
   "prop_barrel": {
    "anims": {
@@ -979,10 +1489,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/props/barrel.png",
-   "sha": "3d4a3054c9647476"
+   "sha": "3d4a3054c9647476",
+   "source": "procedural: tools/artgen",
+   "type": "props",
+   "version": 1
   },
   "prop_barrier": {
    "anims": {
@@ -993,10 +1508,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/props/barrier.png",
-   "sha": "9f86773315fa08c6"
+   "sha": "9f86773315fa08c6",
+   "source": "procedural: tools/artgen",
+   "type": "props",
+   "version": 1
   },
   "prop_chest": {
    "anims": {
@@ -1013,10 +1533,15 @@
      "row": 1
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/props/chest.png",
-   "sha": "a2863f761d9252e3"
+   "sha": "a2863f761d9252e3",
+   "source": "procedural: tools/artgen",
+   "type": "props",
+   "version": 1
   },
   "prop_crate": {
    "anims": {
@@ -1033,10 +1558,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/props/crate.png",
-   "sha": "91d36981ee736f2f"
+   "sha": "91d36981ee736f2f",
+   "source": "procedural: tools/artgen",
+   "type": "props",
+   "version": 1
   },
   "prop_fountain": {
    "anims": {
@@ -1047,10 +1577,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/props/fountain.png",
-   "sha": "3ab45fbae13af1b3"
+   "sha": "3ab45fbae13af1b3",
+   "source": "procedural: tools/artgen",
+   "type": "props",
+   "version": 1
   },
   "prop_lamp": {
    "anims": {
@@ -1061,10 +1596,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/props/lamp.png",
-   "sha": "cb3bbb72070fdb8b"
+   "sha": "cb3bbb72070fdb8b",
+   "source": "procedural: tools/artgen",
+   "type": "props",
+   "version": 1
   },
   "prop_pedestal": {
    "anims": {
@@ -1075,10 +1615,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/props/pedestal.png",
-   "sha": "798e0afc99438e97"
+   "sha": "798e0afc99438e97",
+   "source": "procedural: tools/artgen",
+   "type": "props",
+   "version": 1
   },
   "prop_pillar": {
    "anims": {
@@ -1089,10 +1634,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 32,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/props/pillar.png",
-   "sha": "08fd40d44637eaa1"
+   "sha": "08fd40d44637eaa1",
+   "source": "procedural: tools/artgen",
+   "type": "props",
+   "version": 1
   },
   "prop_portal": {
    "anims": {
@@ -1103,10 +1653,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 32,
    "frame_w": 32,
+   "palette": "master16",
    "path": "res://assets/sprites/props/portal.png",
-   "sha": "70220f8f494e663c"
+   "sha": "70220f8f494e663c",
+   "source": "procedural: tools/artgen",
+   "type": "props",
+   "version": 1
   },
   "prop_shadow_l": {
    "anims": {
@@ -1117,10 +1672,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 6,
    "frame_w": 36,
+   "palette": "master16",
    "path": "res://assets/sprites/props/shadow_l.png",
-   "sha": "87bd0c858ea6c14e"
+   "sha": "87bd0c858ea6c14e",
+   "source": "procedural: tools/artgen",
+   "type": "props",
+   "version": 1
   },
   "prop_shadow_m": {
    "anims": {
@@ -1131,10 +1691,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 6,
    "frame_w": 20,
+   "palette": "master16",
    "path": "res://assets/sprites/props/shadow_m.png",
-   "sha": "4f434e0e30251759"
+   "sha": "4f434e0e30251759",
+   "source": "procedural: tools/artgen",
+   "type": "props",
+   "version": 1
   },
   "prop_shadow_s": {
    "anims": {
@@ -1145,10 +1710,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 6,
    "frame_w": 12,
+   "palette": "master16",
    "path": "res://assets/sprites/props/shadow_s.png",
-   "sha": "3f6439f54d638ecd"
+   "sha": "3f6439f54d638ecd",
+   "source": "procedural: tools/artgen",
+   "type": "props",
+   "version": 1
   },
   "prop_spawn_rune": {
    "anims": {
@@ -1159,10 +1729,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/props/spawn_rune.png",
-   "sha": "b4d0be33e7ee9948"
+   "sha": "b4d0be33e7ee9948",
+   "source": "procedural: tools/artgen",
+   "type": "props",
+   "version": 1
   },
   "prop_statue": {
    "anims": {
@@ -1173,10 +1748,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 32,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/props/statue.png",
-   "sha": "3afe609474365004"
+   "sha": "3afe609474365004",
+   "source": "procedural: tools/artgen",
+   "type": "props",
+   "version": 1
   },
   "turret": {
    "anims": {
@@ -1187,10 +1767,15 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 16,
    "frame_w": 16,
+   "palette": "master16",
    "path": "res://assets/sprites/props/turret.png",
-   "sha": "9e947f4dac75dc21"
+   "sha": "9e947f4dac75dc21",
+   "source": "procedural: tools/artgen",
+   "type": "props",
+   "version": 1
   },
   "weapon_boom_tube": {
    "anims": {
@@ -1201,14 +1786,19 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 12,
    "frame_w": 24,
+   "palette": "master16",
    "path": "res://assets/sprites/weapons/boom_tube.png",
    "pivot": [
     6,
     7
    ],
-   "sha": "32147fc8dd0bb655"
+   "sha": "32147fc8dd0bb655",
+   "source": "procedural: tools/artgen",
+   "type": "weapons",
+   "version": 1
   },
   "weapon_ember_blade": {
    "anims": {
@@ -1219,14 +1809,19 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 12,
    "frame_w": 24,
+   "palette": "master16",
    "path": "res://assets/sprites/weapons/ember_blade.png",
    "pivot": [
     6,
     7
    ],
-   "sha": "8c68d1baa070a759"
+   "sha": "8c68d1baa070a759",
+   "source": "procedural: tools/artgen",
+   "type": "weapons",
+   "version": 1
   },
   "weapon_frost_needler": {
    "anims": {
@@ -1237,14 +1832,19 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 12,
    "frame_w": 24,
+   "palette": "master16",
    "path": "res://assets/sprites/weapons/frost_needler.png",
    "pivot": [
     6,
     7
    ],
-   "sha": "bae13dc7b58e6ba8"
+   "sha": "bae13dc7b58e6ba8",
+   "source": "procedural: tools/artgen",
+   "type": "weapons",
+   "version": 1
   },
   "weapon_hex_staff": {
    "anims": {
@@ -1255,14 +1855,19 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 12,
    "frame_w": 24,
+   "palette": "master16",
    "path": "res://assets/sprites/weapons/hex_staff.png",
    "pivot": [
     6,
     7
    ],
-   "sha": "437073e80dcec0a3"
+   "sha": "437073e80dcec0a3",
+   "source": "procedural: tools/artgen",
+   "type": "weapons",
+   "version": 1
   },
   "weapon_longshot": {
    "anims": {
@@ -1273,14 +1878,19 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 12,
    "frame_w": 24,
+   "palette": "master16",
    "path": "res://assets/sprites/weapons/longshot.png",
    "pivot": [
     6,
     7
    ],
-   "sha": "173d3bd80147a43e"
+   "sha": "173d3bd80147a43e",
+   "source": "procedural: tools/artgen",
+   "type": "weapons",
+   "version": 1
   },
   "weapon_prism_lance": {
    "anims": {
@@ -1291,14 +1901,19 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 12,
    "frame_w": 24,
+   "palette": "master16",
    "path": "res://assets/sprites/weapons/prism_lance.png",
    "pivot": [
     6,
     7
    ],
-   "sha": "e41d64e364a48f01"
+   "sha": "e41d64e364a48f01",
+   "source": "procedural: tools/artgen",
+   "type": "weapons",
+   "version": 1
   },
   "weapon_pulse_rifle": {
    "anims": {
@@ -1309,14 +1924,19 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 12,
    "frame_w": 24,
+   "palette": "master16",
    "path": "res://assets/sprites/weapons/pulse_rifle.png",
    "pivot": [
     6,
     7
    ],
-   "sha": "23f672eeb9300b62"
+   "sha": "23f672eeb9300b62",
+   "source": "procedural: tools/artgen",
+   "type": "weapons",
+   "version": 1
   },
   "weapon_rift_pistol": {
    "anims": {
@@ -1327,14 +1947,23 @@
      "row": 0
     }
    },
-   "frame_h": 12,
-   "frame_w": 24,
-   "path": "res://assets/sprites/weapons/rift_pistol.png",
-   "pivot": [
-    6,
-    7
+   "density": 4,
+   "frame_h": 48,
+   "frame_w": 96,
+   "muzzle": [
+    68,
+    20
    ],
-   "sha": "be7ecfcf9c5fc83b"
+   "palette": "hd",
+   "path": "res://assets/sprites/weapons/hd/rift_pistol.png",
+   "pivot": [
+    24,
+    28
+   ],
+   "sha": "f3fc71f77b7bf058",
+   "source": "procedural: tools/artgen/hd/weapons.py",
+   "type": "weapons",
+   "version": 1
   },
   "weapon_scatter_cannon": {
    "anims": {
@@ -1345,14 +1974,19 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 12,
    "frame_w": 24,
+   "palette": "master16",
    "path": "res://assets/sprites/weapons/scatter_cannon.png",
    "pivot": [
     6,
     7
    ],
-   "sha": "c16c09e711ab68a0"
+   "sha": "c16c09e711ab68a0",
+   "source": "procedural: tools/artgen",
+   "type": "weapons",
+   "version": 1
   },
   "weapon_storm_coil": {
    "anims": {
@@ -1363,14 +1997,19 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 12,
    "frame_w": 24,
+   "palette": "master16",
    "path": "res://assets/sprites/weapons/storm_coil.png",
    "pivot": [
     6,
     7
    ],
-   "sha": "2a55d1dfe418372f"
+   "sha": "2a55d1dfe418372f",
+   "source": "procedural: tools/artgen",
+   "type": "weapons",
+   "version": 1
   },
   "weapon_thornbow": {
    "anims": {
@@ -1381,15 +2020,20 @@
      "row": 0
     }
    },
+   "density": 1,
    "frame_h": 12,
    "frame_w": 24,
+   "palette": "master16",
    "path": "res://assets/sprites/weapons/thornbow.png",
    "pivot": [
     6,
     7
    ],
-   "sha": "6144cc9cb7cb0106"
+   "sha": "6144cc9cb7cb0106",
+   "source": "procedural: tools/artgen",
+   "type": "weapons",
+   "version": 1
   }
  },
- "version": 1
+ "version": 2
 }
