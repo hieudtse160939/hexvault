@@ -136,3 +136,26 @@ Status: preset configured and committed; **no iOS build has been produced or tes
 the same way as section 1 (use the Linux binary), run `python tools/check.py`, then
 `--export-release "Windows Desktop"` (cross-exporting Windows from Linux works with the
 templates; icon/version resources are written natively by Godot 4.7).
+
+## Android without the Android SDK (blocked network, CI containers)
+
+`dl.google.com` may be unreachable, so the SDK build-tools cannot be installed. The exporter only
+needs `adb` (to exist) and `apksigner`; `tools/android/apksigner_v2.py` is a small apksigner
+replacement that signs with APK Signature Scheme v2 (valid on Android 7.0+, Godot 4's minimum).
+
+```bash
+mkdir -p .tools/android/sdk/build-tools/35.0.0 .tools/android/sdk/platform-tools
+printf '#!/bin/sh\nexec python3 "$PWD/tools/android/apksigner_v2.py" "$@"\n' > .tools/android/sdk/build-tools/35.0.0/apksigner
+printf '#!/bin/sh\nexit 0\n' > .tools/android/sdk/platform-tools/adb
+chmod +x .tools/android/sdk/build-tools/35.0.0/apksigner .tools/android/sdk/platform-tools/adb
+keytool -genkeypair -storetype PKCS12 -keystore .tools/android/debug.keystore -storepass android \
+  -keypass android -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug"
+# Editor settings (.tools/editor_data/editor_settings-4.7.tres):
+#   export/android/android_sdk_path = "<repo>/.tools/android/sdk"
+#   export/android/debug_keystore   = "<repo>/.tools/android/debug.keystore"
+#   export/android/debug_keystore_user = "androiddebugkey", debug_keystore_pass = "android"
+python tools/package.py android        # -> build/Hexvault-<ver>-android-debug.apk
+python tools/android/apksigner_v2.py verify build/Hexvault-<ver>-android-debug.apk
+```
+Android templates come from the export template .tpz (`templates/android_debug.apk`, `android_release.apk`).
+Debug builds only; a release keystore must never be committed.

@@ -89,9 +89,15 @@ def linux() -> None:
 
 
 def android() -> None:
+    """Debug APK (arm64-v8a + x86_64), signed with APK Signature Scheme v2.
+    Without a full Android SDK, point Editor Settings > export/android/android_sdk_path at a stub
+    SDK whose build-tools/<v>/apksigner runs tools/android/apksigner_v2.py (see BUILD_GUIDE.md)."""
     export("Android", "build/android/hexvault-debug.apk", debug=True)
+    import shutil
+    out = os.path.join(ROOT, "build", f"Hexvault-{VERSION}-android-debug.apk")
+    shutil.copyfile(os.path.join(ROOT, "build", "android", "hexvault-debug.apk"), out)
     print("android (debug):")
-    report(os.path.join(ROOT, "build", "android", "hexvault-debug.apk"))
+    report(out)
 
 
 def ios() -> None:
