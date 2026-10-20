@@ -110,7 +110,10 @@ def check_sprite(key: str, s: dict) -> tuple[list[str], list[str], dict]:
                     warns.append(f"{key}.{name}[{i}->{i + 1}]: silhouette IoU {inter / union:.2f}")
                     break
     stats["noise"] = round(worst_noise, 4)
-    if worst_noise > (0.03 if hd else 0.10):
+    # Art imported from the user's reference sheet keeps its soft painted shading;
+    # stronger cleanup would erase details, so it gets the 16 px threshold.
+    noise_limit = 0.10 if (not hd or s.get("palette") == "ref") else 0.03
+    if worst_noise > noise_limit:
         warns.append(f"{key}: pixel noise {worst_noise:.1%}")
     return errs, warns, stats
 

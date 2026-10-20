@@ -41,7 +41,9 @@ def main() -> int:
         if img.width % fw or img.height % fh:
             errors.append(f"{key}: {img.size} not a multiple of {fw}x{fh}")
         px = img.load()
-        allowed = HD_RGBA if s.get("palette") == "hd" else PAL_RGBA
+        # "ref" sheets come from the user's reference art with their own palette:
+        # alpha / grid / frames are still checked, colours are budgeted by asset_qa.
+        allowed = None if s.get("palette") == "ref" else (HD_RGBA if s.get("palette") == "hd" else PAL_RGBA)
         for name, a in s["anims"].items():
             if a["frames"] < 1:
                 errors.append(f"{key}.{name}: no frames")
@@ -57,7 +59,7 @@ def main() -> int:
                 v = px[x, y]
                 if v[3] not in (0, 255):
                     errors.append(f"{key}: semi-transparent pixel at {x},{y}"); break
-                if v[3] == 255 and v not in allowed:
+                if allowed is not None and v[3] == 255 and v not in allowed:
                     errors.append(f"{key}: off-palette colour {v} at {x},{y}"); break
         checked += 1
     for key, s in m["images"].items():

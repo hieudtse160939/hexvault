@@ -955,14 +955,14 @@
    "density": 4,
    "frame_h": 128,
    "frame_w": 128,
-   "palette": "hd",
-   "path": "res://assets/sprites/heroes/hd/artillerist.png",
+   "palette": "ref",
+   "path": "res://assets/sprites/heroes/ref/artillerist.png",
    "pivot": [
     64,
     112
    ],
-   "sha": "17e2e48a7489ba63",
-   "source": "procedural: tools/artgen/hd/heroes/artillerist.py",
+   "sha": "75645f139073d063",
+   "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py",
    "type": "heroes",
    "version": 1
   },
@@ -1008,14 +1008,14 @@
    "density": 4,
    "frame_h": 128,
    "frame_w": 128,
-   "palette": "hd",
-   "path": "res://assets/sprites/heroes/hd/assassin.png",
+   "palette": "ref",
+   "path": "res://assets/sprites/heroes/ref/assassin.png",
    "pivot": [
     64,
     112
    ],
-   "sha": "b4d00d3ff56e91d4",
-   "source": "procedural: tools/artgen/hd/heroes/assassin.py",
+   "sha": "253499b8c86f7fab",
+   "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py",
    "type": "heroes",
    "version": 1
   },
@@ -1061,14 +1061,14 @@
    "density": 4,
    "frame_h": 128,
    "frame_w": 128,
-   "palette": "hd",
-   "path": "res://assets/sprites/heroes/hd/cryomancer.png",
+   "palette": "ref",
+   "path": "res://assets/sprites/heroes/ref/cryomancer.png",
    "pivot": [
     64,
     112
    ],
-   "sha": "8cd8071765b7ee60",
-   "source": "procedural: tools/artgen/hd/heroes/cryomancer.py",
+   "sha": "59918af72ffe8024",
+   "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py",
    "type": "heroes",
    "version": 1
   },
@@ -1114,14 +1114,14 @@
    "density": 4,
    "frame_h": 128,
    "frame_w": 128,
-   "palette": "hd",
-   "path": "res://assets/sprites/heroes/hd/duelist.png",
+   "palette": "ref",
+   "path": "res://assets/sprites/heroes/ref/duelist.png",
    "pivot": [
     64,
     112
    ],
-   "sha": "465ab91365ea0f85",
-   "source": "procedural: tools/artgen/hd/heroes/duelist.py",
+   "sha": "4d0381d7223d1e5b",
+   "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py",
    "type": "heroes",
    "version": 1
   },
@@ -1167,14 +1167,14 @@
    "density": 4,
    "frame_h": 128,
    "frame_w": 128,
-   "palette": "hd",
-   "path": "res://assets/sprites/heroes/hd/hexer.png",
+   "palette": "ref",
+   "path": "res://assets/sprites/heroes/ref/hexer.png",
    "pivot": [
     64,
     112
    ],
-   "sha": "ec73591e5bedd754",
-   "source": "procedural: tools/artgen/hd/heroes/hexer.py",
+   "sha": "f85983e602f9747f",
+   "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py",
    "type": "heroes",
    "version": 1
   },
@@ -1269,14 +1269,14 @@
    "density": 4,
    "frame_h": 128,
    "frame_w": 128,
-   "palette": "hd",
-   "path": "res://assets/sprites/heroes/hd/necromancer.png",
+   "palette": "ref",
+   "path": "res://assets/sprites/heroes/ref/necromancer.png",
    "pivot": [
     64,
     112
    ],
-   "sha": "8bdf1a8b106a64a3",
-   "source": "procedural: tools/artgen/hd/heroes/necromancer.py",
+   "sha": "e8a45931d584214e",
+   "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py",
    "type": "heroes",
    "version": 1
   },
@@ -1322,14 +1322,14 @@
    "density": 4,
    "frame_h": 128,
    "frame_w": 128,
-   "palette": "hd",
-   "path": "res://assets/sprites/heroes/hd/paladin.png",
+   "palette": "ref",
+   "path": "res://assets/sprites/heroes/ref/paladin.png",
    "pivot": [
     64,
     112
    ],
-   "sha": "35bc6f3a8fb1594a",
-   "source": "procedural: tools/artgen/hd/heroes/paladin.py",
+   "sha": "3beb487415553acf",
+   "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py",
    "type": "heroes",
    "version": 1
   },
@@ -1375,14 +1375,14 @@
    "density": 4,
    "frame_h": 128,
    "frame_w": 128,
-   "palette": "hd",
-   "path": "res://assets/sprites/heroes/hd/pyromancer.png",
+   "palette": "ref",
+   "path": "res://assets/sprites/heroes/ref/pyromancer.png",
    "pivot": [
     64,
     112
    ],
-   "sha": "fd25ed7341cb7d49",
-   "source": "procedural: tools/artgen/hd/heroes/pyromancer.py",
+   "sha": "17f6a03e94b5414d",
+   "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py",
    "type": "heroes",
    "version": 1
   },
@@ -1428,16 +1428,16 @@
    "density": 4,
    "frame_h": 128,
    "frame_w": 128,
-   "palette": "hd",
-   "path": "res://assets/sprites/heroes/hd/ranger.png",
+   "palette": "ref",
+   "path": "res://assets/sprites/heroes/ref/ranger.png",
    "pivot": [
     64,
     112
    ],
-   "sha": "31a598d7c48310d6",
-   "source": "procedural: tools/artgen/hd/heroes/ranger.py",
+   "sha": "9bf4f12bd1c5f88c",
+   "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py",
    "type": "heroes",
-   "version": 3
+   "version": 1
   },
   "hero_ranger_16": {
    "anims": {
@@ -1530,14 +1530,14 @@
    "density": 4,
    "frame_h": 128,
    "frame_w": 128,
-   "palette": "hd",
-   "path": "res://assets/sprites/heroes/hd/stormcaller.png",
+   "palette": "ref",
+   "path": "res://assets/sprites/heroes/ref/stormcaller.png",
    "pivot": [
     64,
     112
    ],
-   "sha": "7f95026303be2931",
-   "source": "procedural: tools/artgen/hd/heroes/stormcaller.py",
+   "sha": "e18d8d0b84b9d6a6",
+   "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py",
    "type": "heroes",
    "version": 1
   },
@@ -1583,14 +1583,14 @@
    "density": 4,
    "frame_h": 128,
    "frame_w": 128,
-   "palette": "hd",
-   "path": "res://assets/sprites/heroes/hd/tinker.png",
+   "palette": "ref",
+   "path": "res://assets/sprites/heroes/ref/tinker.png",
    "pivot": [
     64,
     112
    ],
-   "sha": "922d460c2c5bdd75",
-   "source": "procedural: tools/artgen/hd/heroes/tinker.py",
+   "sha": "4391cc01c4856fef",
+   "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py",
    "type": "heroes",
    "version": 1
   },
@@ -1685,14 +1685,14 @@
    "density": 4,
    "frame_h": 128,
    "frame_w": 128,
-   "palette": "hd",
-   "path": "res://assets/sprites/heroes/hd/warden.png",
+   "palette": "ref",
+   "path": "res://assets/sprites/heroes/ref/warden.png",
    "pivot": [
     64,
     112
    ],
-   "sha": "a376bf2c8e80bb9c",
-   "source": "procedural: tools/artgen/hd/heroes/warden.py",
+   "sha": "0fb963549bd2577c",
+   "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py",
    "type": "heroes",
    "version": 1
   },

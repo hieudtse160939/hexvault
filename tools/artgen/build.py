@@ -14,6 +14,7 @@ from PIL import Image
 
 sys.path.insert(0, os.path.dirname(__file__))
 import characters  # noqa: E402
+import ref_heroes  # noqa: E402
 import enemies  # noqa: E402
 import font  # noqa: E402
 import items  # noqa: E402
@@ -109,10 +110,18 @@ def app_icon(size: int) -> Image.Image:
 def main() -> None:
     # heroes: HD sheets where a design exists, 16 px otherwise. The 16 px sheet
     # is always kept as hero_<id>_16 (title screen icon, app icon, fallbacks).
+    ref = ref_heroes.build_all() if ref_heroes.available() else {}
+    for hid, anims in ref.items():
+        add_sheet(f"hero_{hid}", f"sprites/heroes/ref/{hid}.png", anims, ref_heroes.FPS, ref_heroes.LOOP,
+                  pivot=ref_heroes.PIVOT, hd={"density": hd_registry.DENSITY, "version": 1,
+                                              "source": "external: art_src/raw/heroes_reference.png via tools/artgen/ref_heroes.py"})
+        manifest["sprites"][f"hero_{hid}"]["palette"] = "ref"
     for hid, spec in characters.HEROES.items():
         add_sheet(f"hero_{hid}_16", f"sprites/heroes/{hid}_16.png", characters.build(spec),
                   characters.FPS, characters.LOOP)
         mod = hd_registry.HEROES.get(hid)
+        if hid in ref:
+            continue
         if mod is not None:
             add_sheet(f"hero_{hid}", f"sprites/heroes/hd/{hid}.png", mod.animations(), mod.FPS, mod.LOOP,
                       pivot=mod.PIVOT, hd={"density": hd_registry.DENSITY, "version": mod.SPEC["version"], "source": mod.SPEC["source"]})
@@ -130,7 +139,7 @@ def main() -> None:
             add_sheet(f"enemy_{eid}", f"sprites/enemies/{eid}.png", fn(), enemies.FPS, enemies.LOOP)
     # heroes that only exist in HD (no 16 px ancestor)
     for hid, mod in hd_registry.HEROES.items():
-        if hid in characters.HEROES:
+        if hid in characters.HEROES or hid in ref:
             continue
         add_sheet(f"hero_{hid}", f"sprites/heroes/hd/{hid}.png", mod.animations(), mod.FPS, mod.LOOP,
                   pivot=mod.PIVOT, hd={"density": hd_registry.DENSITY, "version": mod.SPEC["version"],
