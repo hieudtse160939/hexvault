@@ -22,6 +22,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "enemies"))
 import acolyte  # noqa: E402
 import gloop  # noqa: E402
 import golem  # noqa: E402
+import ossifex  # noqa: E402
 import skitter  # noqa: E402
 import sparkeye  # noqa: E402
 
@@ -49,4 +50,5 @@ ENEMIES = {
     "sparkeye": sparkeye,
     "skitter": skitter,
     "acolyte": acolyte,
+    "ossifex": ossifex,
 }

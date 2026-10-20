@@ -61,6 +61,9 @@ func _ready() -> void:
 	add_child(sh)
 	sprite = AnimatedSprite2D.new()
 	SpriteLib.apply(sprite, "enemy_ossifex")
+	if SpriteLib.is_hd("enemy_ossifex"):
+		# the robe hem (manifest pivot) floats just above the shadow
+		sprite.position = Vector2(0, 22) - SpriteLib.pivot_from_centre_world("enemy_ossifex")
 	sprite.play(&"idle")
 	_mat = FX.make_flashable(sprite)
 	add_child(sprite)

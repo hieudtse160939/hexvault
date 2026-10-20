@@ -598,7 +598,7 @@
      "row": 5
     },
     "death": {
-     "fps": 10,
+     "fps": 9,
      "frames": 6,
      "loop": false,
      "row": 7
@@ -610,13 +610,13 @@
      "row": 6
     },
     "idle": {
-     "fps": 5,
+     "fps": 6,
      "frames": 4,
      "loop": true,
      "row": 0
     },
     "idle2": {
-     "fps": 6,
+     "fps": 8,
      "frames": 4,
      "loop": true,
      "row": 4
@@ -634,13 +634,17 @@
      "row": 2
     }
    },
-   "density": 1,
-   "frame_h": 48,
-   "frame_w": 48,
-   "palette": "master16",
-   "path": "res://assets/sprites/enemies/ossifex.png",
-   "sha": "6ed4f4db985db0ee",
-   "source": "procedural: tools/artgen",
+   "density": 4,
+   "frame_h": 192,
+   "frame_w": 192,
+   "palette": "hd",
+   "path": "res://assets/sprites/enemies/hd/ossifex.png",
+   "pivot": [
+    96,
+    178
+   ],
+   "sha": "b271b2756081949c",
+   "source": "procedural: tools/artgen/hd/enemies/ossifex.py",
    "type": "enemies",
    "version": 1
   },

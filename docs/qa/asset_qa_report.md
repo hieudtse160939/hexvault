@@ -9,7 +9,7 @@ Sprites: 75 · images: 43 · errors: 0 · warnings: 6
 | enemy_acolyte | enemies | 4 | 128x128 | 15 | 27 | 0.0053 | 1 | PASS |
 | enemy_gloop | enemies | 4 | 96x96 | 17 | 15 | 0.006 | 1 | WARN |
 | enemy_golem | enemies | 4 | 128x128 | 22 | 22 | 0.0053 | 1 | PASS |
-| enemy_ossifex | enemies | 1 | 48x48 | 30 | 16 | 0.052 | 1 | PASS |
+| enemy_ossifex | enemies | 4 | 192x192 | 30 | 38 | 0.0181 | 1 | PASS |
 | enemy_skitter | enemies | 4 | 96x96 | 14 | 23 | 0.001 | 1 | PASS |
 | enemy_sparkeye | enemies | 4 | 96x96 | 14 | 27 | 0.0094 | 1 | WARN |
 | fx_explosion | fx | 1 | 32x32 | 6 | 7 | 0.0 | 1 | PASS |
