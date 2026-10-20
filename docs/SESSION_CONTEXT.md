@@ -1,11 +1,13 @@
 # Session context (handoff)
 
-_Branch `claude/hd-pixel-art-roguelike-6d4lcx` · last updated 2026-10-20_
+_Branch `claude/hd-pixel-art-roguelike-6d4lcx` · last updated 2026-10-20 · last pushed commit `99615cc`_
 
 ## Project
-Hexvault: Godot 4.7.2 / GDScript top-down action roguelite (Soul Knight-like). Goal from the
-user's master prompt: turn it into a high-quality **HD pixel art, anime RPG style** roguelike
-with a large, data-driven hero roster, without rewriting the engine or breaking gameplay.
+Hexvault: Godot 4.7.2 / GDScript top-down action game. First master prompt: HD pixel art,
+anime RPG style roguelike with a data-driven hero roster. Second master prompt ("ANIME FANTASY
+DUNGEON CRAWLER RPG"): Adventurers' Guild hub + dungeon expeditions + randomized equipment +
+persistent progression - implemented, see below and `docs/GUILD_RPG.md`.
+Git rule from the user: do not commit/push unless the user explicitly asks.
 The user writes in Vietnamese; answer in Vietnamese.
 
 ## Commands
@@ -34,12 +36,15 @@ download per BUILD_GUIDE.md).
 - **Characters:** 12 heroes / 12 classes in `data/characters.json` + `data/classes.json`;
   skills `scripts/characters/skills/<id>.gd`, passives `scripts/characters/passives/<id>.gd`
   (HeroSkill / HeroPassive hooks, found by id); mastery XP per run; save schema v3 with
-  migration; Hero Shrine (paging, archetype filter, sort, search). Guide: `docs/ADDING_CHARACTERS.md`.
-- **Weapons:** 14 (3 common default, others unlocked with shards / achievement). Drops only
-  from the treasure-room weapon chest and the shop, weighted by rarity
-  (`WeaponPickup.roll`: common 10, rare 7, epic 2.5+floor, legendary 0.5+0.5*floor), only
-  from unlocked weapons.
-- **Builds:** Linux export built and run-verified; Windows exported, not run; Android/iOS not built.
+  migration (now v4); Hero Shrine (paging, archetype filter, sort, search), listing only the
+  Guild roster. Guide: `docs/ADDING_CHARACTERS.md`.
+- **Weapons:** 14, all HD. In-run: treasure-room weapon chest and dungeon shop
+  (`WeaponPickup.roll`: common 10, rare 7, epic 2.5+floor, legendary 0.5+0.5*floor, unlocked only).
+  Permanent: every weapon is also an equipment template (`w_<id>` in `data/items.json`); the item in
+  the Weapon slot decides the starting gun of an expedition.
+- **Builds:** `build/Hexvault-0.9.0-linux-x86_64.tar.gz` (smoke-run OK, exit 0) and
+  `build/Hexvault-0.9.0-windows-x64.zip` (exported, not run: no Windows here), both from `99615cc`,
+  sent to the user. Android/iOS not built.
 
 ## Adventurers' Guild RPG (master prompt "ANIME FANTASY DUNGEON CRAWLER RPG")
 Implemented: Title New Game / Continue, 5-hero New Game selection, playable Guild hall (reception,
@@ -49,6 +54,22 @@ affixes, 31 templates incl. all 14 weapons), HeroStats, levels/XP, skill trees (
 12 skill books + Tome of Insight, loot tables, gold economy, save v4. Design: `docs/GUILD_RPG.md`.
 Tests: `tests/test_rpg.gd` (21), `tests/test_guild.gd` (7, full expedition loop through real screens).
 Roster = duelist, assassin, warden, pyromancer, necromancer (user: more heroes later).
+Key code: `scripts/items/item_gen.gd`, `scripts/items/inventory.gd`, `scripts/core/hero_stats.gd`,
+`scripts/core/hero_progress.gd`, `scripts/world/hub.gd`, `scripts/ui/{inventory_panel,shop_panel,
+mission_board,skill_tree_panel,new_game_screen}.gd`, `Game.start_mission / return_to_guild`.
+Reward policy: items + XP permanent on pickup; coins -> gold (100 % win, 50 % loss); mission
+rewards only on victory. Guild NPCs reuse non-roster hero sheets (Rime = cryomancer, Cog = tinker).
+Verified: 86/86 tests, asset QA 0 errors, visual tour screenshots (Xvfb). Not verified: hands-on
+play by a human, Windows build run.
+
+Known limitations / next ideas
+- Supplied hero art is downscaled ~3.3x (needed for game scale) and quantized to 52 colours
+  (pipeline choice, not required) - the brief asks to avoid unnecessary quantization: revisit
+  `tools/artgen/ref_heroes.py` / `ref_runs.py` (MAX_COLOURS) and the asset-QA colour budget.
+- No separate attack animation for heroes (weapons show attacks); idle/dash/skill/hurt/death are
+  cut-out animations of the reference pose, run is the user's 8-frame sheet.
+- One boss (Ossifex) and one dungeon tileset for all missions.
+- Exit leak warning of the ogg music stream comes from the dummy audio driver in the container.
 
 ## Still 16 px (to convert)
 Props (crate, barrel, pillar, lamp, chest, portal, fountain, statue, pedestal, turret,
@@ -61,9 +82,10 @@ barrier, spawn rune, shadows), pickups, projectiles, FX, UI icons other than ski
    fallback when the file is absent.
    Real 8-frame run cycles from the user (Gemini sheets, copied from `main` into
    `art_src/raw/runs/<id>_run.png`) replace the cut-out run for duelist, assassin, warden,
-   pyromancer, necromancer (`tools/artgen/ref_runs.py`). User asked to stop at these heroes and
-   will send a new prompt about game updates.
-2. Optional: give elites / boss a small chance to drop epic / legendary weapons; balance pass.
+   pyromancer, necromancer (`tools/artgen/ref_runs.py`).
+2. DONE: Guild RPG master prompt + "đa dạng vũ khí, skill, sách kỹ năng, cây kỹ năng; nhân vật
+   chỉ 5 người, mai mốt thêm sau".
+3. Waiting: the user's next prompt (more heroes later).
 
 ## Style decisions made with the user
 - Anime RPG chibi, heads in **profile** (same facing as bodies, one eye), not 3/4 with two eyes.
