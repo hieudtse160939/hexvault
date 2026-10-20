@@ -29,10 +29,12 @@ func _init() -> void:
 	floor_layer.name = "Floor"
 	floor_layer.tile_set = Tiles.tileset()
 	floor_layer.collision_enabled = false
+	floor_layer.scale = Tiles.layer_scale()
 	add_child(floor_layer)
 	wall_layer = TileMapLayer.new()
 	wall_layer.name = "Walls"
 	wall_layer.tile_set = Tiles.tileset()
+	wall_layer.scale = Tiles.layer_scale()
 	add_child(wall_layer)
 	entities = Node2D.new()
 	entities.name = "Entities"

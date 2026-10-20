@@ -261,14 +261,16 @@
    "w": 16
   },
   "tiles_dungeon": {
-   "density": 1,
-   "h": 32,
-   "path": "res://assets/tiles/dungeon.png",
-   "sha": "5d97475436c17c65",
-   "source": "procedural: tools/artgen",
+   "density": 4,
+   "h": 128,
+   "palette": "hd",
+   "path": "res://assets/tiles/dungeon_hd.png",
+   "sha": "7368399e5ad6c2c8",
+   "source": "procedural: tools/artgen/hd/tiles.py",
+   "tile": 64,
    "type": "tiles",
    "version": 1,
-   "w": 128
+   "w": 512
   },
   "touch_btn_attack": {
    "density": 1,
@@ -441,20 +443,20 @@
   "enemy_golem": {
    "anims": {
     "attack": {
-     "fps": 10,
-     "frames": 3,
+     "fps": 8,
+     "frames": 4,
      "loop": false,
      "row": 2
     },
     "death": {
-     "fps": 10,
-     "frames": 5,
+     "fps": 9,
+     "frames": 6,
      "loop": false,
      "row": 4
     },
     "hurt": {
      "fps": 10,
-     "frames": 1,
+     "frames": 2,
      "loop": false,
      "row": 3
     },
@@ -466,18 +468,22 @@
     },
     "move": {
      "fps": 8,
-     "frames": 4,
+     "frames": 6,
      "loop": true,
      "row": 1
     }
    },
-   "density": 1,
-   "frame_h": 24,
-   "frame_w": 24,
-   "palette": "master16",
-   "path": "res://assets/sprites/enemies/golem.png",
-   "sha": "d1f4682902bc6298",
-   "source": "procedural: tools/artgen",
+   "density": 4,
+   "frame_h": 128,
+   "frame_w": 128,
+   "palette": "hd",
+   "path": "res://assets/sprites/enemies/hd/golem.png",
+   "pivot": [
+    64,
+    108
+   ],
+   "sha": "3e2535a9cce0fb45",
+   "source": "procedural: tools/artgen/hd/enemies/golem.py",
    "type": "enemies",
    "version": 1
   },

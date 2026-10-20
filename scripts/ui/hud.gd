@@ -115,14 +115,14 @@ func _refresh_weapon() -> void:
 		return
 	var w: Weapon = player.current_weapon()
 	if w != null:
-		_weapon_icon.texture = SpriteLib.still("weapon_" + w.data.id)
+		SpriteLib.fit_icon(_weapon_icon, "weapon_" + w.data.id)
 		_weapon_name.text = w.data.display_name
 		_weapon_name.add_theme_color_override("font_color", w.data.rarity_color())
 		_on_ammo(w.ammo, w.data.magazine, w.reloading)
 	var alt: Weapon = null
 	if player.weapons.size() > 1:
 		alt = player.weapons[(player.current + 1) % player.weapons.size()]
-	_alt_icon.texture = SpriteLib.still("weapon_" + alt.data.id) if alt != null else null
+	SpriteLib.fit_icon(_alt_icon, "weapon_" + alt.data.id if alt != null else "")
 
 
 func _on_ammo(cur: int, mx: int, reloading: bool) -> void:

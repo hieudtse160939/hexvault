@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cow8kacwmce8o"
-path="res://.godot/imported/dungeon.png-98295fbff55d5118dabbcd45808ed9c8.ctex"
+uid="uid://c6t1lx0hj4q2r"
+path="res://.godot/imported/dungeon_hd.png-5045ddf877760c905fdb35c63a6f38d5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tiles/dungeon.png"
-dest_files=["res://.godot/imported/dungeon.png-98295fbff55d5118dabbcd45808ed9c8.ctex"]
+source_file="res://assets/tiles/dungeon_hd.png"
+dest_files=["res://.godot/imported/dungeon_hd.png-5045ddf877760c905fdb35c63a6f38d5.ctex"]
 
 [params]
 
@@ -23,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

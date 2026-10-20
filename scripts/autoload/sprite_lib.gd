@@ -86,6 +86,28 @@ func pivot_from_centre_world(key: String) -> Vector2:
 	return pivot_world(key) - frame_size_world(key) / 2.0
 
 
+## Shows sprite `key` (first frame) on a TextureRect at its world size times
+## `scale_mul`, so HD and 16 px art appear the same size in menus and HUD.
+func fit_icon(rect: TextureRect, key: String, scale_mul: float = 1.0) -> void:
+	if key == "" or not (SpriteManifest.has_sprite(key) or SpriteManifest.has_image(key)):
+		rect.texture = null
+		return
+	rect.texture = texture(key) if SpriteManifest.has_image(key) else still(key)
+	rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	var sz: Vector2 = (frame_size_world(key) if SpriteManifest.has_sprite(key) else
+			Vector2(rect.texture.get_size()) / density(key)) * scale_mul
+	rect.custom_minimum_size = sz
+	rect.size = sz
+	if is_hd(key):
+		rect.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+		if rect.material == null:
+			FX.make_flashable(rect)
+	else:
+		rect.texture_filter = CanvasItem.TEXTURE_FILTER_PARENT_NODE
+		rect.material = null
+
+
 ## Frame size in world units.
 func frame_size_world(key: String) -> Vector2:
 	return Vector2(frame_size(key)) / density(key)

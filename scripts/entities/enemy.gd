@@ -42,6 +42,7 @@ var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _summons: Array[Enemy] = []
 var _mat: ShaderMaterial
 var _think: float = 0.0
+var _sprite_base: Vector2 = Vector2.ZERO  # sprite offset (HD art stands on its feet pivot)
 
 
 static func create(d: EnemyData, is_elite: bool, floor_i: int, diff: int, seed_value: int) -> Enemy:
@@ -81,6 +82,10 @@ func _ready() -> void:
 	add_child(sh)
 	sprite = AnimatedSprite2D.new()
 	SpriteLib.apply(sprite, data.sprite)
+	if SpriteLib.is_hd(data.sprite):
+		# stand HD art on its feet pivot at the shadow line
+		_sprite_base = Vector2(0, sh.position.y - (5.0 if data.flying else 0.0)) - SpriteLib.pivot_from_centre_world(data.sprite)
+	sprite.position = _sprite_base
 	sprite.play(&"idle")
 	_mat = FX.make_flashable(sprite)
 	if elite:
@@ -438,9 +443,9 @@ func _separation() -> Vector2:
 func _animate(p: Player) -> void:
 	if state in [S.WINDUP, S.ATTACK, S.STAGGER]:
 		if state == S.WINDUP:
-			sprite.position = Vector2(_rng.randf_range(-0.6, 0.6), 0).round()
+			sprite.position = _sprite_base + Vector2(_rng.randf_range(-0.6, 0.6), 0).round()
 		return
-	sprite.position = Vector2.ZERO
+	sprite.position = _sprite_base
 	var want: StringName = &"move" if velocity.length() > 8.0 else &"idle"
 	if sprite.animation != want and sprite.animation != &"hurt":
 		sprite.play(want)

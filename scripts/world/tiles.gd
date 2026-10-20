@@ -1,7 +1,10 @@
 class_name Tiles
 extends RefCounted
-## Dungeon TileSet built in code from assets/tiles/dungeon.png.
-## Atlas indices are the contract with tools/artgen/world.py::tileset().
+## Dungeon TileSet built in code from the "tiles_dungeon" manifest image.
+## Atlas indices are the contract with tools/artgen/hd/tiles.py::tileset().
+## The atlas may be drawn at any pixel density: tiles are density * SIZE px and
+## the tile layers are scaled by 1 / density (layer_scale()), so cells stay
+## SIZE world units.
 
 const SIZE: int = 16
 const COLS: int = 8
@@ -26,19 +29,28 @@ static func coords(index: int) -> Vector2i:
 	return Vector2i(index % COLS, index / COLS)
 
 
+static func density() -> int:
+	return maxi(int(SpriteLib.density("tiles_dungeon")), 1)
+
+
+static func layer_scale() -> Vector2:
+	return Vector2.ONE / float(density())
+
+
 static func tileset() -> TileSet:
 	if _tileset != null:
 		return _tileset
+	var px: int = SIZE * density()
 	var ts: TileSet = TileSet.new()
-	ts.tile_size = Vector2i(SIZE, SIZE)
+	ts.tile_size = Vector2i(px, px)
 	ts.add_physics_layer()
 	ts.set_physics_layer_collision_layer(0, 1)  # "world"
 	ts.set_physics_layer_collision_mask(0, 0)
 	var src: TileSetAtlasSource = TileSetAtlasSource.new()
-	src.texture = load("res://assets/tiles/dungeon.png") as Texture2D
-	src.texture_region_size = Vector2i(SIZE, SIZE)
+	src.texture = SpriteLib.texture("tiles_dungeon")
+	src.texture_region_size = Vector2i(px, px)
 	ts.add_source(src, 0)
-	var h: float = SIZE / 2.0
+	var h: float = px / 2.0
 	var square: PackedVector2Array = [Vector2(-h, -h), Vector2(h, -h), Vector2(h, h), Vector2(-h, h)]
 	for i: int in 16:
 		var c: Vector2i = coords(i)

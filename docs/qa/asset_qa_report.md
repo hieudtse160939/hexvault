@@ -8,7 +8,7 @@ Sprites: 64 · images: 35 · errors: 0 · warnings: 5
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | enemy_acolyte | enemies | 1 | 16x16 | 15 | 10 | 0.0909 | 1 | PASS |
 | enemy_gloop | enemies | 1 | 16x16 | 17 | 9 | 0.0403 | 1 | PASS |
-| enemy_golem | enemies | 1 | 24x24 | 17 | 8 | 0.0145 | 1 | PASS |
+| enemy_golem | enemies | 4 | 128x128 | 22 | 22 | 0.0053 | 1 | PASS |
 | enemy_ossifex | enemies | 1 | 48x48 | 30 | 16 | 0.052 | 1 | PASS |
 | enemy_skitter | enemies | 1 | 16x16 | 14 | 9 | 0.0714 | 1 | PASS |
 | enemy_sparkeye | enemies | 1 | 16x16 | 14 | 12 | 0.0519 | 1 | PASS |

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://glfk1u3wy27b"
-path="res://.godot/imported/golem.png-b80dd9a3456387fd577e27f754835a4f.ctex"
+uid="uid://bsprdbuktb7kn"
+path="res://.godot/imported/golem.png-f02a9c304f976d73c1ada9b1eb7f489c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/enemies/golem.png"
-dest_files=["res://.godot/imported/golem.png-b80dd9a3456387fd577e27f754835a4f.ctex"]
+source_file="res://assets/sprites/enemies/hd/golem.png"
+dest_files=["res://.godot/imported/golem.png-f02a9c304f976d73c1ada9b1eb7f489c.ctex"]
 
 [params]
 
@@ -23,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

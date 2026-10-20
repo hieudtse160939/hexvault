@@ -23,6 +23,7 @@ from px import Canvas, sheet, strip  # noqa: E402
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "hd"))
 import hd_registry  # noqa: E402
 import weapons as hd_weapons  # noqa: E402
+import tiles as hd_tiles  # noqa: E402
 from canvas import sheet as hd_sheet  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -119,7 +120,13 @@ def main() -> None:
                       characters.FPS, characters.LOOP)
     # enemies + boss
     for eid, fn in enemies.SHEETS.items():
-        add_sheet(f"enemy_{eid}", f"sprites/enemies/{eid}.png", fn(), enemies.FPS, enemies.LOOP)
+        mod = hd_registry.ENEMIES.get(eid)
+        if mod is not None:
+            add_sheet(f"enemy_{eid}", f"sprites/enemies/hd/{eid}.png", mod.animations(), mod.FPS, mod.LOOP,
+                      pivot=mod.PIVOT, hd={"density": hd_registry.DENSITY, "version": mod.SPEC["version"],
+                                           "source": mod.SPEC["source"]})
+        else:
+            add_sheet(f"enemy_{eid}", f"sprites/enemies/{eid}.png", fn(), enemies.FPS, enemies.LOOP)
     # externally made art normalised by import_external.py (art_src/external.json)
     ext_index = os.path.join(ROOT, "art_src", "external.json")
     if os.path.exists(ext_index):
@@ -158,13 +165,12 @@ def main() -> None:
     # fx
     for fid, (frames, fps) in items.FX.items():
         add_sheet(f"fx_{fid}", f"sprites/fx/{fid}.png", {"idle": frames}, fps, False)
-    # tiles
-    tiles = world.tileset()
-    cols = 8
-    atlas = Image.new("RGBA", (16 * cols, 16 * ((len(tiles) + cols - 1) // cols)), (0, 0, 0, 0))
-    for i, t in enumerate(tiles):
-        atlas.paste(t.img, ((i % cols) * 16, (i // cols) * 16))
-    add_image("tiles_dungeon", "tiles/dungeon.png", atlas)
+    # tiles: HD atlas (64 px per 16-unit cell); index order = scripts/world/tiles.gd
+    add_image("tiles_dungeon", "tiles/dungeon_hd.png", hd_tiles.atlas())
+    _hd_import_settings("tiles/dungeon_hd.png")
+    manifest["images"]["tiles_dungeon"].update({"density": hd_registry.DENSITY, "palette": "hd", "version": 1,
+                                                "source": "procedural: tools/artgen/hd/tiles.py",
+                                                "tile": 16 * hd_registry.DENSITY})
     # ui
     for k, c in items.ui_icons().items():
         add_image(f"icon_{k}", f"ui/icons/{k}.png", c)

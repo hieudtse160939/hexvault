@@ -7,9 +7,16 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "heroes"))
 import ranger  # noqa: E402
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "enemies"))
+import golem  # noqa: E402
+
 # Art pixels per world unit for all HD assets (a 16-unit floor tile = 64 px).
 DENSITY = 4
 
 HEROES = {
     "ranger": ranger,
+}
+
+ENEMIES = {
+    "golem": golem,
 }

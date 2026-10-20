@@ -29,7 +29,7 @@ func _rebuild() -> void:
 		var w: WeaponData = Db.weapon(id)
 		var row: HBoxContainer = HBoxContainer.new()
 		var icon: TextureRect = TextureRect.new()
-		icon.texture = SpriteLib.still("weapon_" + id)
+		SpriteLib.fit_icon(icon, "weapon_" + id)
 		icon.custom_minimum_size = Vector2(26, 12)
 		row.add_child(icon)
 		var name_l: Label = UiTheme.label(w.display_name, w.rarity_color())
