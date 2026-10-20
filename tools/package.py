@@ -2,6 +2,7 @@
 
 Usage:
   python tools/package.py windows      # export release exe + zip it
+  python tools/package.py linux        # export release x86_64 binary + tar.gz
   python tools/package.py android      # export debug APK
   python tools/package.py ios          # export Xcode project (macOS only)
   python tools/package.py all
@@ -76,6 +77,17 @@ def windows() -> None:
     report(z)
 
 
+def linux() -> None:
+    export("Linux", "build/linux/Hexvault.x86_64")
+    t = os.path.join(ROOT, "build", f"Hexvault-{VERSION}-linux-x86_64.tar.gz")
+    import tarfile
+    with tarfile.open(t, "w:gz") as tf:
+        for name in ("Hexvault.x86_64", "Hexvault.pck"):
+            tf.add(os.path.join(ROOT, "build", "linux", name), f"Hexvault/{name}")
+    print("linux:")
+    report(t)
+
+
 def android() -> None:
     export("Android", "build/android/hexvault-debug.apk", debug=True)
     print("android (debug):")
@@ -93,6 +105,6 @@ def ios() -> None:
 
 if __name__ == "__main__":
     target = sys.argv[1] if len(sys.argv) > 1 else "all"
-    for t, fn in (("windows", windows), ("android", android), ("ios", ios)):
+    for t, fn in (("windows", windows), ("linux", linux), ("android", android), ("ios", ios)):
         if target in (t, "all"):
             fn()
