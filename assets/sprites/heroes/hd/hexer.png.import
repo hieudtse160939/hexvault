@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://x4bsxamipycg"
-path="res://.godot/imported/hexer.png-19b42801129da88bed3bf15414e5025b.ctex"
+uid="uid://s083f3k7dngo"
+path="res://.godot/imported/hexer.png-a6cb0b0953656a4c20142ed562ecbd32.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/heroes/hexer.png"
-dest_files=["res://.godot/imported/hexer.png-19b42801129da88bed3bf15414e5025b.ctex"]
+source_file="res://assets/sprites/heroes/hd/hexer.png"
+dest_files=["res://.godot/imported/hexer.png-a6cb0b0953656a4c20142ed562ecbd32.ctex"]
 
 [params]
 
@@ -23,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

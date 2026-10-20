@@ -808,49 +808,53 @@
   "hero_hexer": {
    "anims": {
     "dash": {
-     "fps": 12,
-     "frames": 2,
+     "fps": 16,
+     "frames": 4,
      "loop": true,
-     "row": 3
+     "row": 2
     },
     "death": {
-     "fps": 8,
-     "frames": 5,
+     "fps": 9,
+     "frames": 8,
      "loop": false,
      "row": 5
     },
     "hurt": {
-     "fps": 8,
-     "frames": 2,
+     "fps": 12,
+     "frames": 3,
      "loop": false,
-     "row": 2
+     "row": 4
     },
     "idle": {
-     "fps": 4,
-     "frames": 4,
+     "fps": 6,
+     "frames": 6,
      "loop": true,
      "row": 0
     },
     "run": {
-     "fps": 10,
-     "frames": 6,
+     "fps": 12,
+     "frames": 8,
      "loop": true,
      "row": 1
     },
     "skill": {
-     "fps": 10,
-     "frames": 3,
+     "fps": 12,
+     "frames": 6,
      "loop": false,
-     "row": 4
+     "row": 3
     }
    },
-   "density": 1,
-   "frame_h": 16,
-   "frame_w": 16,
-   "palette": "master16",
-   "path": "res://assets/sprites/heroes/hexer.png",
-   "sha": "b13253f31ff1a590",
-   "source": "procedural: tools/artgen",
+   "density": 4,
+   "frame_h": 128,
+   "frame_w": 128,
+   "palette": "hd",
+   "path": "res://assets/sprites/heroes/hd/hexer.png",
+   "pivot": [
+    64,
+    112
+   ],
+   "sha": "166947ea49290f7d",
+   "source": "procedural: tools/artgen/hd/heroes/hexer.py",
    "type": "heroes",
    "version": 1
   },
@@ -1008,49 +1012,53 @@
   "hero_tinker": {
    "anims": {
     "dash": {
-     "fps": 12,
-     "frames": 2,
+     "fps": 16,
+     "frames": 4,
      "loop": true,
-     "row": 3
+     "row": 2
     },
     "death": {
-     "fps": 8,
-     "frames": 5,
+     "fps": 9,
+     "frames": 8,
      "loop": false,
      "row": 5
     },
     "hurt": {
-     "fps": 8,
-     "frames": 2,
+     "fps": 12,
+     "frames": 3,
      "loop": false,
-     "row": 2
+     "row": 4
     },
     "idle": {
-     "fps": 4,
-     "frames": 4,
+     "fps": 6,
+     "frames": 6,
      "loop": true,
      "row": 0
     },
     "run": {
-     "fps": 10,
-     "frames": 6,
+     "fps": 12,
+     "frames": 8,
      "loop": true,
      "row": 1
     },
     "skill": {
-     "fps": 10,
-     "frames": 3,
+     "fps": 12,
+     "frames": 6,
      "loop": false,
-     "row": 4
+     "row": 3
     }
    },
-   "density": 1,
-   "frame_h": 16,
-   "frame_w": 16,
-   "palette": "master16",
-   "path": "res://assets/sprites/heroes/tinker.png",
-   "sha": "552460b9213421b9",
-   "source": "procedural: tools/artgen",
+   "density": 4,
+   "frame_h": 128,
+   "frame_w": 128,
+   "palette": "hd",
+   "path": "res://assets/sprites/heroes/hd/tinker.png",
+   "pivot": [
+    64,
+    112
+   ],
+   "sha": "cd90e5086628518e",
+   "source": "procedural: tools/artgen/hd/heroes/tinker.py",
    "type": "heroes",
    "version": 1
   },
@@ -1106,49 +1114,53 @@
   "hero_warden": {
    "anims": {
     "dash": {
-     "fps": 12,
-     "frames": 2,
+     "fps": 16,
+     "frames": 4,
      "loop": true,
-     "row": 3
+     "row": 2
     },
     "death": {
-     "fps": 8,
-     "frames": 5,
+     "fps": 9,
+     "frames": 8,
      "loop": false,
      "row": 5
     },
     "hurt": {
-     "fps": 8,
-     "frames": 2,
+     "fps": 12,
+     "frames": 3,
      "loop": false,
-     "row": 2
+     "row": 4
     },
     "idle": {
-     "fps": 4,
-     "frames": 4,
+     "fps": 6,
+     "frames": 6,
      "loop": true,
      "row": 0
     },
     "run": {
-     "fps": 10,
-     "frames": 6,
+     "fps": 12,
+     "frames": 8,
      "loop": true,
      "row": 1
     },
     "skill": {
-     "fps": 10,
-     "frames": 3,
+     "fps": 12,
+     "frames": 6,
      "loop": false,
-     "row": 4
+     "row": 3
     }
    },
-   "density": 1,
-   "frame_h": 16,
-   "frame_w": 16,
-   "palette": "master16",
-   "path": "res://assets/sprites/heroes/warden.png",
-   "sha": "9857753e12ffe339",
-   "source": "procedural: tools/artgen",
+   "density": 4,
+   "frame_h": 128,
+   "frame_w": 128,
+   "palette": "hd",
+   "path": "res://assets/sprites/heroes/hd/warden.png",
+   "pivot": [
+    64,
+    112
+   ],
+   "sha": "3e20dabf4362d3c1",
+   "source": "procedural: tools/artgen/hd/heroes/warden.py",
    "type": "heroes",
    "version": 1
   },

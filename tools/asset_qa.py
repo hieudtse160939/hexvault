@@ -10,7 +10,7 @@ Warnings (reported, tracked in the QA report):
   - silhouette jitter: consecutive looping frames overlap less than 55 % (IoU)
   - pixel noise: isolated single-colour specks > 3 % of opaque pixels (HD) or
     > 10 % (16 px art, where single-pixel eyes and glints are intentional)
-  - colour budget: > 48 colours in one HD sheet (> 16 for 16 px art)
+  - colour budget: > 56 colours in one HD sheet (> 16 for 16 px art)
 
 Usage:
   python tools/asset_qa.py                 # print summary, write docs/qa/asset_qa_report.md
@@ -76,7 +76,7 @@ def check_sprite(key: str, s: dict) -> tuple[list[str], list[str], dict]:
     opaque = img[..., 3] > 0
     colours = {tuple(c) for c in img[opaque][:, :3].tolist()}
     stats["colours"] = len(colours)
-    budget = 48 if hd else 16
+    budget = 56 if hd else 16
     if len(colours) > budget:
         warns.append(f"{key}: {len(colours)} colours (budget {budget})")
     worst_noise = 0.0

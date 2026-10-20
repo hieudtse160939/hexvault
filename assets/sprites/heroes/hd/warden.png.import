@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ddmctuvwifuo5"
-path="res://.godot/imported/tinker.png-6f8b012c7adfc4ce44baee41d939306d.ctex"
+uid="uid://fejiiesgla0a"
+path="res://.godot/imported/warden.png-ed09a0aa8d471ab899f149e07a082803.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/heroes/tinker.png"
-dest_files=["res://.godot/imported/tinker.png-6f8b012c7adfc4ce44baee41d939306d.ctex"]
+source_file="res://assets/sprites/heroes/hd/warden.png"
+dest_files=["res://.godot/imported/warden.png-ed09a0aa8d471ab899f149e07a082803.ctex"]
 
 [params]
 
@@ -23,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

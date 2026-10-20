@@ -54,7 +54,7 @@ a 2 px transparent margin; `asset_qa.py` fails any frame with opaque pixels on i
   5 = specular.
 - Ramps are **hue-shifted**: shadows rotate toward blue, highlights toward yellow,
   saturation peaks at the midtone (pixel-art-studio `ramp()`).
-- Budget: ≤ 48 colours per HD sheet (QA warning above that). In practice a hero uses 6–8
+- Budget: ≤ 56 colours per HD sheet (8 ramps × 6 shades + fixed accents; QA warning above that). A hero uses 6–8
   ramps.
 - Every hero has **one dominant hue, one contrast hue, one accent** (Vex: teal coat,
   crimson scarf, amber visor/buckle). Skin, hair, leather and metal ramps are shared.
