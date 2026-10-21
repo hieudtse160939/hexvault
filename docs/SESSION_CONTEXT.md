@@ -138,7 +138,7 @@ tables, banners at the gate; HUD plate (portrait, name/level, rank, EXP bar, gol
 points) and quick buttons (Missions / Bag / Skills / Menu); guild menus use UiTheme.guild_box()
 (wood + brass). Screenshot docs/qa/guild_hall.png. 95/95 tests.
 Guild MAP (2026-10-21, user: "chia từng map làm từ từ, làm map guild trước" = build the world map by
-map, Guild first): data/maps/guild.json (40x29, 6 rooms joined by doorways: Hall of Heroes,
+map, Guild first): data/maps/guild.json (32x22 after the user found 40x29 too wide, 6 rooms joined by doorways: Hall of Heroes,
 Great Hall, Armory & Library, Training Yard, Guild Shop, Entrance) built by the shared
 scripts/world/map_loader.gd (legend -> floor tiles, auto walls with wooden wall-top tile 24,
 decals, props, NPCs, room labels, light pools, mood); hub.gd only wires station ids to services.
