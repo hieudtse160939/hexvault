@@ -27,6 +27,7 @@ import weapons as hd_weapons  # noqa: E402
 import tiles as hd_tiles  # noqa: E402
 import icons as hd_icons  # noqa: E402
 import guild as hd_guild  # noqa: E402
+import ui_art  # noqa: E402
 from canvas import sheet as hd_sheet  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -166,9 +167,10 @@ def main() -> None:
     add_sheet("guild_fireplace", "sprites/props/hd/guild_fireplace.png",
               {"idle": [_framed(hd_guild.fireplace(f).image()) for f in range(4)]}, 8, True,
               (hd_guild.FIREPLACE_PIVOT[0] + 2, hd_guild.FIREPLACE_PIVOT[1] + 2), hd=gsrc)
-    rug_img = _framed(hd_guild.round_rug().image())
-    add_sheet("guild_rug", "sprites/props/hd/guild_rug.png", {"idle": [rug_img]}, 1, True,
-              (rug_img.width // 2, rug_img.height // 2), hd=gsrc)
+    for did, fn in list(hd_guild.DECALS.items()) + list(hd_guild.OVERHEAD.items()):
+        d_img = _framed(fn().image())
+        add_sheet(f"guild_{did}", f"sprites/props/hd/guild_{did}.png", {"idle": [d_img]}, 1, True,
+                  (d_img.width // 2, d_img.height // 2), hd=gsrc)
     add_sheet("guild_dummy", "sprites/props/hd/guild_dummy.png", hd_guild.dummy_anims(), {"idle": 1, "hit": 14},
               {"idle": True, "hit": False}, hd_guild.DUMMY_PIVOT, hd=gsrc)
     for iid, fn in hd_guild.ICONS.items():
@@ -176,6 +178,10 @@ def main() -> None:
         _hd_import_settings(f"ui/icons/hd/{iid}.png")
         manifest["images"][f"icon_{iid}"].update({"density": hd_registry.DENSITY, "palette": "hd",
                                                   "source": "procedural: tools/artgen/hd/guild.py"})
+    # ornate Guild UI pieces (9-patch textures, UI pixel size)
+    for uid, uimg in ui_art.all_images().items():
+        add_image(uid, f"ui/frames/{uid}.png", uimg)
+        manifest["images"][uid].update({"margin": ui_art.UI_MARGINS[uid], "source": "procedural: tools/artgen/ui_art.py"})
     # externally made art normalised by import_external.py (art_src/external.json)
     ext_index = os.path.join(ROOT, "art_src", "external.json")
     if os.path.exists(ext_index):

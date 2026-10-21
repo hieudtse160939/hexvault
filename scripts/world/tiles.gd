@@ -29,8 +29,11 @@ const GUILD_WALL_BANNER: int = 21
 const GUILD_WALL_LANTERN: int = 22
 const GUILD_WALL_MAP: int = 23
 const GUILD_WALL_TOP: int = 24
-const COUNT: int = 25
-const SOLID_TILES: Array[int] = [8, 9, 10, 11, 12, 20, 21, 22, 23, 24]
+const GUILD_WALL_WINDOW: int = 25
+const GRASS: int = 26
+const HEDGE: int = 27
+const COUNT: int = 28
+const SOLID_TILES: Array[int] = [8, 9, 10, 11, 12, 20, 21, 22, 23, 24, 25, 27]
 
 static var _tileset: TileSet = null
 

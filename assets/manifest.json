@@ -419,7 +419,7 @@
    "h": 256,
    "palette": "hd",
    "path": "res://assets/tiles/dungeon_hd.png",
-   "sha": "83c2d095317d9ac4",
+   "sha": "775800c56ac12a3c",
    "source": "procedural: tools/artgen/hd/tiles.py",
    "tile": 64,
    "type": "tiles",
@@ -505,6 +505,94 @@
    "type": "ui",
    "version": 1,
    "w": 24
+  },
+  "ui_btn_blue": {
+   "density": 1,
+   "h": 12,
+   "margin": 4,
+   "path": "res://assets/ui/frames/ui_btn_blue.png",
+   "sha": "6d5472c49fdeeb36",
+   "source": "procedural: tools/artgen/ui_art.py",
+   "type": "ui",
+   "version": 1,
+   "w": 12
+  },
+  "ui_btn_gold": {
+   "density": 1,
+   "h": 12,
+   "margin": 4,
+   "path": "res://assets/ui/frames/ui_btn_gold.png",
+   "sha": "63cc86d81316de39",
+   "source": "procedural: tools/artgen/ui_art.py",
+   "type": "ui",
+   "version": 1,
+   "w": 12
+  },
+  "ui_btn_green": {
+   "density": 1,
+   "h": 12,
+   "margin": 4,
+   "path": "res://assets/ui/frames/ui_btn_green.png",
+   "sha": "1efa3c3d2cf6846a",
+   "source": "procedural: tools/artgen/ui_art.py",
+   "type": "ui",
+   "version": 1,
+   "w": 12
+  },
+  "ui_btn_red": {
+   "density": 1,
+   "h": 12,
+   "margin": 4,
+   "path": "res://assets/ui/frames/ui_btn_red.png",
+   "sha": "b72061ea69c780ab",
+   "source": "procedural: tools/artgen/ui_art.py",
+   "type": "ui",
+   "version": 1,
+   "w": 12
+  },
+  "ui_frame": {
+   "density": 1,
+   "h": 32,
+   "margin": 8,
+   "path": "res://assets/ui/frames/ui_frame.png",
+   "sha": "e331a45116325abf",
+   "source": "procedural: tools/artgen/ui_art.py",
+   "type": "ui",
+   "version": 1,
+   "w": 32
+  },
+  "ui_plate": {
+   "density": 1,
+   "h": 16,
+   "margin": 6,
+   "path": "res://assets/ui/frames/ui_plate.png",
+   "sha": "a12be79fca181a8c",
+   "source": "procedural: tools/artgen/ui_art.py",
+   "type": "ui",
+   "version": 1,
+   "w": 24
+  },
+  "ui_slot": {
+   "density": 1,
+   "h": 12,
+   "margin": 3,
+   "path": "res://assets/ui/frames/ui_slot.png",
+   "sha": "1e5a76e97e35654a",
+   "source": "procedural: tools/artgen/ui_art.py",
+   "type": "ui",
+   "version": 1,
+   "w": 12
+  },
+  "ui_tooltip": {
+   "density": 1,
+   "h": 16,
+   "margin": 4,
+   "path": "res://assets/ui/frames/ui_tooltip.png",
+   "sha": "1dc5fe3fbfb4e773",
+   "source": "procedural: tools/artgen/ui_art.py",
+   "type": "ui",
+   "version": 1,
+   "w": 16
   }
  },
  "sprites": {
@@ -979,6 +1067,29 @@
    "type": "fx",
    "version": 1
   },
+  "guild_armchair": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 44,
+   "frame_w": 44,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_armchair.png",
+   "pivot": [
+    22,
+    38
+   ],
+   "sha": "c108abad367d601d",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
   "guild_banner": {
    "anims": {
     "idle": {
@@ -1071,6 +1182,52 @@
    "type": "props",
    "version": 1
   },
+  "guild_bush": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 52,
+   "frame_w": 60,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_bush.png",
+   "pivot": [
+    30,
+    46
+   ],
+   "sha": "9ed29080bc299d52",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
+  "guild_chandelier": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 76,
+   "frame_w": 116,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_chandelier.png",
+   "pivot": [
+    58,
+    38
+   ],
+   "sha": "97b767b477e27d8f",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
   "guild_counter": {
    "anims": {
     "idle": {
@@ -1146,6 +1303,52 @@
    "type": "props",
    "version": 1
   },
+  "guild_forge": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 92,
+   "frame_w": 100,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_forge.png",
+   "pivot": [
+    50,
+    86
+   ],
+   "sha": "740446aa3e1af089",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
+  "guild_long_table": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 116,
+   "frame_w": 92,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_long_table.png",
+   "pivot": [
+    46,
+    106
+   ],
+   "sha": "52f077be304c7a2d",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
   "guild_plant": {
    "anims": {
     "idle": {
@@ -1192,6 +1395,75 @@
    "type": "props",
    "version": 1
   },
+  "guild_rail_h": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 44,
+   "frame_w": 68,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_rail_h.png",
+   "pivot": [
+    34,
+    38
+   ],
+   "sha": "206983bbb390948a",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
+  "guild_rail_v": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 76,
+   "frame_w": 28,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_rail_v.png",
+   "pivot": [
+    14,
+    71
+   ],
+   "sha": "de9e3588dc6e109e",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
+  "guild_round_table": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 44,
+   "frame_w": 52,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_round_table.png",
+   "pivot": [
+    26,
+    38
+   ],
+   "sha": "7386a03007c95a79",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
   "guild_rug": {
    "anims": {
     "idle": {
@@ -1202,15 +1474,84 @@
     }
    },
    "density": 4,
-   "frame_h": 164,
-   "frame_w": 260,
+   "frame_h": 212,
+   "frame_w": 292,
    "palette": "hd",
    "path": "res://assets/sprites/props/hd/guild_rug.png",
    "pivot": [
-    130,
-    82
+    146,
+    106
    ],
-   "sha": "3011a2f1d8af536c",
+   "sha": "1ca9536d275f3e22",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
+  "guild_rug_red": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 132,
+   "frame_w": 180,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_rug_red.png",
+   "pivot": [
+    90,
+    66
+   ],
+   "sha": "15329d0137d28e86",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
+  "guild_rug_small": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 52,
+   "frame_w": 116,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_rug_small.png",
+   "pivot": [
+    58,
+    26
+   ],
+   "sha": "661c9b7f4495aa50",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
+  "guild_rug_table": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 228,
+   "frame_w": 180,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_rug_table.png",
+   "pivot": [
+    90,
+    114
+   ],
+   "sha": "dc246ecc3d4310bd",
    "source": "procedural: tools/artgen/hd/guild.py",
    "type": "props",
    "version": 1
@@ -1238,6 +1579,52 @@
    "type": "props",
    "version": 1
   },
+  "guild_stall": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 124,
+   "frame_w": 164,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_stall.png",
+   "pivot": [
+    82,
+    118
+   ],
+   "sha": "34d0d07b03026155",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
+  "guild_steps": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 52,
+   "frame_w": 132,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_steps.png",
+   "pivot": [
+    66,
+    26
+   ],
+   "sha": "768aa7996fed51ba",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
   "guild_table": {
    "anims": {
     "idle": {
@@ -1257,6 +1644,29 @@
     58
    ],
    "sha": "ca6f1dc7def6e4ca",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
+  "guild_target": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 60,
+   "frame_w": 44,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_target.png",
+   "pivot": [
+    22,
+    54
+   ],
+   "sha": "9e3b8a06633b063f",
    "source": "procedural: tools/artgen/hd/guild.py",
    "type": "props",
    "version": 1

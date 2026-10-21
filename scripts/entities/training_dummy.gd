@@ -77,4 +77,4 @@ func _process(delta: float) -> void:
 	_time += delta
 	while not _log.is_empty() and _time - float(_log[0][0]) > WINDOW:
 		_log.pop_front()
-	_label.text = ("DPS %.1f" % dps()) if not _log.is_empty() else "Training"
+	_label.text = ("DPS %.1f" % dps()) if not _log.is_empty() else ""

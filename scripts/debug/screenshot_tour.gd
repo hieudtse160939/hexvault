@@ -83,8 +83,21 @@ func _run() -> void:
 	await _frames(40)
 	await _shot("03_guild")
 	var guild: Node = get_tree().get_first_node_in_group("guild")
+	# whole-map overview for comparison with the art reference
+	var gcam: Camera2D = guild.get("camera")
+	gcam.set_process(false)
+	gcam.set_physics_process(false)
+	var keep_zoom: Vector2 = gcam.zoom
+	gcam.zoom = Vector2(0.5, 0.5)
+	gcam.global_position = Vector2(17 * 16, 12.5 * 16)
+	gcam.offset = Vector2.ZERO
+	await _frames(10)
+	await _shot("03b_guild_overview")
+	gcam.zoom = keep_zoom
+	gcam.set_process(true)
+	gcam.set_physics_process(true)
 	var p0: Player = guild.get("player")
-	for spot: Array in [["04_guild_reception", Vector2i(16, 6)], ["05_guild_training", Vector2i(4, 16)], ["06_guild_shop_corner", Vector2i(27, 18)], ["06b_guild_heroes", Vector2i(4, 5)], ["06c_guild_armory", Vector2i(26, 5)]]:
+	for spot: Array in [["04_guild_reception", Vector2i(17, 11)], ["05_guild_training", Vector2i(5, 9)], ["06_guild_shop_corner", Vector2i(27, 12)], ["06b_guild_heroes", Vector2i(6, 17)], ["06c_guild_armory", Vector2i(27, 18)]]:
 		p0.global_position = Level.to_world(spot[1])
 		await _frames(30)
 		await _shot(spot[0])

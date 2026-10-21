@@ -1,89 +1,175 @@
 {
- "version": 1,
- "_doc": "Map file: 'rows' is the tile layout (one char = one 16-unit cell), 'legend' maps chars to floor tiles (anything not in the legend is wall/void; walls are painted automatically around floors). Objects use tile coordinates (floats; x.5 = cell centre). Loaded by scripts/world/map_loader.gd.",
+ "version": 2,
  "id": "guild",
  "name": "Adventurers' Guild",
  "region": "kingdom_of_dawn",
+ "_doc": "Map file: 'rows' is the tile layout (one char = one 16-unit cell), 'legend' maps chars to floor tiles (anything not in the legend is wall/void; walls are painted automatically around floors, hedges around grass). 'rails' are low railings (from/to cells, one row or column). Objects use tile coordinates (floats; x.5 = cell centre). Loaded by scripts/world/map_loader.gd.",
  "legend": {
   ".": "guild_wood",
   "r": "guild_rug",
   "s": "guild_stage",
-  "y": "stone"
+  "g": "grass"
  },
  "rows": [
-  "################################",
-  "################################",
-  "#........#............#........#",
-  "#........#............#........#",
-  "#..............................#",
-  "#..............rr..............#",
-  "#........#.....rr.....#........#",
-  "#........#.....rr.....#........#",
-  "####..####.....rr.....####..####",
-  "####..####.....rr.....####..####",
-  "#yyyyyyyy#.....rr.....#........#",
-  "#yyyyyyyy#.....rr.....#........#",
-  "#yssssssy#.....rr..............#",
-  "#yssssssy......rr..............#",
-  "#yssssssy......rr.....#........#",
-  "#yssssssy#.....rr.....#........#",
-  "#yssssssy#####.rr.#####........#",
-  "#yssssssy###...rr...###........#",
-  "#yyyyyyyy###...rr...###........#",
-  "#yyyyyyyy###...rr...###........#",
-  "############...rr...############",
-  "################################"
+  "##################################",
+  "##################################",
+  "#................................#",
+  "#.ssssssss.......................#",
+  "#.ssssssss.......................#",
+  "#.ssssssss.......................#",
+  "#.ssssssss.......................#",
+  "#.ssssssss.......................#",
+  "#.ssssssss.......................#",
+  "#...............rr...............#",
+  "#...............rr...............#",
+  "#...............rr...............#",
+  "#...............rr...............#",
+  "#...............rr...............#",
+  "#...............rr...............#",
+  "#...............rr...............#",
+  "#...............rr...............#",
+  "#...............rr...............#",
+  "#...............rr...............#",
+  "#...............rr...............#",
+  "#...............rr...............#",
+  "###############.rr.###############",
+  "          gggggggggggggg          ",
+  "          gggggggggggggg          ",
+  "                                  "
  ],
  "spawn": [
-  16,
-  18
+  17,
+  19
  ],
  "mood": [
   0.9,
   0.84,
   0.8
  ],
+ "wall_lanterns": true,
+ "rails": [
+  {
+   "from": [
+    1,
+    9
+   ],
+   "to": [
+    8,
+    9
+   ]
+  },
+  {
+   "from": [
+    11,
+    3
+   ],
+   "to": [
+    11,
+    8
+   ]
+  },
+  {
+   "from": [
+    1,
+    15
+   ],
+   "to": [
+    8,
+    15
+   ]
+  },
+  {
+   "from": [
+    10,
+    16
+   ],
+   "to": [
+    10,
+    18
+   ]
+  },
+  {
+   "from": [
+    24,
+    9
+   ],
+   "to": [
+    32,
+    9
+   ]
+  },
+  {
+   "from": [
+    22,
+    3
+   ],
+   "to": [
+    22,
+    7
+   ]
+  },
+  {
+   "from": [
+    25,
+    15
+   ],
+   "to": [
+    32,
+    15
+   ]
+  },
+  {
+   "from": [
+    23,
+    16
+   ],
+   "to": [
+    23,
+    18
+   ]
+  }
+ ],
  "rooms": [
   {
-   "name": "HALL OF HEROES",
+   "name": "TRAINING",
    "at": [
-    4.8,
+    5.5,
     2.1
    ]
   },
   {
-   "name": "GREAT HALL",
+   "name": "MISSIONS",
    "at": [
-    19.0,
-    7.0
+    4.5,
+    9.6
    ]
   },
   {
-   "name": "ARMORY & LIBRARY",
+   "name": "LOUNGE",
    "at": [
-    26.8,
+    4.5,
+    15.6
+   ]
+  },
+  {
+   "name": "LIBRARY",
+   "at": [
+    27.5,
     2.1
-   ]
-  },
-  {
-   "name": "TRAINING YARD",
-   "at": [
-    4.8,
-    10.1
    ]
   },
   {
    "name": "GUILD SHOP",
    "at": [
-    26.8,
-    10.1
+    28.0,
+    9.6
    ]
   },
   {
-   "name": "ENTRANCE",
+   "name": "ARMORY & FORGE",
    "at": [
-    16.0,
-    17.1
+    28.0,
+    15.6
    ]
   }
  ],
@@ -94,8 +180,8 @@
    "prompt": "Talk to the receptionist",
    "sprite": "guild_counter",
    "at": [
-    16,
-    4.4
+    19.5,
+    6.0
    ],
    "box": [
     38,
@@ -108,11 +194,25 @@
    "prompt": "Choose an expedition",
    "sprite": "guild_board",
    "at": [
-    12,
-    3.4
+    4.5,
+    11.2
    ],
    "box": [
     18,
+    6
+   ]
+  },
+  {
+   "id": "quests",
+   "title": "Quest Board",
+   "prompt": "Quests & achievements",
+   "sprite": "prop_pedestal",
+   "at": [
+    8.0,
+    12.6
+   ],
+   "box": [
+    12,
     6
    ]
   },
@@ -122,26 +222,12 @@
    "prompt": "Set out on an expedition",
    "sprite": "prop_portal",
    "at": [
-    16,
-    20.6
+    17,
+    21.5
    ],
    "box": [
     10,
     4
-   ]
-  },
-  {
-   "id": "equipment",
-   "title": "Equipment",
-   "prompt": "Manage equipment and inventory",
-   "sprite": "guild_rack",
-   "at": [
-    24.5,
-    3.6
-   ],
-   "box": [
-    14,
-    6
    ]
   },
   {
@@ -150,26 +236,12 @@
    "prompt": "Skill tree and active skill",
    "sprite": "guild_shelf",
    "at": [
-    28.5,
-    3.4
+    30.5,
+    3.2
    ],
    "box": [
     14,
     6
-   ]
-  },
-  {
-   "id": "shop",
-   "title": "Guild Shop",
-   "prompt": "Buy and sell equipment",
-   "sprite": "guild_table",
-   "at": [
-    27,
-    16.4
-   ],
-   "box": [
-    22,
-    7
    ]
   },
   {
@@ -178,8 +250,8 @@
    "prompt": "Switch adventurer",
    "sprite": "prop_statue",
    "at": [
-    2.4,
-    4.2
+    24.5,
+    4.5
    ],
    "box": [
     12,
@@ -192,8 +264,8 @@
    "prompt": "Permanent upgrades (shards)",
    "sprite": "prop_fountain",
    "at": [
-    6.9,
-    4.2
+    27.0,
+    7.6
    ],
    "box": [
     12,
@@ -201,16 +273,30 @@
    ]
   },
   {
-   "id": "quests",
-   "title": "Quest Board",
-   "prompt": "Quests & achievements",
-   "sprite": "prop_pedestal",
+   "id": "shop",
+   "title": "Guild Shop",
+   "prompt": "Buy and sell equipment",
+   "sprite": "guild_stall",
    "at": [
-    2.5,
-    6.6
+    28.5,
+    13.8
    ],
    "box": [
-    12,
+    38,
+    6
+   ]
+  },
+  {
+   "id": "equipment",
+   "title": "Equipment",
+   "prompt": "Manage equipment and inventory",
+   "sprite": "guild_rack",
+   "at": [
+    26.0,
+    17.0
+   ],
+   "box": [
+    14,
     6
    ]
   }
@@ -220,166 +306,233 @@
    "sprite": "hero_cryomancer",
    "name": "Rime, Receptionist",
    "at": [
-    16,
-    2.7
-   ]
+    19.5,
+    4.4
+   ],
+   "bubble": "!"
   },
   {
    "sprite": "hero_tinker",
    "name": "Cog, Merchant",
    "at": [
-    27,
-    14.7
+    24.6,
+    12.6
    ],
-   "flip": true
+   "bubble": "...",
+   "lines": [
+    "Fresh stock after every expedition. Gold talks, friend.",
+    "Sell what you can't use - I pay fair. Mostly."
+   ]
+  },
+  {
+   "sprite": "hero_ranger",
+   "name": "Vex, Archer",
+   "at": [
+    5.0,
+    7.6
+   ],
+   "bubble": "...",
+   "lines": [
+    "Hit the dummies and watch the DPS counter. Numbers don't lie.",
+    "A bow draws, a staff casts, a gun kicks. Learn the rhythm of yours."
+   ]
+  },
+  {
+   "sprite": "hero_hexer",
+   "name": "Nyx",
+   "at": [
+    11.8,
+    12.0
+   ],
+   "bubble": "...",
+   "lines": [
+    "Skill books teach another hero's technique. Read one from your bag.",
+    "The Catacombs whisper at night. Bring a light."
+   ]
+  },
+  {
+   "sprite": "hero_stormcaller",
+   "name": "Volt",
+   "at": [
+    22.6,
+    12.0
+   ],
+   "flip": true,
+   "bubble": "!",
+   "lines": [
+    "Clear the Forgotten Catacombs and the Ember Vault opens up.",
+    "Talents in the Skill Library only count with the right weapon in hand."
+   ]
+  },
+  {
+   "sprite": "hero_paladin",
+   "name": "Halvard",
+   "at": [
+    29.5,
+    6.4
+   ],
+   "bubble": "...",
+   "lines": [
+    "The Hero Shrine lets you change adventurer. Gear stays with each hero.",
+    "Shards from the vault feed the Rune Forge. Permanent strength."
+   ]
+  },
+  {
+   "sprite": "hero_artillerist",
+   "name": "Brixa",
+   "at": [
+    6.8,
+    19.4
+   ],
+   "bubble": "...",
+   "lines": [
+    "Pull up a chair. Expeditions go better on a full stomach.",
+    "Legendary drops are rare - bosses and elites are your best bet."
+   ]
   }
  ],
  "dummies": [
   [
-   3.5,
-   15.0
+   4.0,
+   5.0
   ],
   [
    6.5,
-   15.0
+   5.0
+  ],
+  [
+   9.0,
+   5.0
   ]
  ],
  "decals": [
   {
    "sprite": "guild_rug",
    "at": [
-    16,
-    12
+    17,
+    13.4
+   ]
+  },
+  {
+   "sprite": "guild_rug_table",
+   "at": [
+    13.3,
+    13.4
+   ]
+  },
+  {
+   "sprite": "guild_rug_table",
+   "at": [
+    20.7,
+    13.4
+   ]
+  },
+  {
+   "sprite": "guild_rug_red",
+   "at": [
+    4.6,
+    18.4
+   ]
+  },
+  {
+   "sprite": "guild_rug_small",
+   "at": [
+    4.5,
+    13.6
+   ]
+  },
+  {
+   "sprite": "guild_rug_small",
+   "at": [
+    28.5,
+    19.4
+   ]
+  },
+  {
+   "sprite": "guild_rug_small",
+   "at": [
+    19.5,
+    7.6
+   ]
+  },
+  {
+   "sprite": "guild_steps",
+   "at": [
+    17,
+    22.8
+   ]
+  }
+ ],
+ "overhead": [
+  {
+   "sprite": "guild_chandelier",
+   "at": [
+    14,
+    5.2
    ]
   }
  ],
  "props": [
   {
-   "sprite": "guild_fireplace",
+   "sprite": "guild_long_table",
    "at": [
-    19.8,
-    2.7
+    13.3,
+    15.0
    ],
    "box": [
-    26,
+    20,
     8
    ]
   },
   {
-   "sprite": "guild_bar",
+   "sprite": "guild_long_table",
    "at": [
-    12.6,
-    7.9
+    20.7,
+    15.0
    ],
    "box": [
-    42,
+    20,
     8
    ]
   },
   {
-   "sprite": "guild_table",
+   "sprite": "guild_target",
    "at": [
-    12.5,
-    10.3
+    1.8,
+    5.0
    ],
    "box": [
-    22,
-    7
+    10,
+    5
    ]
   },
   {
-   "sprite": "guild_bench",
+   "sprite": "guild_target",
    "at": [
-    12.5,
-    11.1
+    1.8,
+    7.4
    ],
    "box": [
-    22,
-    4
+    10,
+    5
    ]
   },
   {
-   "sprite": "guild_table",
+   "sprite": "guild_rack",
    "at": [
-    19.5,
-    10.3
+    10.2,
+    3.2
    ],
    "box": [
-    22,
-    7
-   ]
-  },
-  {
-   "sprite": "guild_bench",
-   "at": [
-    19.5,
-    11.1
-   ],
-   "box": [
-    22,
-    4
-   ]
-  },
-  {
-   "sprite": "guild_table",
-   "at": [
-    12.5,
-    13.6
-   ],
-   "box": [
-    22,
-    7
-   ]
-  },
-  {
-   "sprite": "guild_bench",
-   "at": [
-    12.5,
-    14.4
-   ],
-   "box": [
-    22,
-    4
-   ]
-  },
-  {
-   "sprite": "guild_table",
-   "at": [
-    19.5,
-    13.6
-   ],
-   "box": [
-    22,
-    7
-   ]
-  },
-  {
-   "sprite": "guild_bench",
-   "at": [
-    19.5,
-    14.4
-   ],
-   "box": [
-    22,
-    4
+    14,
+    6
    ]
   },
   {
    "sprite": "guild_banner",
    "at": [
-    13.5,
-    20.7
-   ],
-   "box": [
-    8,
-    4
-   ]
-  },
-  {
-   "sprite": "guild_banner",
-   "at": [
-    18.5,
-    20.7
+    9.3,
+    10.4
    ],
    "box": [
     8,
@@ -389,8 +542,217 @@
   {
    "sprite": "guild_plant",
    "at": [
-    12.6,
-    17.4
+    1.8,
+    10.6
+   ],
+   "box": [
+    8,
+    4
+   ]
+  },
+  {
+   "sprite": "guild_round_table",
+   "at": [
+    4.6,
+    18.6
+   ],
+   "box": [
+    12,
+    6
+   ]
+  },
+  {
+   "sprite": "guild_armchair",
+   "at": [
+    2.6,
+    18.4
+   ],
+   "box": [
+    9,
+    6
+   ]
+  },
+  {
+   "sprite": "guild_armchair",
+   "at": [
+    6.6,
+    18.4
+   ],
+   "box": [
+    9,
+    6
+   ]
+  },
+  {
+   "sprite": "guild_shelf",
+   "at": [
+    2.5,
+    16.4
+   ],
+   "box": [
+    14,
+    6
+   ]
+  },
+  {
+   "sprite": "guild_plant",
+   "at": [
+    9.2,
+    16.6
+   ],
+   "box": [
+    8,
+    4
+   ]
+  },
+  {
+   "sprite": "guild_shelf",
+   "at": [
+    26.5,
+    3.2
+   ],
+   "box": [
+    14,
+    6
+   ]
+  },
+  {
+   "sprite": "guild_round_table",
+   "at": [
+    26.5,
+    6.0
+   ],
+   "box": [
+    12,
+    6
+   ]
+  },
+  {
+   "sprite": "guild_armchair",
+   "at": [
+    28.0,
+    6.0
+   ],
+   "box": [
+    9,
+    6
+   ]
+  },
+  {
+   "sprite": "guild_plant",
+   "at": [
+    32.2,
+    7.8
+   ],
+   "box": [
+    8,
+    4
+   ]
+  },
+  {
+   "sprite": "guild_fireplace",
+   "at": [
+    13.8,
+    2.7
+   ],
+   "box": [
+    26,
+    8
+   ]
+  },
+  {
+   "sprite": "guild_plant",
+   "at": [
+    11.6,
+    10.0
+   ],
+   "box": [
+    8,
+    4
+   ]
+  },
+  {
+   "sprite": "guild_plant",
+   "at": [
+    22.4,
+    10.0
+   ],
+   "box": [
+    8,
+    4
+   ]
+  },
+  {
+   "sprite": "guild_forge",
+   "at": [
+    30.8,
+    18.0
+   ],
+   "box": [
+    22,
+    8
+   ]
+  },
+  {
+   "sprite": "guild_round_table",
+   "at": [
+    28.5,
+    19.6
+   ],
+   "box": [
+    12,
+    6
+   ]
+  },
+  {
+   "sprite": "prop_barrel",
+   "at": [
+    24.4,
+    19.6
+   ],
+   "box": [
+    10,
+    6
+   ]
+  },
+  {
+   "sprite": "prop_barrel",
+   "at": [
+    25.4,
+    19.8
+   ],
+   "box": [
+    10,
+    6
+   ]
+  },
+  {
+   "sprite": "prop_crate",
+   "at": [
+    32.2,
+    12.6
+   ],
+   "box": [
+    12,
+    8
+   ]
+  },
+  {
+   "sprite": "prop_barrel",
+   "at": [
+    32.3,
+    14.0
+   ],
+   "box": [
+    10,
+    6
+   ]
+  },
+  {
+   "sprite": "guild_plant",
+   "at": [
+    14.6,
+    20.2
    ],
    "box": [
     8,
@@ -401,7 +763,7 @@
    "sprite": "guild_plant",
    "at": [
     19.4,
-    17.4
+    20.2
    ],
    "box": [
     8,
@@ -411,8 +773,8 @@
   {
    "sprite": "guild_banner",
    "at": [
-    8.2,
-    2.9
+    14.3,
+    23.8
    ],
    "box": [
     8,
@@ -420,175 +782,129 @@
    ]
   },
   {
-   "sprite": "guild_rack",
+   "sprite": "guild_banner",
    "at": [
-    7.6,
-    10.6
-   ],
-   "box": [
-    14,
-    6
-   ]
-  },
-  {
-   "sprite": "prop_barrel",
-   "at": [
-    1.7,
-    18.6
-   ],
-   "box": [
-    10,
-    6
-   ]
-  },
-  {
-   "sprite": "prop_crate",
-   "at": [
-    7.4,
-    18.7
-   ],
-   "box": [
-    12,
-    8
-   ]
-  },
-  {
-   "sprite": "guild_rack",
-   "at": [
-    24.3,
-    6.7
-   ],
-   "box": [
-    14,
-    6
-   ]
-  },
-  {
-   "sprite": "prop_crate",
-   "at": [
-    30.2,
-    6.8
-   ],
-   "box": [
-    12,
-    8
-   ]
-  },
-  {
-   "sprite": "guild_shelf",
-   "at": [
-    24.0,
-    10.4
-   ],
-   "box": [
-    14,
-    6
-   ]
-  },
-  {
-   "sprite": "guild_shelf",
-   "at": [
-    30.0,
-    10.4
-   ],
-   "box": [
-    14,
-    6
-   ]
-  },
-  {
-   "sprite": "prop_barrel",
-   "at": [
-    30.2,
-    19.4
-   ],
-   "box": [
-    10,
-    6
-   ]
-  },
-  {
-   "sprite": "prop_crate",
-   "at": [
-    23.6,
-    19.5
-   ],
-   "box": [
-    12,
-    8
-   ]
-  },
-  {
-   "sprite": "guild_plant",
-   "at": [
-    23.6,
-    16.6
+    19.7,
+    23.8
    ],
    "box": [
     8,
     4
+   ]
+  },
+  {
+   "sprite": "guild_bush",
+   "at": [
+    11.2,
+    23.6
+   ],
+   "box": [
+    10,
+    6
+   ]
+  },
+  {
+   "sprite": "guild_bush",
+   "at": [
+    12.8,
+    23.6
+   ],
+   "box": [
+    10,
+    6
+   ]
+  },
+  {
+   "sprite": "guild_bush",
+   "at": [
+    21.2,
+    23.6
+   ],
+   "box": [
+    10,
+    6
+   ]
+  },
+  {
+   "sprite": "guild_bush",
+   "at": [
+    22.8,
+    23.6
+   ],
+   "box": [
+    10,
+    6
    ]
   }
  ],
  "lights": [
   {
    "at": [
-    19.8,
+    14,
+    4.6
+   ],
+   "radius": 60,
+   "color": "#ffd27a",
+   "strength": 0.45
+  },
+  {
+   "at": [
+    13.8,
     2.0
    ],
-   "radius": 56,
+   "radius": 40,
    "color": "#ff9a3c",
-   "strength": 0.55
+   "strength": 0.4
   },
   {
    "at": [
-    12.5,
-    9.5
+    13.3,
+    13.4
    ],
-   "radius": 20,
+   "radius": 30,
    "color": "#ffb45a",
    "strength": 0.35
   },
   {
    "at": [
-    19.5,
-    9.5
+    20.7,
+    13.4
    ],
-   "radius": 20,
+   "radius": 30,
    "color": "#ffb45a",
    "strength": 0.35
   },
   {
    "at": [
-    12.5,
-    12.8
+    4.6,
+    18.0
    ],
-   "radius": 20,
+   "radius": 30,
    "color": "#ffb45a",
-   "strength": 0.35
+   "strength": 0.4
   },
   {
    "at": [
-    19.5,
-    12.8
+    30.8,
+    17.4
    ],
-   "radius": 20,
-   "color": "#ffb45a",
-   "strength": 0.35
+   "radius": 36,
+   "color": "#ff7a2a",
+   "strength": 0.5
   },
   {
    "at": [
-    12.6,
-    7.0
+    28.5,
+    12.6
    ],
-   "radius": 26,
+   "radius": 34,
    "color": "#ffc870",
-   "strength": 0.3
+   "strength": 0.35
   },
   {
    "at": [
-    16,
-    19.6
+    17,
+    21.0
    ],
    "radius": 30,
    "color": "#b46cff",
@@ -596,40 +912,39 @@
   },
   {
    "at": [
-    13.5,
-    19.1
+    14.3,
+    22.6
    ],
-   "radius": 12,
+   "radius": 14,
    "color": "#ffd27a",
    "strength": 0.4
   },
   {
    "at": [
-    18.5,
-    19.1
+    19.7,
+    22.6
    ],
-   "radius": 12,
+   "radius": 14,
    "color": "#ffd27a",
    "strength": 0.4
   },
   {
    "at": [
-    27,
-    15.6
+    26.5,
+    5.2
    ],
-   "radius": 26,
-   "color": "#ffc870",
+   "radius": 30,
+   "color": "#ffe2a0",
    "strength": 0.3
   },
   {
    "at": [
     4.5,
-    4.5
+    11.0
    ],
-   "radius": 34,
+   "radius": 28,
    "color": "#ffe2a0",
-   "strength": 0.25
+   "strength": 0.3
   }
- ],
- "wall_lanterns": true
+ ]
 }

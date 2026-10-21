@@ -36,6 +36,10 @@ var _portrait: TextureRect
 var _rank_label: Label
 var _shard_label: Label
 var _sp_label: Label
+var _hp_bar: ProgressBar
+var _sh_bar: ProgressBar
+var _quest_box: VBoxContainer
+var _quest_t: float = 0.0
 var _arrival: bool = false
 
 
@@ -153,6 +157,8 @@ func _build_ui() -> void:
 	row.add_child(col)
 	_hero_label = UiTheme.label("", UiTheme.TEXT, true)
 	col.add_child(_hero_label)
+	_hp_bar = _stat_bar(col, Color("#c8323c"))
+	_sh_bar = _stat_bar(col, Color("#2f6fd6"))
 	_rank_label = UiTheme.label("", UiTheme.GOLD, true)
 	col.add_child(_rank_label)
 	_exp_bar = ProgressBar.new()
@@ -176,6 +182,18 @@ func _build_ui() -> void:
 	purse.add_child(_shard_label)
 	_sp_label = UiTheme.label("", Color("#b4fff0"), true)
 	col.add_child(_sp_label)
+	# --- Active Quests (top right, under the quick buttons): live goals from the save
+	var qp: PanelContainer = PanelContainer.new()
+	qp.add_theme_stylebox_override("panel", UiTheme.guild_box(1, 4))
+	qp.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+	qp.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	qp.offset_top = 24
+	qp.offset_right = -4
+	qp.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	ui_root.add_child(qp)
+	_quest_box = VBoxContainer.new()
+	_quest_box.add_theme_constant_override("separation", 1)
+	qp.add_child(_quest_box)
 	_hint = UiTheme.label("", UiTheme.TEXT, true)
 	_hint.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
 	_hint.grow_horizontal = Control.GROW_DIRECTION_BOTH
@@ -217,13 +235,88 @@ func _build_ui() -> void:
 		bar.add_child(b)
 
 
-func _process(_delta: float) -> void:
+## HP / shield bar with its value written on it.
+func _stat_bar(parent: Control, fill: Color) -> ProgressBar:
+	var b: ProgressBar = ProgressBar.new()
+	b.custom_minimum_size = Vector2(110, 9)
+	b.show_percentage = false
+	b.add_theme_stylebox_override("fill", UiTheme.box(fill, fill.lightened(0.3), 1, 0))
+	b.add_theme_stylebox_override("background", UiTheme.box(UiTheme.INK, Color("#5a4632"), 1, 0))
+	var l: Label = UiTheme.label("", UiTheme.TEXT, true)
+	l.position = Vector2(3, 0)
+	l.name = "Text"
+	b.add_child(l)
+	parent.add_child(b)
+	return b
+
+
+## Current goals, all from the real save: skill points, next mission, quest
+## rewards to claim, nearest quest progress, first steps for a new adventurer.
+func active_quests() -> PackedStringArray:
+	var out: PackedStringArray = []
+	var hero: String = Profile.selected_hero()
+	var rec: Dictionary = Profile.character_record(hero)
+	if Profile.missions_completed_total() == 0 and int(Profile.data.get("expeditions", 0)) == 0:
+		out.append("Talk to the Guild receptionist")
+	for id: String in Db.mission_order:
+		if Profile.mission_unlocked(id) and not Profile.mission_completed(id):
+			out.append("Clear %s" % str(Db.mission(id).get("name", id)))
+			break
+	if int(rec["sp"]) > 0:
+		out.append("Spend %d skill point%s" % [int(rec["sp"]), "" if int(rec["sp"]) == 1 else "s"])
+	if Profile.claimable_quests() > 0:
+		out.append("Claim %d quest reward%s" % [Profile.claimable_quests(), "" if Profile.claimable_quests() == 1 else "s"])
+	for qid: String in Db.quest_order:
+		var q: Dictionary = Profile.quest_status(qid)
+		if not bool(q["done"]) and not bool(q["complete_line"]):
+			out.append("%s  %d/%d" % [q["name"], int(q["progress"]), int(q["goal"])])
+			break
+	if out.size() < 2:
+		out.append("Inspect the Training Grounds")
+	return out.slice(0, 4)
+
+
+func _refresh_quests() -> void:
+	for c: Node in _quest_box.get_children():
+		c.queue_free()
+	var head: HBoxContainer = HBoxContainer.new()
+	var ic: TextureRect = TextureRect.new()
+	SpriteLib.fit_icon(ic, "icon_scroll", 0.7)
+	head.add_child(ic)
+	head.add_child(UiTheme.label("Active Quests", Color("#f2d27a"), true))
+	_quest_box.add_child(head)
+	for q: String in active_quests():
+		_quest_box.add_child(UiTheme.label("[ ] " + q, UiTheme.TEXT, true))
+
+
+## Dialogue box for townsfolk (GuildNpc.interact).
+func show_dialogue(speaker: String, line: String) -> void:
+	var m: Modal = Modal.new()
+	m.add_title(speaker)
+	m.add_text("\"%s\"" % line, UiTheme.TEXT, 240)
+	m.add_button("Close", m.queue_free)
+	_show(m)
+
+
+func _process(delta: float) -> void:
 	if player == null or not is_instance_valid(player):
 		return
+	_quest_t -= delta
+	if _quest_t <= 0.0:
+		_quest_t = 0.5
+		_refresh_quests()
+	var h: Health = player.health
+	_hp_bar.max_value = h.max_hp
+	_hp_bar.value = h.hp
+	(_hp_bar.get_node("Text") as Label).text = "HP  %d/%d" % [h.hp, h.max_hp]
+	_sh_bar.max_value = maxi(h.max_armor, 1)
+	_sh_bar.value = h.armor
+	(_sh_bar.get_node("Text") as Label).text = "SHIELD  %d/%d" % [h.armor, h.max_armor]
 	var rec: Dictionary = Profile.character_record(player.character.id)
 	var lvl: int = int(rec["level"])
-	_hero_label.text = "%s  Lv %d" % [player.character.display_name, lvl]
-	_rank_label.text = "%s-rank adventurer" % Profile.guild_rank()
+	var cl: ClassData = Db.classes.get(player.character.class_id, null)
+	_hero_label.text = player.character.display_name
+	_rank_label.text = "Lv. %d %s  -  %s rank" % [lvl, cl.display_name if cl != null else "", Profile.guild_rank()]
 	if _portrait.texture == null or _portrait.get_meta("hero", "") != player.character.id:
 		_portrait.set_meta("hero", player.character.id)
 		SpriteLib.fit_icon(_portrait, player.character.sprite, 2.2)

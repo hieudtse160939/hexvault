@@ -145,3 +145,13 @@ decals, props, NPCs, room labels, light pools, mood); hub.gd only wires station 
 MapLoader.problems() validated in tests/test_guild.gd. Screens docs/qa/guild_map.png. 96/96 tests.
 NEXT MAP (when the user asks): town outside the Guild (Kingdom of Dawn) as data/maps/<id>.json
 + outdoor tiles; the Entrance gate is where a map transition would go.
+Guild redesign to the user's reference art (2026-10-21): open-plan hall (data/maps/guild.json v2,
+34x25: training, missions, lounge, library, shop stall with striped awning, armory & forge,
+courtyard with steps/hedges/bushes) divided by low railings ("rails" in the map file), tall north
+wall with windows, compass rug + tables on blue rugs, chandelier; new art in tools/artgen/hd/guild.py
+(rails, stall, forge, bush, long table, rugs, chandelier, target, armchair, round table, window,
+grass, hedge tiles 25-27); talkable NPCs with speech bubbles (scripts/entities/guild_npc.gd);
+HUD = portrait + HP/SHIELD bars (game has no MP) + "Lv. N Class" + Active Quests from real data;
+inventory = ornate frame (tools/artgen/ui_art.py 9-patches), HEXVAULT plate, paper doll with 6 slots,
+bag grid, tooltip, EQUIP/UNEQUIP/SELL/CLOSE colour buttons. Comparison docs/qa/guild_vs_reference.png.
+97/97 tests.

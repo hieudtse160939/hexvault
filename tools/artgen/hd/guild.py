@@ -48,16 +48,15 @@ def wood_floor(seed: int, ramp: str = "leather", bias: int = -1) -> HDCanvas:
 
 
 def rug(seed: int = 3) -> HDCanvas:
-    """Guild runner: crimson field, amber diamond, border on every side so
-    repeated tiles read as a woven carpet."""
+    """Guild runner: royal-blue field with a gold border and diamond; repeated tiles read
+    as one woven carpet (reference: blue rugs with gold compass motifs)."""
     c = HDCanvas(T, T)
-    c.draw(c.rect(0, 0, 63, 63), "crimson", "plate", bias=-1, selout=False, cast=False)
-    border = c.rect(0, 0, 63, 63) & ~c.rect(4, 4, 59, 59)
-    c.fill(border, "amber", 2)
-    c.fill(c.rect(6, 6, 57, 57) & ~c.rect(7, 7, 56, 56), "amber", 1)
-    dia = c.poly([(31.5, 14), (49, 31.5), (31.5, 49), (14, 31.5)])
-    c.fill(dia & ~c.poly([(31.5, 19), (44, 31.5), (31.5, 44), (19, 31.5)]), "amber", 3)
-    c.fill(c.poly([(31.5, 25), (38, 31.5), (31.5, 38), (25, 31.5)]), "azure", 3)
+    c.draw(c.rect(0, 0, 63, 63), "azure", "plate", bias=-1, selout=False, cast=False)
+    c.fill(c.rect(0, 0, 63, 63) & ~c.rect(3, 0, 60, 63), "amber", 3)      # side borders run along the runner
+    c.fill(c.rect(5, 0, 5, 63) | c.rect(58, 0, 58, 63), "amber", 2)
+    dia = c.poly([(31.5, 16), (47, 31.5), (31.5, 47), (16, 31.5)])
+    c.fill(dia & ~c.poly([(31.5, 20), (43, 31.5), (31.5, 43), (20, 31.5)]), "amber", 3)
+    c.fill(c.poly([(31.5, 27), (36, 31.5), (31.5, 36), (27, 31.5)]), "amber", 4)
     return c
 
 
@@ -97,6 +96,17 @@ def wall_wood(seed: int, deco: str | None = None) -> HDCanvas:
         c.fill(c.ellipse(31.5, 27, 2, 3), "flame", 5)
         for k, (x, y) in enumerate(((22, 22), (41, 24), (24, 33), (40, 34))):
             c.px(x, y, "amber", 5)
+    elif deco == "window":
+        frame = c.rect(16, 13, 47, 39)
+        c.draw(frame, "hair_brown", "plate", name="frame")
+        for (x0, y0, x1, y1) in ((19, 16, 30, 26), (33, 16, 44, 26), (19, 28, 30, 36), (33, 28, 44, 36)):
+            c.fill(c.rect(x0, y0, x1, y1), "amber", 4)
+            c.fill(c.rect(x0, y0, x0 + 3, y0 + 1), "amber", 5)
+        c.draw(c.rect(14, 39, 49, 42), "hair_brown", "plate", name="sill")
+        c.draw(c.ellipse(24, 38, 5, 3), "moss", "cloth", name="flowers")
+        c.draw(c.ellipse(40, 38, 5, 3), "moss", "cloth", name="flowers")
+        c.px(23, 37, "rose", 4)
+        c.px(41, 37, "amber", 5)
     elif deco == "map":
         paper = c.rect(12, 14, 51, 37)
         c.draw(paper, "bone", "plate", name="map")
@@ -128,8 +138,30 @@ def tiles() -> list[HDCanvas]:
     return [
         wood_floor(1), wood_floor(2), rug(), stage_floor(),
         wall_wood(1), wall_wood(2, "banner"), wall_wood(3, "lantern"), wall_wood(4, "map"),
-        wall_top_wood(),
+        wall_top_wood(), wall_wood(5, "window"), grass(), hedge(),
     ]
+
+
+def hedge() -> HDCanvas:
+    """Dense hedge that bounds the courtyard (atlas 27, solid)."""
+    rng = random.Random(21)
+    c = HDCanvas(T, T)
+    c.fill(c.rect(0, 0, T - 1, T - 1), "moss", 0)
+    for _ in range(12):
+        x, y = rng.uniform(6, 58), rng.uniform(6, 58)
+        c.draw(c.ellipse(x, y, rng.uniform(9, 14), rng.uniform(8, 12)), "moss", "cloth", bias=rng.choice((-2, -1)), selout=False, cast=False)
+    return c
+
+
+def grass() -> HDCanvas:
+    """Courtyard grass outside the entrance (atlas 26)."""
+    rng = random.Random(12)
+    c = HDCanvas(T, T)
+    c.fill(c.rect(0, 0, T - 1, T - 1), "moss", 1)
+    for _ in range(40):
+        x, y = rng.randint(1, 61), rng.randint(1, 61)
+        c.fill(c.rect(x, y, x + 1, y), "moss", rng.choice((0, 2)))
+    return c
 
 
 # --- props ------------------------------------------------------------------------------
@@ -361,6 +393,220 @@ def banner_stand() -> HDCanvas:
     return c
 
 
+def compass_rug() -> HDCanvas:
+    """Great Hall centre rug: blue field, double gold border, eight-point compass (decal)."""
+    w, h = 288, 208
+    c = HDCanvas(w, h)
+    cx, cy = w / 2 - 0.5, h / 2 - 0.5
+    c.draw(c.rect(0, 0, w - 1, h - 1), "azure", "plate", bias=-1, selout=False, cast=False)
+    c.fill(c.rect(0, 0, w - 1, h - 1) & ~c.rect(6, 6, w - 7, h - 7), "amber", 3)
+    c.fill(c.rect(12, 12, w - 13, h - 13) & ~c.rect(14, 14, w - 15, h - 15), "amber", 2)
+    for x, y in ((22, 22), (w - 23, 22), (22, h - 23), (w - 23, h - 23)):   # corner ornaments
+        c.fill(c.poly([(x, y - 6), (x + 6, y), (x, y + 6), (x - 6, y)]), "amber", 3)
+    c.fill(c.ellipse(cx, cy, 70, 70) & ~c.ellipse(cx, cy, 66, 66), "amber", 2)
+    big = c.poly([(cx, cy - 62), (cx + 12, cy - 12), (cx + 62, cy), (cx + 12, cy + 12), (cx, cy + 62), (cx - 12, cy + 12), (cx - 62, cy), (cx - 12, cy - 12)])
+    small = c.poly([(cx + 34, cy - 34), (cx + 8, cy), (cx + 34, cy + 34), (cx, cy + 8), (cx - 34, cy + 34), (cx - 8, cy), (cx - 34, cy - 34), (cx, cy - 8)])
+    c.fill(small, "amber", 2)
+    c.fill(big, "amber", 4)
+    c.fill(c.poly([(cx, cy - 62), (cx + 12, cy - 12), (cx, cy)]) | c.poly([(cx + 62, cy), (cx + 12, cy + 12), (cx, cy)]) |
+           c.poly([(cx, cy + 62), (cx - 12, cy + 12), (cx, cy)]) | c.poly([(cx - 62, cy), (cx - 12, cy - 12), (cx, cy)]), "amber", 3)
+    return c
+
+
+def lounge_rug() -> HDCanvas:
+    """Round red rug for the lounge corner (decal)."""
+    w, h = 176, 128
+    c = HDCanvas(w, h)
+    cx, cy = w / 2 - 0.5, h / 2 - 0.5
+    c.draw(c.ellipse(cx, cy, 86, 62), "crimson", "plate", bias=-1, selout=False, cast=False)
+    c.fill(c.ellipse(cx, cy, 86, 62) & ~c.ellipse(cx, cy, 81, 57), "amber", 2)
+    c.fill(c.ellipse(cx, cy, 60, 42) & ~c.ellipse(cx, cy, 57, 39), "amber", 3)
+    return c
+
+
+def chandelier() -> HDCanvas:
+    """Iron ring chandelier with candles, seen from above at an angle (hangs over the hall)."""
+    w, h = 112, 72
+    c = HDCanvas(w, h)
+    cx = w / 2 - 0.5
+    ring = c.ellipse(cx, 44, 46, 18) & ~c.ellipse(cx, 44, 42, 15)
+    c.draw(ring, "night", "metal", bias=1, name="ring")
+    for k in range(4):
+        a = k / 4 * math.tau + 0.4
+        c.line(cx, 6, cx + math.cos(a) * 44, 44 + math.sin(a) * 17, "night", 3)
+    for k in range(8):
+        a = k / 8 * math.tau
+        x, y = cx + math.cos(a) * 44, 44 + math.sin(a) * 16.5
+        c.draw(c.rect(int(x) - 1, int(y) - 7, int(x) + 1, int(y)), "bone", "round", name="candle")
+        c.fixed(c.ellipse(x, y - 10, 1.6, 2.6), "glow_amber")
+    c.fill(c.ellipse(cx, 5, 3, 3), "night", 2)
+    c.outline("ink")
+    return c
+
+
+def archery_target() -> HDCanvas:
+    """Straw target on an easel, 10 x 14 world units."""
+    w, h = 40, 56
+    c = HDCanvas(w, h)
+    c.draw(c.capsule(10, 52, 20, 18, 1.6, 1.6), "hair_brown", "round", name="leg")
+    c.draw(c.capsule(30, 52, 20, 18, 1.6, 1.6), "hair_brown", "round", name="leg")
+    c.draw(c.ellipse(20, 24, 15, 16), "amber", "round", name="straw")
+    for r, (ramp, i) in zip((12, 9, 6, 3), (("bone", 4), ("crimson", 3), ("bone", 4), ("crimson", 3))):
+        c.fill(c.ellipse(20, 24, r, r + 1), ramp, i)
+    c.draw(c.capsule(24, 20, 33, 13, 0.9, 0.9), "hair_brown", "round", name="arrow")
+    c.outline("ink")
+    return c
+
+
+def armchair() -> HDCanvas:
+    """Red velvet armchair, 10 x 10 world units."""
+    w, h = 40, 40
+    c = HDCanvas(w, h)
+    c.draw(c.rect(4, 4, 35, 20), "crimson", "cloth", name="back")
+    c.draw(c.rect(6, 18, 33, 32), "crimson", "cloth", bias=1, name="seat")
+    for x in (2, 31):
+        c.draw(c.rect(x, 12, x + 6, 32), "crimson", "cloth", bias=-1, name="arm")
+    for x in (6, 31):
+        c.draw(c.rect(x, 33, x + 2, 37), "hair_brown", "plate", name="foot")
+    c.outline("ink")
+    return c
+
+
+def round_table() -> HDCanvas:
+    """Small round table with a candle and cups, 12 x 10 world units."""
+    w, h = 48, 40
+    c = HDCanvas(w, h)
+    c.draw(c.rect(22, 20, 25, 36), "hair_brown", "plate", bias=-1, name="leg")
+    c.draw(c.ellipse(23.5, 17, 21, 11), "leather", "plate", bias=1, name="top")
+    c.draw(c.rect(22, 6, 25, 15), "bone", "round", name="candle")
+    c.fixed(c.ellipse(23.5, 3, 1.6, 2.6), "glow_amber")
+    c.draw(c.capsule(12, 14, 12, 18, 2.6, 2.6), "bone", "round", name="cup")
+    c.draw(c.capsule(35, 15, 35, 19, 2.6, 2.6), "steel", "round", name="cup")
+    c.outline("ink")
+    return c
+
+
+def rail(horizontal: bool) -> HDCanvas:
+    """Low wooden balustrade segment, one cell long (divides the open hall into areas)."""
+    if horizontal:
+        c = HDCanvas(64, 40)
+        c.draw(c.rect(0, 8, 63, 13), "hair_brown", "plate", name="handrail")
+        for x in range(3, 64, 10):
+            c.draw(c.rect(x, 13, x + 3, 33), "leather", "round", name="baluster")
+        c.draw(c.rect(0, 32, 63, 36), "hair_brown", "plate", bias=-1, name="base")
+        for x in (0, 60):
+            c.draw(c.rect(x, 4, x + 3, 36), "hair_brown", "plate", bias=1, name="post")
+    else:
+        c = HDCanvas(24, 72)
+        c.draw(c.rect(8, 2, 15, 69), "hair_brown", "plate", name="handrail")
+        for y in range(6, 66, 12):
+            c.draw(c.rect(6, y, 17, y + 3), "leather", "round", name="baluster")
+    c.outline("ink")
+    return c
+
+
+def shop_stall() -> HDCanvas:
+    """Shop counter under a blue-and-white striped awning with potion shelves, 40 x 30 units."""
+    w, h = 160, 120
+    c = HDCanvas(w, h)
+    rng = random.Random(4)
+    c.draw(c.rect(6, 22, w - 7, 70), "hair_brown", "plate", bias=-2, name="back")
+    for y in (34, 52):
+        c.draw(c.rect(8, y, w - 9, y + 3), "leather", "plate", name="shelf")
+        for x in range(12, w - 14, 9):
+            c.draw(c.capsule(x, y - 9, x, y - 2, 2.4, 3.0), rng.choice(["crimson", "azure", "moss", "amber", "violet"]), "metal", name="potion")
+    for k in range(10):  # awning stripes
+        x0 = k * 16
+        c.draw(c.poly([(x0, 2), (x0 + 16, 2), (x0 + 16, 20), (x0 + 8, 25), (x0, 20)]), "azure" if k % 2 == 0 else "bone",
+               "cloth", bias=0 if k % 2 == 0 else 1, name="awning")
+    c.draw(c.rect(0, 0, w - 1, 4), "hair_brown", "plate", name="rail")
+    c.draw(c.rect(2, 74, w - 3, h - 4), "hair_brown", "plate", bias=-1, name="front")
+    c.draw(c.rect(0, 70, w - 1, 80), "leather", "plate", bias=1, name="top")
+    c.draw(c.rect(60, 62, 76, 72), "bone", "plate", name="ledger")
+    c.draw(c.ellipse(110, 68, 5, 4), "amber", "metal", name="scale")
+    c.outline("ink")
+    return c
+
+
+def forge() -> HDCanvas:
+    """Brick forge with glowing coals and an anvil, 24 x 22 units."""
+    w, h = 96, 88
+    c = HDCanvas(w, h)
+    c.draw(c.rect(10, 4, 50, 70), "crimson", "plate", bias=-2, name="chimney")
+    for y in range(8, 66, 8):
+        off = (y // 8) % 2 * 6
+        for x in range(10 - off, 50, 12):
+            c.draw(c.rect(max(x + 1, 11), y, min(x + 10, 49), y + 6), "flame", "plate", bias=-2, selout=False, cast=False)
+    c.fill(c.poly([(18, 70), (18, 46), (30, 38), (42, 46), (42, 70)]), "night", 0)
+    c.draw(c.ellipse(30, 62, 10, 5), "flame", "glow", selout=False, cast=False)
+    c.fixed(c.ellipse(30, 61, 5, 3), "glow_amber")
+    c.draw(c.poly([(56, 60), (86, 60), (82, 66), (76, 66), (76, 78), (66, 78), (66, 66), (60, 66)]), "steel", "metal", name="anvil")
+    c.draw(c.rect(64, 78, 78, 84), "hair_brown", "plate", name="stump")
+    c.outline("ink")
+    return c
+
+
+def bush(seed: int = 1) -> HDCanvas:
+    """Round garden shrub (outside the entrance), 14 x 12 units."""
+    w, h = 56, 48
+    c = HDCanvas(w, h)
+    rng = random.Random(seed)
+    for _ in range(7):
+        x, y = rng.uniform(14, 42), rng.uniform(16, 32)
+        c.draw(c.ellipse(x, y, rng.uniform(9, 13), rng.uniform(8, 11)), "moss", "cloth", bias=rng.choice((-1, 0)), selout=False)
+    c.outline("ink")
+    return c
+
+
+def steps() -> HDCanvas:
+    """Stone entrance steps (floor decal), 32 x 12 units."""
+    w, h = 128, 48
+    c = HDCanvas(w, h)
+    for k in range(3):
+        c.draw(c.rect(8 + k * 6, k * 14, w - 9 - k * 6, k * 14 + 13), "stone", "plate", bias=-k, selout=False, cast=False)
+    c.outline("ink")
+    return c
+
+
+def small_rug() -> HDCanvas:
+    """Small blue mat with a gold border (decal)."""
+    w, h = 112, 48
+    c = HDCanvas(w, h)
+    c.draw(c.rect(0, 0, w - 1, h - 1), "azure", "plate", bias=-1, selout=False, cast=False)
+    c.fill(c.rect(0, 0, w - 1, h - 1) & ~c.rect(4, 4, w - 5, h - 5), "amber", 3)
+    c.fill(c.rect(8, 8, w - 9, h - 9) & ~c.rect(9, 9, w - 10, h - 10), "amber", 2)
+    return c
+
+
+def table_rug() -> HDCanvas:
+    """Blue rug under the long tables (decal)."""
+    w, h = 176, 224
+    c = HDCanvas(w, h)
+    c.draw(c.rect(0, 0, w - 1, h - 1), "azure", "plate", bias=-1, selout=False, cast=False)
+    c.fill(c.rect(0, 0, w - 1, h - 1) & ~c.rect(5, 5, w - 6, h - 6), "amber", 3)
+    c.fill(c.rect(10, 10, w - 11, h - 11) & ~c.rect(11, 11, w - 12, h - 12), "amber", 2)
+    return c
+
+
+def long_table() -> HDCanvas:
+    """Long feast table with chairs, books and candles, 22 x 28 units (vertical)."""
+    w, h = 88, 112
+    c = HDCanvas(w, h)
+    for y in (22, 46, 70):
+        for x in (4, 72):
+            c.draw(c.rect(x, y, x + 11, y + 14), "crimson", "cloth", bias=-1, name="chair")
+    c.draw(c.rect(18, 8, 69, 98), "hair_brown", "plate", name="top")
+    c.draw(c.rect(18, 96, 69, 104), "hair_brown", "plate", bias=-2, name="apron")
+    for x, y in ((30, 20), (54, 60)):
+        c.draw(c.rect(x, y, x + 3, y + 8), "bone", "round", name="candle")
+        c.fixed(c.ellipse(x + 1.5, y - 3, 1.5, 2.5), "glow_amber")
+    c.draw(c.poly([(40, 36), (58, 34), (60, 46), (42, 48)]), "bone", "plate", name="book")
+    c.draw(c.ellipse(36, 78, 5, 5), "moss", "cloth", name="plant")
+    c.draw(c.capsule(56, 84, 56, 90, 3, 3), "steel", "round", name="mug")
+    c.outline("ink")
+    return c
+
+
 def round_rug() -> HDCanvas:
     """Large oval rug for the gathering hall floor (a decal: no collision), 64 x 40 world units."""
     w, h = 256, 160
@@ -387,7 +633,19 @@ PROPS = {
     "bench": (bench, (48, 28)),
     "bar": (bar_counter, (88, 68)),
     "banner": (banner_stand, (24, 100)),
+    "target": (archery_target, (20, 52)),
+    "armchair": (armchair, (20, 36)),
+    "round_table": (round_table, (24, 36)),
+    "rail_h": (lambda: rail(True), (32, 36)),
+    "rail_v": (lambda: rail(False), (12, 69)),
+    "stall": (shop_stall, (80, 116)),
+    "forge": (forge, (48, 84)),
+    "bush": (bush, (28, 44)),
+    "long_table": (long_table, (44, 104)),
 }
+# floor decals (no collision) and overhead pieces: key -> builder
+DECALS = {"rug": compass_rug, "rug_red": lounge_rug, "rug_small": small_rug, "rug_table": table_rug, "steps": steps}
+OVERHEAD = {"chandelier": chandelier}
 FIREPLACE_PIVOT = (56, 100)
 DUMMY_PIVOT = (28, 84)
 

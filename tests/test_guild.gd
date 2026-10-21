@@ -143,6 +143,51 @@ func _free_at(lvl: Level, pos: Vector2) -> bool:
 	return lvl.get_world_2d().direct_space_state.intersect_shape(q, 1).is_empty()
 
 
+func test_npc_talk_quests_and_inventory_buttons() -> void:
+	await _boot()
+	Profile.new_game("pyromancer")
+	Game.goto("hub")
+	await wait_physics_frames(3)
+	var g: Node = _guild()
+	var p: Player = g.get("player")
+	var npc: GuildNpc = null
+	for n: Node in (g.get("level") as Level).entities.get_children():
+		if n is GuildNpc and not (n as GuildNpc).lines.is_empty():
+			npc = n
+	assert_not_null(npc, "talkable NPCs in the Guild")
+	npc.interact(p)
+	await wait_frames(2)
+	var dlg: Modal = _modal_of(g, Modal)
+	assert_not_null(dlg, "talking opens a dialogue box")
+	assert_true(get_tree().paused)
+	dlg.queue_free()
+	await wait_frames(2)
+	var quests: PackedStringArray = g.call("active_quests")
+	assert_gt(quests.size(), 0)
+	assert_string_contains(" ".join(quests), "Forgotten Catacombs", "next mission is an active quest")
+	Profile.character_record("pyromancer")["sp"] = 2
+	assert_string_contains(" ".join(g.call("active_quests") as PackedStringArray), "Spend 2 skill points")
+	# inventory: EQUIP / UNEQUIP / SELL buttons act on the real inventory
+	(g.get("stations")["Equipment"] as HubStation).interact(p)
+	await wait_frames(2)
+	var inv: InventoryPanel = _modal_of(g, InventoryPanel)
+	var uid: String = Profile.give_item(ItemGen.generate("h_leather_cap", 1, "common", RandomNumberGenerator.new()))
+	inv.select(uid)
+	(inv.get("_btn_equip") as Button).pressed.emit()
+	assert_eq(Inventory.owner_of(Profile.data, uid), "pyromancer", "EQUIP button")
+	inv.select(uid)
+	(inv.get("_btn_unequip") as Button).pressed.emit()
+	assert_has(Inventory.bag(Profile.data), uid, "UNEQUIP button")
+	var gold0: int = Profile.gold()
+	inv.select(uid)
+	(inv.get("_btn_sell") as Button).pressed.emit()
+	assert_true(Inventory.item(Profile.data, uid).is_empty(), "SELL button")
+	assert_gt(Profile.gold(), gold0)
+	inv.queue_free()
+	_main.queue_free()
+	await wait_frames(2)
+
+
 func test_guild_map_file_is_valid() -> void:
 	var m: Dictionary = MapLoader.load_map("guild")
 	assert_eq(MapLoader.problems(m).size(), 0, str(MapLoader.problems(m)))

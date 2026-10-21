@@ -20,12 +20,45 @@ static var _theme: Theme = null
 
 
 ## Adventurers' Guild frame: dark varnished wood with a brass border.
-static func guild_box(border_w: int = 1, pad: int = 3) -> StyleBoxFlat:
+## border_w >= 2 uses the ornate gold 9-patch (tools/artgen/ui_art.py) when present.
+static func guild_box(border_w: int = 1, pad: int = 3) -> StyleBox:
+	if border_w >= 2 and SpriteManifest.has_image("ui_frame"):
+		return tex_box("ui_frame", pad + 4)
 	var s: StyleBoxFlat = box(Color(WOOD, 0.95), BRASS, border_w, pad)
 	s.shadow_color = Color(0, 0, 0, 0.45)
 	s.shadow_size = 0
 	s.shadow_offset = Vector2(2, 2)
 	return s
+
+
+## 9-patch StyleBox from a UI image; the patch margin comes from the manifest.
+static func tex_box(key: String, content: int = -1, tint: Color = Color.WHITE) -> StyleBoxTexture:
+	var t: StyleBoxTexture = StyleBoxTexture.new()
+	t.texture = SpriteLib.texture(key)
+	var m: int = int((SpriteManifest.images().get(key, {}) as Dictionary).get("margin", 4))
+	t.set_texture_margin_all(m)
+	t.set_content_margin_all(content if content >= 0 else m)
+	t.modulate_color = tint
+	return t
+
+
+## Colour-coded action button (green / blue / gold / red), as in the Guild mock-up.
+static func action_button(text: String, color: String, on_press: Callable) -> Button:
+	var b: Button = button(text, on_press)
+	var key: String = "ui_btn_" + color
+	if SpriteManifest.has_image(key):
+		b.add_theme_stylebox_override("normal", tex_box(key, 3))
+		b.add_theme_stylebox_override("hover", tex_box(key, 3, Color(1.2, 1.2, 1.2)))
+		b.add_theme_stylebox_override("pressed", tex_box(key, 3, Color(0.8, 0.8, 0.8)))
+		b.add_theme_stylebox_override("focus", tex_box(key, 3, Color(1.25, 1.2, 1.0)))
+		b.add_theme_stylebox_override("disabled", tex_box(key, 3, Color(0.45, 0.45, 0.5)))
+		b.add_theme_color_override("font_color", TEXT)
+		b.add_theme_color_override("font_hover_color", Color("#fff6d8"))
+		b.add_theme_color_override("font_focus_color", Color("#fff6d8"))
+		b.add_theme_color_override("font_outline_color", INK)
+		b.add_theme_constant_override("outline_size", 2)
+	b.custom_minimum_size = Vector2(52, 14)
+	return b
 
 
 static func box(bg: Color, border: Color, border_w: int = 1, pad: int = 3) -> StyleBoxFlat:

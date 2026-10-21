@@ -12,6 +12,7 @@ const FLOOR_TILES: Dictionary = {
 	"guild_stage": Tiles.GUILD_STAGE,
 	"stone": Tiles.HUB_FLOOR,
 	"dungeon": Tiles.FLOOR[0],
+	"grass": Tiles.GRASS,
 }
 
 
@@ -40,10 +41,10 @@ static func problems(m: Dictionary) -> PackedStringArray:
 	for k: String in legend:
 		if not FLOOR_TILES.has(str(legend[k])):
 			out.append("unknown floor tile %s" % legend[k])
-	for key: String in ["stations", "props", "npcs"]:
+	for key: String in ["stations", "props", "npcs", "decals", "overhead"]:
 		for o: Variant in m.get(key, []):
 			var p: Vector2 = at((o as Dictionary)["at"])
-			if not is_floor(m, Level.to_tile(p)):
+			if key in ["stations", "props", "npcs"] and not is_floor(m, Level.to_tile(p)):
 				out.append("%s %s is not on the floor" % [key, (o as Dictionary).get("sprite", "")])
 			var spr: String = str((o as Dictionary).get("sprite", ""))
 			if spr != "" and not SpriteManifest.has_sprite(spr):
@@ -86,11 +87,34 @@ static func build(level: Level, m: Dictionary, parent: Node) -> void:
 		parent.add_child(mood)
 	for d: Variant in m.get("decals", []):
 		decal(level, str(d["sprite"]), at(d["at"]))
+	for r: Variant in m.get("rails", []):
+		var a0: Array = (r as Dictionary)["from"]
+		var a1: Array = (r as Dictionary)["to"]
+		var horiz: bool = int(a0[1]) == int(a1[1])
+		if horiz:
+			for x: int in range(int(a0[0]), int(a1[0]) + 1):
+				rail(level, Vector2i(x, int(a0[1])), true)
+		else:
+			for y: int in range(int(a0[1]), int(a1[1]) + 1):
+				rail(level, Vector2i(int(a0[0]), y), false)
 	for p: Variant in m.get("props", []):
 		var b: Array = (p as Dictionary).get("box", [10, 6])
 		prop(level, str(p["sprite"]), at(p["at"]), Vector2(float(b[0]), float(b[1])))
 	for n: Variant in m.get("npcs", []):
-		npc(level, str(n["sprite"]), at(n["at"]), str(n.get("name", "")), bool(n.get("flip", false)))
+		var g: GuildNpc = GuildNpc.new()
+		g.sprite_key = str(n["sprite"])
+		g.display_name = str(n.get("name", ""))
+		g.flip = bool(n.get("flip", false))
+		g.bubble = str(n.get("bubble", ""))
+		g.lines = PackedStringArray(n.get("lines", []))
+		g.position = at(n["at"])
+		level.add_entity(g)
+	for o: Variant in m.get("overhead", []):   # hangs above actors (chandeliers)
+		var s2: AnimatedSprite2D = AnimatedSprite2D.new()
+		SpriteLib.apply(s2, str(o["sprite"]))
+		s2.position = at(o["at"])
+		s2.z_index = 30
+		level.add_child(s2)
 	for r: Variant in m.get("rooms", []):
 		var l: Label = UiTheme.label(str(r["name"]), Color("#ffe2a0"), true)
 		l.add_theme_font_override("font", SpriteLib.font())
@@ -114,7 +138,16 @@ static func _paint_walls(level: Level, lanterns: bool) -> void:
 				if not level.floor_tiles.has(n):
 					walls[n] = true
 	for w: Vector2i in walls:
+		if _outdoor_only(level, w):
+			level.wall_layer.set_cell(w, 0, Tiles.coords(Tiles.HEDGE))
+			continue
 		var face: bool = level.floor_tiles.has(w + Vector2i(0, 1))
+		# tall north walls: the cell above a face is the upper storey (windows, banners)
+		var upper: bool = not face and walls.has(w + Vector2i(0, 1)) and level.floor_tiles.has(w + Vector2i(0, 2)) and w.y <= 0
+		if upper:
+			var ui: int = Tiles.GUILD_WALL_WINDOW if w.x % 4 == 1 else (Tiles.GUILD_WALL_BANNER if w.x % 8 == 3 else Tiles.GUILD_WALL)
+			level.wall_layer.set_cell(w, 0, Tiles.coords(ui))
+			continue
 		var idx: int = Tiles.GUILD_WALL_TOP
 		if face:
 			idx = Tiles.GUILD_WALL
@@ -122,9 +155,44 @@ static func _paint_walls(level: Level, lanterns: bool) -> void:
 				idx = Tiles.GUILD_WALL_BANNER
 			elif lanterns and w.x % 6 == 3:
 				idx = Tiles.GUILD_WALL_LANTERN
+			elif w.y <= 1 and w.x % 5 == 2:
+				idx = Tiles.GUILD_WALL_WINDOW   # windows along the outer north wall
 			elif w.x % 11 == 7:
 				idx = Tiles.GUILD_WALL_MAP
 		level.wall_layer.set_cell(w, 0, Tiles.coords(idx))
+
+
+## A wall cell that only borders grass becomes a hedge instead of a building wall.
+static func _outdoor_only(level: Level, w: Vector2i) -> bool:
+	var grass: bool = false
+	for dy: int in [-1, 0, 1]:
+		for dx: int in [-1, 0, 1]:
+			var n: Vector2i = w + Vector2i(dx, dy)
+			if level.floor_tiles.has(n):
+				if level.floor_layer.get_cell_atlas_coords(n) != Tiles.coords(Tiles.GRASS):
+					return false
+				grass = true
+	return grass
+
+
+## Low railing on one cell (solid, see-through): divides an open hall into areas.
+static func rail(level: Level, cell: Vector2i, horizontal: bool) -> void:
+	var b: StaticBody2D = StaticBody2D.new()
+	b.collision_layer = Level.WORLD_MASK
+	b.collision_mask = 0
+	b.position = Level.to_world(cell)
+	var cs: CollisionShape2D = CollisionShape2D.new()
+	var sh: RectangleShape2D = RectangleShape2D.new()
+	sh.size = Vector2(16, 5) if horizontal else Vector2(5, 16)
+	cs.shape = sh
+	cs.position = Vector2(0, 3) if horizontal else Vector2.ZERO
+	b.add_child(cs)
+	var key: String = "guild_rail_h" if horizontal else "guild_rail_v"
+	var s: AnimatedSprite2D = AnimatedSprite2D.new()
+	SpriteLib.apply(s, key)
+	s.position = (Vector2(0, 6) if horizontal else Vector2(0, 8)) - SpriteLib.pivot_from_centre_world(key)
+	b.add_child(s)
+	level.add_entity(b)
 
 
 ## Floor decal above the tiles, below every actor (rugs, markings).
