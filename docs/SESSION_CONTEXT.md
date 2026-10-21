@@ -137,3 +137,11 @@ hub.gd: warm CanvasModulate + additive light pools (lanterns, hearth, candles, g
 tables, banners at the gate; HUD plate (portrait, name/level, rank, EXP bar, gold/shards, skill
 points) and quick buttons (Missions / Bag / Skills / Menu); guild menus use UiTheme.guild_box()
 (wood + brass). Screenshot docs/qa/guild_hall.png. 95/95 tests.
+Guild MAP (2026-10-21, user: "chia từng map làm từ từ, làm map guild trước" = build the world map by
+map, Guild first): data/maps/guild.json (40x29, 6 rooms joined by doorways: Hall of Heroes,
+Great Hall, Armory & Library, Training Yard, Guild Shop, Entrance) built by the shared
+scripts/world/map_loader.gd (legend -> floor tiles, auto walls with wooden wall-top tile 24,
+decals, props, NPCs, room labels, light pools, mood); hub.gd only wires station ids to services.
+MapLoader.problems() validated in tests/test_guild.gd. Screens docs/qa/guild_map.png. 96/96 tests.
+NEXT MAP (when the user asks): town outside the Guild (Kingdom of Dawn) as data/maps/<id>.json
++ outdoor tiles; the Entrance gate is where a map transition would go.

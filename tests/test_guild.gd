@@ -143,6 +143,17 @@ func _free_at(lvl: Level, pos: Vector2) -> bool:
 	return lvl.get_world_2d().direct_space_state.intersect_shape(q, 1).is_empty()
 
 
+func test_guild_map_file_is_valid() -> void:
+	var m: Dictionary = MapLoader.load_map("guild")
+	assert_eq(MapLoader.problems(m).size(), 0, str(MapLoader.problems(m)))
+	assert_gt((m["rooms"] as Array).size(), 5, "the Guild has several rooms")
+	var ids: Array = []
+	for st: Variant in m["stations"]:
+		ids.append(str((st as Dictionary)["id"]))
+	for need: String in ["reception", "missions", "gate", "equipment", "skills", "shop", "heroes", "forge", "quests"]:
+		assert_has(ids, need, "station %s placed" % need)
+
+
 # 10 11
 func test_guild_walls_block_and_every_service_is_reachable() -> void:
 	await _boot()

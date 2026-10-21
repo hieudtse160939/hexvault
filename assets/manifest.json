@@ -416,10 +416,10 @@
   },
   "tiles_dungeon": {
    "density": 4,
-   "h": 192,
+   "h": 256,
    "palette": "hd",
    "path": "res://assets/tiles/dungeon_hd.png",
-   "sha": "4f616b60267313d3",
+   "sha": "83c2d095317d9ac4",
    "source": "procedural: tools/artgen/hd/tiles.py",
    "tile": 64,
    "type": "tiles",

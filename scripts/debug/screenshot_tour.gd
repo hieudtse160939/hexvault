@@ -84,7 +84,7 @@ func _run() -> void:
 	await _shot("03_guild")
 	var guild: Node = get_tree().get_first_node_in_group("guild")
 	var p0: Player = guild.get("player")
-	for spot: Array in [["04_guild_reception", Vector2i(17, 7)], ["05_guild_training", Vector2i(6, 15)], ["06_guild_shop_corner", Vector2i(28, 12)]]:
+	for spot: Array in [["04_guild_reception", Vector2i(20, 7)], ["05_guild_training", Vector2i(6, 18)], ["06_guild_shop_corner", Vector2i(33, 22)], ["06b_guild_heroes", Vector2i(6, 6)], ["06c_guild_armory", Vector2i(33, 6)]]:
 		p0.global_position = Level.to_world(spot[1])
 		await _frames(30)
 		await _shot(spot[0])

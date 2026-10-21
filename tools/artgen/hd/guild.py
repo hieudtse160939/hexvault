@@ -110,11 +110,25 @@ def wall_wood(seed: int, deco: str | None = None) -> HDCanvas:
     return c
 
 
+def wall_top_wood() -> HDCanvas:
+    """Top of a guild wall seen from above: dark timber cap with plank joints."""
+    c = HDCanvas(T, T)
+    c.fill(c.rect(0, 0, T - 1, T - 1), "hair_brown", 0)
+    for y0 in (0, 32):
+        c.fill(c.rect(0, y0 + 1, 63, y0 + 30), "hair_brown", 1)
+        c.fill(c.rect(0, y0 + 1, 63, y0 + 1), "hair_brown", 2)
+        c.fill(c.rect(0, y0 + 30, 63, y0 + 30), "hair_brown", 0)
+    for x, y in ((21, 1), (47, 33)):
+        c.fill(c.rect(x, y, x, y + 29), "hair_brown", 0)
+    return c
+
+
 def tiles() -> list[HDCanvas]:
-    """Atlas indices 16-23."""
+    """Atlas indices 16-24."""
     return [
         wood_floor(1), wood_floor(2), rug(), stage_floor(),
         wall_wood(1), wall_wood(2, "banner"), wall_wood(3, "lantern"), wall_wood(4, "map"),
+        wall_top_wood(),
     ]
 
 

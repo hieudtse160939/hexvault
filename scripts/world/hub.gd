@@ -11,11 +11,14 @@ extends Node2D
 ##   Training Grounds - dummies that take real hits and show DPS
 ##   Hero Shrine, Rune Forge, Quest Board - roster, permanent upgrades, quests
 
-const W: int = 34   # interior size in tiles
-const H: int = 22
-const SPAWN: Vector2i = Vector2i(17, 15)
-const STAGE: Rect2i = Rect2i(2, 15, 9, 6)      # training ring
-const RUG: Rect2i = Rect2i(16, 6, 2, 16)       # runner from the reception to the gate
+## The building itself is data: data/maps/guild.json (rooms, furniture, NPCs,
+## lights, station positions), built by MapLoader. This script only wires the
+## services behind each station id.
+
+const MAP_ID: String = "guild"
+
+var map: Dictionary = {}
+var SPAWN: Vector2i = Vector2i(20, 24)   # from the map file
 
 var level: Level
 var player: Player
@@ -46,14 +49,9 @@ func _ready() -> void:
 	Game.run = null
 	level = Level.new()
 	add_child(level)
-	for y: int in range(1, H + 1):
-		for x: int in range(1, W + 1):
-			level.floor_tiles[Vector2i(x, y)] = true
-	_paint()
-	level.build_nav()
-	var mood: CanvasModulate = CanvasModulate.new()   # warm, slightly dim interior; lights add on top
-	mood.color = Color(0.9, 0.84, 0.8)
-	add_child(mood)
+	map = MapLoader.load_map(MAP_ID)
+	SPAWN = Vector2i(int(map["spawn"][0]), int(map["spawn"][1]))
+	MapLoader.build(level, map, self)
 	var sel: String = Profile.selected_hero()
 	if not Profile.is_character_unlocked(sel) or not Db.is_playable(sel):
 		sel = str(Db.guild.get("default_hero", "duelist"))
@@ -78,160 +76,28 @@ static func tile_world(x: float, y: float) -> Vector2:
 	return Vector2(x * Level.TILE, y * Level.TILE)
 
 
-# --- map ------------------------------------------------------------------------------
-func _paint() -> void:
-	for t: Vector2i in level.floor_tiles:
-		var idx: int = Tiles.GUILD_WOOD[(t.x * 7 + t.y * 13) % 2]
-		if STAGE.has_point(t):
-			idx = Tiles.GUILD_STAGE
-		elif RUG.has_point(t):
-			idx = Tiles.GUILD_RUG
-		level.floor_layer.set_cell(t, 0, Tiles.coords(idx))
-	var walls: Dictionary = {}
-	for t2: Vector2i in level.floor_tiles:
-		for dy: int in [-1, 0, 1]:
-			for dx: int in [-1, 0, 1]:
-				var n: Vector2i = t2 + Vector2i(dx, dy)
-				if not level.floor_tiles.has(n):
-					walls[n] = true
-	for w: Vector2i in walls:
-		var face: bool = level.floor_tiles.has(w + Vector2i(0, 1))
-		var idx2: int = Tiles.WALL_TOP
-		if face:
-			idx2 = Tiles.GUILD_WALL
-			if w.x == 13 or w.x == 21:
-				idx2 = Tiles.GUILD_WALL_BANNER
-			elif w.x % 6 == 3:
-				idx2 = Tiles.GUILD_WALL_LANTERN
-			elif w.x == 30 or w.x == 6:
-				idx2 = Tiles.GUILD_WALL_MAP
-		level.wall_layer.set_cell(w, 0, Tiles.coords(idx2))
-
-
-func _decor(key: String, pos: Vector2, box: Vector2) -> void:
-	var p: SolidProp = SolidProp.create(key, pos, box, Vector2.ZERO)
-	var spr: AnimatedSprite2D = p.get_child(1) as AnimatedSprite2D
-	if spr != null and SpriteLib.is_hd(key):
-		spr.position = Vector2(0, 5) - SpriteLib.pivot_from_centre_world(key)
-	(p.get_child(0) as CollisionShape2D).position = Vector2(0, 5 - box.y / 2.0 + 2.0)
-	level.add_entity(p)
-
-
-func _npc(sprite: String, pos: Vector2, name_text: String, flip: bool) -> void:
-	var n: Node2D = Node2D.new()
-	n.position = pos
-	var s: AnimatedSprite2D = AnimatedSprite2D.new()
-	SpriteLib.apply(s, sprite)
-	s.play(&"idle")
-	s.flip_h = flip
-	s.position = Vector2(0, Player.FEET_Y) - SpriteLib.pivot_from_centre_world(sprite)
-	n.add_child(s)
-	var l: Label = UiTheme.label(name_text, Color("#b4fff0"), true)
-	l.add_theme_font_override("font", SpriteLib.font())
-	l.position = Vector2(-name_text.length() * 3.0, -32)
-	l.z_index = 25
-	n.add_child(l)
-	level.add_entity(n)
-
-
-func _station(title: String, prompt: String, sprite: String, pos: Vector2, cb: Callable, box: Vector2) -> HubStation:
-	var s: HubStation = HubStation.create(title, prompt, sprite, pos, cb, box)
-	level.add_entity(s)
-	stations[title] = s
-	return s
-
-
 func _build_stations() -> void:
-	# A. reception: receptionist behind the counter, the counter is the service point
-	_npc("hero_cryomancer", tile_world(17, 2.6), "Rime, Receptionist", false)
-	_station("Reception", "Talk to the receptionist", "guild_counter", tile_world(17, 4.4), _open_reception, Vector2(38, 7))
-	# B. mission board + expedition gate
-	_station("Mission Board", "Choose an expedition", "guild_board", tile_world(9.5, 3.4), _open_missions, Vector2(18, 6))
-	_station("Expedition Gate", "Set out on an expedition", "prop_portal", tile_world(17, 21.2), _open_missions, Vector2(10, 4))
-	# C. equipment + skills
-	_station("Equipment", "Manage equipment and inventory", "guild_rack", tile_world(25, 3.6), _open_equipment, Vector2(14, 6))
-	_station("Skill Library", "Skill tree and active skill", "guild_shelf", tile_world(29.5, 3.4), _open_skills, Vector2(14, 6))
-	# D. shop
-	_npc("hero_tinker", tile_world(30.5, 9.6), "Cog, Merchant", true)
-	_station("Guild Shop", "Buy and sell equipment", "guild_table", tile_world(30.5, 11.4), _open_shop, Vector2(22, 7))
-	# E. training grounds
-	for p: Vector2 in [tile_world(4.5, 17.5), tile_world(8.5, 17.5)]:
-		var d: TrainingDummy = TrainingDummy.create(p)
-		level.add_entity(d)
-		dummies.append(d)
-	var sign_l: Label = UiTheme.label("TRAINING GROUNDS", UiTheme.GOLD, true)
-	sign_l.add_theme_font_override("font", SpriteLib.font())
-	sign_l.position = tile_world(3.6, 15.1)
-	level.fx_layer.add_child(sign_l)
-	# F. roster, upgrades, quests
-	_station("Hero Shrine", "Switch adventurer", "prop_statue", tile_world(25, 18), _open_heroes, Vector2(12, 6))
-	_station("Rune Forge", "Permanent upgrades (shards)", "prop_fountain", tile_world(29, 18), _open_forge, Vector2(12, 6))
-	var board: HubStation = _station("Quest Board", "Quests & achievements", "prop_pedestal", tile_world(33, 14), _open_quests, Vector2(12, 6))
-	board.badge = Profile.claimable_quests
-	# G. gathering hall: big rug, tables with benches, hearth, bar, banners, storage
-	_rug(tile_world(17, 12))
-	for p2: Vector2 in [tile_world(11, 10), tile_world(23, 10), tile_world(11, 13.4), tile_world(23, 13.4)]:
-		_decor("guild_table", p2, Vector2(22, 7))
-		_decor("guild_bench", p2 + Vector2(0, 13), Vector2(22, 4))
-		_glow(p2 + Vector2(0, -12), 22.0, Color("#ffb45a"), 0.35)
-	_decor("guild_fireplace", tile_world(4, 2.7), Vector2(26, 8))
-	_glow(tile_world(4, 2.0), 64.0, Color("#ff9a3c"), 0.55)
-	_decor("guild_rack", tile_world(13.5, 2.6), Vector2(14, 6))
-	_decor("guild_bar", tile_world(26.5, 7.8), Vector2(42, 8))
-	_glow(tile_world(26.5, 6.8), 30.0, Color("#ffc870"), 0.3)
-	for bx: float in [15.0, 19.0]:
-		_decor("guild_banner", tile_world(bx, 20.8), Vector2(8, 4))
-		_glow(tile_world(bx, 19.2), 12.0, Color("#ffd27a"), 0.4)
-	_glow(tile_world(17, 20.6), 34.0, Color("#b46cff"), 0.35)   # expedition gate
-	for p3: Vector2 in [tile_world(1.6, 1.8), tile_world(33.4, 1.8), tile_world(1.6, 12), tile_world(12.5, 21), tile_world(21.5, 21)]:
-		_decor("guild_plant", p3, Vector2(8, 4))
-	for p4: Vector2 in [tile_world(33.3, 20.6), tile_world(32.3, 21.0), tile_world(33.4, 9.0), tile_world(1.6, 6.0)]:
-		_decor("prop_barrel", p4, Vector2(10, 6))
-	for p5: Vector2 in [tile_world(32.4, 20.0), tile_world(1.6, 7.0)]:
-		_decor("prop_crate", p5, Vector2(12, 8))
-	for p6: Vector2 in [tile_world(13.5, 7.5), tile_world(20.5, 7.5), tile_world(13.5, 17.5), tile_world(20.5, 17.5)]:
-		_decor("prop_pillar", p6, Vector2(10, 6))
-	# wall lanterns on the north wall get a warm pool of light
-	for x: int in range(1, W + 1):
-		if x % 6 == 3:
-			_glow(tile_world(x + 0.5, 0.9), 26.0, Color("#ffc870"), 0.4)
-
-
-## Floor decal drawn above the tiles, below every actor.
-func _rug(pos: Vector2) -> void:
-	var s: Sprite2D = Sprite2D.new()
-	SpriteLib.apply(s, "guild_rug")
-	s.position = pos
-	level.add_child(s)
-	level.move_child(s, level.floor_layer.get_index() + 1)
-
-
-var _glow_tex: GradientTexture2D = null
-
-
-## Warm light pool: additive radial glow (soft light is allowed for FX by the style guide).
-func _glow(pos: Vector2, radius: float, col: Color, strength: float) -> void:
-	if _glow_tex == null:
-		var g: Gradient = Gradient.new()
-		g.set_color(0, Color(1, 1, 1, 1))
-		g.set_color(1, Color(1, 1, 1, 0))
-		_glow_tex = GradientTexture2D.new()
-		_glow_tex.gradient = g
-		_glow_tex.fill = GradientTexture2D.FILL_RADIAL
-		_glow_tex.fill_from = Vector2(0.5, 0.5)
-		_glow_tex.fill_to = Vector2(1.0, 0.5)
-		_glow_tex.width = 64
-		_glow_tex.height = 64
-	var sp: Sprite2D = Sprite2D.new()
-	sp.texture = _glow_tex
-	sp.position = pos
-	sp.scale = Vector2.ONE * radius * 2.0 / 64.0
-	sp.modulate = Color(col, strength)
-	var mat: CanvasItemMaterial = CanvasItemMaterial.new()
-	mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
-	sp.material = mat
-	sp.z_index = 15
-	level.add_child(sp)
+	var actions: Dictionary = {
+		"reception": _open_reception, "missions": _open_missions, "gate": _open_missions,
+		"equipment": _open_equipment, "skills": _open_skills, "shop": _open_shop,
+		"heroes": _open_heroes, "forge": _open_forge, "quests": _open_quests,
+	}
+	for st: Variant in map.get("stations", []):
+		var d: Dictionary = st
+		var cb: Callable = actions.get(str(d["id"]), Callable())
+		if not cb.is_valid():
+			push_warning("Guild map: no service for station '%s'" % d["id"])
+			continue
+		var b: Array = d.get("box", [12, 6])
+		var s2: HubStation = HubStation.create(str(d["title"]), str(d["prompt"]), str(d["sprite"]), MapLoader.at(d["at"]), cb, Vector2(float(b[0]), float(b[1])))
+		level.add_entity(s2)
+		stations[str(d["title"])] = s2
+		if str(d["id"]) == "quests":
+			s2.badge = Profile.claimable_quests
+	for dp: Variant in map.get("dummies", []):
+		var dm: TrainingDummy = TrainingDummy.create(MapLoader.at(dp))
+		level.add_entity(dm)
+		dummies.append(dm)
 
 
 func _spawn_player(id: String) -> void:
