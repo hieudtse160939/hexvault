@@ -13,7 +13,19 @@ const GOLD: Color = Color("#f2b23a")
 const RED: Color = Color("#e8455a")
 const GREEN: Color = Color("#7dc94a")
 
+const WOOD: Color = Color("#2a1c16")
+const BRASS: Color = Color("#c8963e")
+
 static var _theme: Theme = null
+
+
+## Adventurers' Guild frame: dark varnished wood with a brass border.
+static func guild_box(border_w: int = 1, pad: int = 3) -> StyleBoxFlat:
+	var s: StyleBoxFlat = box(Color(WOOD, 0.95), BRASS, border_w, pad)
+	s.shadow_color = Color(0, 0, 0, 0.45)
+	s.shadow_size = 0
+	s.shadow_offset = Vector2(2, 2)
+	return s
 
 
 static func box(bg: Color, border: Color, border_w: int = 1, pad: int = 3) -> StyleBoxFlat:

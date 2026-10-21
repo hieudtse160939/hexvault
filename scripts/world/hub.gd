@@ -29,6 +29,10 @@ var _gold_label: Label
 var _exp_bar: ProgressBar
 var _hint: Label
 var _keys: Label
+var _portrait: TextureRect
+var _rank_label: Label
+var _shard_label: Label
+var _sp_label: Label
 var _arrival: bool = false
 
 
@@ -47,6 +51,9 @@ func _ready() -> void:
 			level.floor_tiles[Vector2i(x, y)] = true
 	_paint()
 	level.build_nav()
+	var mood: CanvasModulate = CanvasModulate.new()   # warm, slightly dim interior; lights add on top
+	mood.color = Color(0.9, 0.84, 0.8)
+	add_child(mood)
 	var sel: String = Profile.selected_hero()
 	if not Profile.is_character_unlocked(sel) or not Db.is_playable(sel):
 		sel = str(Db.guild.get("default_hero", "duelist"))
@@ -161,21 +168,70 @@ func _build_stations() -> void:
 	_station("Rune Forge", "Permanent upgrades (shards)", "prop_fountain", tile_world(29, 18), _open_forge, Vector2(12, 6))
 	var board: HubStation = _station("Quest Board", "Quests & achievements", "prop_pedestal", tile_world(33, 14), _open_quests, Vector2(12, 6))
 	board.badge = Profile.claimable_quests
-	# G. gathering hall + storage (decor with collision)
-	for p2: Vector2 in [tile_world(11, 10), tile_world(23, 10), tile_world(11, 13), tile_world(23, 13)]:
+	# G. gathering hall: big rug, tables with benches, hearth, bar, banners, storage
+	_rug(tile_world(17, 12))
+	for p2: Vector2 in [tile_world(11, 10), tile_world(23, 10), tile_world(11, 13.4), tile_world(23, 13.4)]:
 		_decor("guild_table", p2, Vector2(22, 7))
-	for x: float in [3.0, 4.0]:
-		_decor("guild_shelf", tile_world(x + 0.5, 2.4), Vector2(14, 6))
+		_decor("guild_bench", p2 + Vector2(0, 13), Vector2(22, 4))
+		_glow(p2 + Vector2(0, -12), 22.0, Color("#ffb45a"), 0.35)
+	_decor("guild_fireplace", tile_world(4, 2.7), Vector2(26, 8))
+	_glow(tile_world(4, 2.0), 64.0, Color("#ff9a3c"), 0.55)
 	_decor("guild_rack", tile_world(13.5, 2.6), Vector2(14, 6))
-	for p3: Vector2 in [tile_world(1.6, 1.8), tile_world(33.4, 1.8), tile_world(1.6, 12), tile_world(14.5, 21), tile_world(19.5, 21)]:
+	_decor("guild_bar", tile_world(26.5, 7.8), Vector2(42, 8))
+	_glow(tile_world(26.5, 6.8), 30.0, Color("#ffc870"), 0.3)
+	for bx: float in [15.0, 19.0]:
+		_decor("guild_banner", tile_world(bx, 20.8), Vector2(8, 4))
+		_glow(tile_world(bx, 19.2), 12.0, Color("#ffd27a"), 0.4)
+	_glow(tile_world(17, 20.6), 34.0, Color("#b46cff"), 0.35)   # expedition gate
+	for p3: Vector2 in [tile_world(1.6, 1.8), tile_world(33.4, 1.8), tile_world(1.6, 12), tile_world(12.5, 21), tile_world(21.5, 21)]:
 		_decor("guild_plant", p3, Vector2(8, 4))
 	for p4: Vector2 in [tile_world(33.3, 20.6), tile_world(32.3, 21.0), tile_world(33.4, 9.0), tile_world(1.6, 6.0)]:
 		_decor("prop_barrel", p4, Vector2(10, 6))
-	for p5: Vector2 in [tile_world(32.4, 20.0), tile_world(26.5, 7.5), tile_world(1.6, 7.0)]:
+	for p5: Vector2 in [tile_world(32.4, 20.0), tile_world(1.6, 7.0)]:
 		_decor("prop_crate", p5, Vector2(12, 8))
-	# timber pillars framing the central hall
 	for p6: Vector2 in [tile_world(13.5, 7.5), tile_world(20.5, 7.5), tile_world(13.5, 17.5), tile_world(20.5, 17.5)]:
 		_decor("prop_pillar", p6, Vector2(10, 6))
+	# wall lanterns on the north wall get a warm pool of light
+	for x: int in range(1, W + 1):
+		if x % 6 == 3:
+			_glow(tile_world(x + 0.5, 0.9), 26.0, Color("#ffc870"), 0.4)
+
+
+## Floor decal drawn above the tiles, below every actor.
+func _rug(pos: Vector2) -> void:
+	var s: Sprite2D = Sprite2D.new()
+	SpriteLib.apply(s, "guild_rug")
+	s.position = pos
+	level.add_child(s)
+	level.move_child(s, level.floor_layer.get_index() + 1)
+
+
+var _glow_tex: GradientTexture2D = null
+
+
+## Warm light pool: additive radial glow (soft light is allowed for FX by the style guide).
+func _glow(pos: Vector2, radius: float, col: Color, strength: float) -> void:
+	if _glow_tex == null:
+		var g: Gradient = Gradient.new()
+		g.set_color(0, Color(1, 1, 1, 1))
+		g.set_color(1, Color(1, 1, 1, 0))
+		_glow_tex = GradientTexture2D.new()
+		_glow_tex.gradient = g
+		_glow_tex.fill = GradientTexture2D.FILL_RADIAL
+		_glow_tex.fill_from = Vector2(0.5, 0.5)
+		_glow_tex.fill_to = Vector2(1.0, 0.5)
+		_glow_tex.width = 64
+		_glow_tex.height = 64
+	var sp: Sprite2D = Sprite2D.new()
+	sp.texture = _glow_tex
+	sp.position = pos
+	sp.scale = Vector2.ONE * radius * 2.0 / 64.0
+	sp.modulate = Color(col, strength)
+	var mat: CanvasItemMaterial = CanvasItemMaterial.new()
+	mat.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+	sp.material = mat
+	sp.z_index = 15
+	level.add_child(sp)
 
 
 func _spawn_player(id: String) -> void:
@@ -207,23 +263,53 @@ func _build_ui() -> void:
 	ui_root.theme = UiTheme.get_theme()
 	layer.add_child(ui_root)
 	SafeArea.apply(ui_root)
-	var panel: PanelContainer = PanelContainer.new()
-	panel.position = Vector2(4, 4)
-	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	ui_root.add_child(panel)
+	# --- adventurer plate (top left): portrait, name + level, rank, experience, purse
+	var plate: PanelContainer = PanelContainer.new()
+	plate.position = Vector2(4, 4)
+	plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	plate.add_theme_stylebox_override("panel", UiTheme.guild_box())
+	ui_root.add_child(plate)
+	var row: HBoxContainer = HBoxContainer.new()
+	row.add_theme_constant_override("separation", 4)
+	plate.add_child(row)
+	var frame: PanelContainer = PanelContainer.new()
+	frame.add_theme_stylebox_override("panel", UiTheme.box(Color("#1a120e"), UiTheme.GOLD, 1, 0))
+	row.add_child(frame)
+	var clip: Control = Control.new()   # plain Control: no layout, fixed 26 x 26 window
+	clip.custom_minimum_size = Vector2(26, 26)
+	clip.clip_contents = true
+	clip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	frame.add_child(clip)
+	_portrait = TextureRect.new()
+	clip.add_child(_portrait)
 	var col: VBoxContainer = VBoxContainer.new()
 	col.add_theme_constant_override("separation", 1)
-	panel.add_child(col)
+	row.add_child(col)
 	_hero_label = UiTheme.label("", UiTheme.TEXT, true)
 	col.add_child(_hero_label)
+	_rank_label = UiTheme.label("", UiTheme.GOLD, true)
+	col.add_child(_rank_label)
 	_exp_bar = ProgressBar.new()
-	_exp_bar.custom_minimum_size = Vector2(110, 3)
+	_exp_bar.custom_minimum_size = Vector2(96, 3)
 	_exp_bar.show_percentage = false
 	_exp_bar.add_theme_stylebox_override("fill", UiTheme.box(UiTheme.GOLD, UiTheme.GOLD, 0, 0))
 	_exp_bar.add_theme_stylebox_override("background", UiTheme.box(UiTheme.INK, UiTheme.INK, 0, 0))
 	col.add_child(_exp_bar)
+	var purse: HBoxContainer = HBoxContainer.new()
+	purse.add_theme_constant_override("separation", 2)
+	col.add_child(purse)
+	var coin: TextureRect = TextureRect.new()
+	coin.texture = SpriteLib.texture("icon_coin")
+	purse.add_child(coin)
 	_gold_label = UiTheme.label("", UiTheme.GOLD, true)
-	col.add_child(_gold_label)
+	purse.add_child(_gold_label)
+	var shard: TextureRect = TextureRect.new()
+	shard.texture = SpriteLib.texture("icon_shard")
+	purse.add_child(shard)
+	_shard_label = UiTheme.label("", UiTheme.ACCENT, true)
+	purse.add_child(_shard_label)
+	_sp_label = UiTheme.label("", Color("#b4fff0"), true)
+	col.add_child(_sp_label)
 	_hint = UiTheme.label("", UiTheme.TEXT, true)
 	_hint.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
 	_hint.grow_horizontal = Control.GROW_DIRECTION_BOTH
@@ -242,20 +328,27 @@ func _build_ui() -> void:
 	touch.player = player
 	touch.pause_pressed.connect(_open_menu)
 	ui_root.add_child(touch)
-	var menu_btn: Button = UiTheme.button("Menu", _open_menu)
-	menu_btn.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-	menu_btn.offset_left = -40
-	menu_btn.offset_top = 4
-	menu_btn.offset_right = -4
-	menu_btn.focus_mode = Control.FOCUS_NONE
-	ui_root.add_child(menu_btn)
-	var bag_btn: Button = UiTheme.button("Bag", _open_equipment)
-	bag_btn.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-	bag_btn.offset_left = -72
-	bag_btn.offset_top = 4
-	bag_btn.offset_right = -44
-	bag_btn.focus_mode = Control.FOCUS_NONE
-	ui_root.add_child(bag_btn)
+	# --- quick access (top right): every service is also a station in the hall
+	var bar: HBoxContainer = HBoxContainer.new()
+	bar.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+	bar.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	bar.offset_top = 4
+	bar.offset_right = -4
+	bar.add_theme_constant_override("separation", 2)
+	ui_root.add_child(bar)
+	for spec: Array in [["Missions", "icon_scroll", _open_missions], ["Bag", "icon_item_armor", _open_equipment],
+			["Skills", "icon_item_book", _open_skills], ["Menu", "", _open_menu]]:
+		var b: Button = UiTheme.button(str(spec[0]), spec[2])
+		b.focus_mode = Control.FOCUS_NONE
+		b.add_theme_stylebox_override("normal", UiTheme.guild_box(1))
+		if str(spec[1]) != "":
+			var ic: TextureRect = TextureRect.new()
+			SpriteLib.fit_icon(ic, str(spec[1]), 0.62)
+			b.icon = ic.texture
+			b.expand_icon = false
+			b.add_theme_constant_override("icon_max_width", 10)
+			ic.free()
+		bar.add_child(b)
 
 
 func _process(_delta: float) -> void:
@@ -263,12 +356,19 @@ func _process(_delta: float) -> void:
 		return
 	var rec: Dictionary = Profile.character_record(player.character.id)
 	var lvl: int = int(rec["level"])
-	_hero_label.text = "%s  Lv %d  -  %s rank" % [player.character.display_name, lvl, Profile.guild_rank()]
+	_hero_label.text = "%s  Lv %d" % [player.character.display_name, lvl]
+	_rank_label.text = "%s-rank adventurer" % Profile.guild_rank()
+	if _portrait.texture == null or _portrait.get_meta("hero", "") != player.character.id:
+		_portrait.set_meta("hero", player.character.id)
+		SpriteLib.fit_icon(_portrait, player.character.sprite, 2.2)
+		# head and shoulders: the head sits about a third down the hero frame
+		_portrait.position = Vector2(13.0 - _portrait.size.x / 2.0, 15.0 - _portrait.size.y * 0.36)
 	_exp_bar.max_value = HeroProgress.xp_to_next(lvl)
 	_exp_bar.value = int(rec["exp"]) if lvl < HeroProgress.max_level() else _exp_bar.max_value
 	_keys.text = "%s Inventory   %s Interact   %s Pause" % [Controls.action_label("inventory"), Controls.action_label("interact"), Controls.action_label("pause")]
-	_gold_label.text = "Gold %d    Shards %d%s" % [Profile.gold(), Profile.shards(),
-		("    %d skill pt" % int(rec["sp"])) if int(rec["sp"]) > 0 else ""]
+	_gold_label.text = str(Profile.gold())
+	_shard_label.text = str(Profile.shards())
+	_sp_label.text = ("%d skill point%s to spend" % [int(rec["sp"]), "" if int(rec["sp"]) == 1 else "s"]) if int(rec["sp"]) > 0 else ""
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -286,6 +386,8 @@ func _show(c: Control) -> void:
 	if _modal != null and is_instance_valid(_modal):
 		return
 	_modal = c
+	if c is Modal:   # guild menus wear the hall's wood-and-brass frame
+		(c as Modal).panel.add_theme_stylebox_override("panel", UiTheme.guild_box(2, 6))
 	player.input_enabled = false
 	get_tree().paused = true
 	ui_root.add_child(c)

@@ -419,7 +419,7 @@
    "h": 192,
    "palette": "hd",
    "path": "res://assets/tiles/dungeon_hd.png",
-   "sha": "69ecdd3f47e20120",
+   "sha": "4f616b60267313d3",
    "source": "procedural: tools/artgen/hd/tiles.py",
    "tile": 64,
    "type": "tiles",
@@ -979,6 +979,75 @@
    "type": "fx",
    "version": 1
   },
+  "guild_banner": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 108,
+   "frame_w": 52,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_banner.png",
+   "pivot": [
+    26,
+    102
+   ],
+   "sha": "8e84afbc3a896503",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
+  "guild_bar": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 76,
+   "frame_w": 180,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_bar.png",
+   "pivot": [
+    90,
+    70
+   ],
+   "sha": "1494cc4de81113b3",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
+  "guild_bench": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 36,
+   "frame_w": 100,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_bench.png",
+   "pivot": [
+    50,
+    30
+   ],
+   "sha": "df7cfa56ac580fd2",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
   "guild_board": {
    "anims": {
     "idle": {
@@ -1054,6 +1123,29 @@
    "type": "props",
    "version": 1
   },
+  "guild_fireplace": {
+   "anims": {
+    "idle": {
+     "fps": 8,
+     "frames": 4,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 108,
+   "frame_w": 116,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_fireplace.png",
+   "pivot": [
+    58,
+    102
+   ],
+   "sha": "b47e8848e8ea46fb",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
   "guild_plant": {
    "anims": {
     "idle": {
@@ -1096,6 +1188,29 @@
     78
    ],
    "sha": "d0dd8fe587f0ebdb",
+   "source": "procedural: tools/artgen/hd/guild.py",
+   "type": "props",
+   "version": 1
+  },
+  "guild_rug": {
+   "anims": {
+    "idle": {
+     "fps": 1,
+     "frames": 1,
+     "loop": true,
+     "row": 0
+    }
+   },
+   "density": 4,
+   "frame_h": 164,
+   "frame_w": 260,
+   "palette": "hd",
+   "path": "res://assets/sprites/props/hd/guild_rug.png",
+   "pivot": [
+    130,
+    82
+   ],
+   "sha": "3011a2f1d8af536c",
    "source": "procedural: tools/artgen/hd/guild.py",
    "type": "props",
    "version": 1

@@ -159,6 +159,16 @@ def main() -> None:
         framed.paste(art, (2, 2))
         add_sheet(f"guild_{gid}", f"sprites/props/hd/guild_{gid}.png", {"idle": [framed]}, 1, True,
                   (pv[0] + 2, pv[1] + 2), hd=gsrc)
+    def _framed(img):
+        out = Image.new("RGBA", (img.width + 4, img.height + 4), (0, 0, 0, 0))
+        out.paste(img, (2, 2))
+        return out
+    add_sheet("guild_fireplace", "sprites/props/hd/guild_fireplace.png",
+              {"idle": [_framed(hd_guild.fireplace(f).image()) for f in range(4)]}, 8, True,
+              (hd_guild.FIREPLACE_PIVOT[0] + 2, hd_guild.FIREPLACE_PIVOT[1] + 2), hd=gsrc)
+    rug_img = _framed(hd_guild.round_rug().image())
+    add_sheet("guild_rug", "sprites/props/hd/guild_rug.png", {"idle": [rug_img]}, 1, True,
+              (rug_img.width // 2, rug_img.height // 2), hd=gsrc)
     add_sheet("guild_dummy", "sprites/props/hd/guild_dummy.png", hd_guild.dummy_anims(), {"idle": 1, "hit": 14},
               {"idle": True, "hit": False}, hd_guild.DUMMY_PIVOT, hd=gsrc)
     for iid, fn in hd_guild.ICONS.items():

@@ -131,3 +131,9 @@ grass/path/trees/water/cliffs/buildings; roaming enemies; landmarks; a cave entr
 existing dungeon generator; region boss; world-state save), hundreds-of-nodes skill tree content
 (UI already scrolls), crafting/upgrades, endgame; dedicated hero cast/attack sheets (art needed).
 Tip: start a NEW session with this file - a fresh context is much cheaper per step.
+Guild visual/UI pass (2026-10-21): long flat-shaded floorboards (tiles 16-17), new HD props
+guild_fireplace (4-frame fire), guild_bench, guild_bar, guild_banner, guild_rug (floor decal);
+hub.gd: warm CanvasModulate + additive light pools (lanterns, hearth, candles, gate), benches by
+tables, banners at the gate; HUD plate (portrait, name/level, rank, EXP bar, gold/shards, skill
+points) and quick buttons (Missions / Bag / Skills / Menu); guild menus use UiTheme.guild_box()
+(wood + brass). Screenshot docs/qa/guild_hall.png. 95/95 tests.

@@ -18,27 +18,32 @@ T = 64
 
 # --- tiles ---------------------------------------------------------------------------
 def wood_floor(seed: int, ramp: str = "leather", bias: int = -1) -> HDCanvas:
-    """Four courses of planks with staggered seams and soft grain."""
+    """Long floorboards. Four 16 px boards per tile, flat-shaded per board (lit top edge,
+    shaded bottom edge, no bevel at the tile border) so boards continue across tiles. Each
+    tile variant has butt joints in two rows only, so alternating tiles read as boards
+    ~128 px long. Board tone varies by row, never by tile, to avoid a checker pattern."""
     rng = random.Random(seed)
     c = HDCanvas(T, T)
-    c.fill(c.rect(0, 0, T - 1, T - 1), ramp, 0, name="gaps")
+    base = 2 + bias + 1          # mid shade
+    tones = [0, 1, 0, -1]        # per-row tone (same in every tile)
+    joints = {0: 20, 2: 44} if seed % 2 else {1: 36, 3: 12}
+    c.fill(c.rect(0, 0, T - 1, T - 1), ramp, max(base - 2, 0), name="gaps")
     for row in range(4):
         y0, y1 = row * 16, row * 16 + 14
-        seam = (rng.randint(14, 46) + row * 23) % 64
-        pieces = [(0, seam - 1), (seam + 1, 63)] if 4 < seam < 60 else [(0, 63)]
-        for (x0, x1) in pieces:
-            if x1 - x0 < 3:
-                continue
-            c.draw(c.rect(x0, y0, x1, y1), ramp, "plate", bias=bias + (1 if rng.random() < 0.25 else 0),
-                   selout=False, cast=False)
-            for _ in range(2):  # grain: short darker streaks, 2 px tall clusters
-                gx = rng.randint(x0 + 2, max(x0 + 2, x1 - 10))
-                gy = rng.randint(y0 + 3, y1 - 4)
-                c.relight(c.rect(gx, gy, min(gx + rng.randint(5, 9), x1 - 1), gy + 1), -1)
-        # nail heads at plank ends
-        for nx in (2, seam + 3):
-            if nx < 62:
-                c.fill(c.rect(nx, y0 + 6, nx + 1, y0 + 7), "steel", 1)
+        t = max(min(base + tones[row], 5), 0)
+        c.fill(c.rect(0, y0, 63, y1), ramp, t)
+        c.fill(c.rect(0, y0, 63, y0), ramp, min(t + 1, 5))        # lit top edge
+        c.fill(c.rect(0, y1, 63, y1), ramp, max(t - 1, 0))        # shaded bottom edge
+        s = joints.get(row, 0)
+        if s:
+            c.fill(c.rect(s - 1, y0, s - 1, y1), ramp, max(base - 2, 0))
+            c.fill(c.rect(s, y0, s, y1), ramp, min(t + 1, 5))
+            c.fill(c.rect(s + 2, y0 + 7, s + 2, y0 + 7), "steel", 3)
+            c.fill(c.rect(s - 4, y0 + 7, s - 4, y0 + 7), "steel", 3)
+        for _ in range(3):        # faint grain
+            gx = rng.randint(1, 40)
+            gy = rng.randint(y0 + 3, y1 - 3)
+            c.fill(c.rect(gx, gy, gx + rng.randint(10, 22), gy), ramp, max(t - 1, 0))
     return c
 
 
@@ -262,6 +267,101 @@ def dummy_anims() -> dict:
             "hit": [dummy(6.0, 2).image(), dummy(-4.0, 1).image(), dummy(2.0, 0).image()]}
 
 
+def fireplace(frame: int = 0) -> HDCanvas:
+    """Stone hearth with a living fire, 28 x 26 world units (stands against the north wall)."""
+    w, h = 112, 104
+    c = HDCanvas(w, h)
+    rng = random.Random(5)
+    c.draw(c.rect(4, 10, w - 5, h - 4), "stone", "plate", bias=-1, name="chimney")
+    for y in range(14, h - 8, 10):  # stone courses
+        off = (y // 10) % 2 * 9
+        for x in range(4 - off, w - 4, 18):
+            c.draw(c.rect(max(x + 1, 5), y, min(x + 16, w - 6), y + 8), "stone", "plate", bias=rng.choice((-1, 0)), selout=False, cast=False)
+    c.draw(c.rect(0, 40, w - 1, 47), "hair_brown", "plate", name="mantel")
+    mouth = c.poly([(22, h - 4), (22, 62), (34, 52), (78, 52), (90, 62), (90, h - 4)])
+    c.fill(mouth, "night", 0, name="mouth")
+    rng2 = random.Random(frame * 7 + 1)
+    for k in range(5):  # flames flicker per frame
+        fx = 34 + k * 11 + rng2.randint(-2, 2)
+        top = 66 + rng2.randint(-6, 4) + (6 if k in (0, 4) else 0)
+        c.draw(c.poly([(fx - 6, h - 10), (fx, top), (fx + 6, h - 10)]), "flame", "glow", selout=False, cast=False)
+    c.draw(c.ellipse(56, h - 12, 20, 5), "flame", "glow", bias=1, selout=False, cast=False)
+    c.fixed(c.ellipse(56, h - 16, 8, 4), "glow_amber")
+    c.draw(c.rect(26, h - 9, 86, h - 6), "hair_brown", "round", name="logs")
+    for x, y in ((20, 34), (90, 36)):  # candles on the mantel
+        c.draw(c.rect(x, y, x + 3, y + 6), "bone", "round")
+        c.fixed(c.ellipse(x + 1.5, y - 2, 1.2, 2), "glow_amber")
+    c.draw(c.ellipse(56, 26, 10, 8), "bone", "round", name="trophy_skull")
+    c.fill(c.ellipse(52, 25, 2, 2) | c.ellipse(60, 25, 2, 2), "night", 0)
+    c.outline("ink")
+    return c
+
+
+def bench() -> HDCanvas:
+    """Long wooden bench, 24 x 7 world units."""
+    w, h = 96, 32
+    c = HDCanvas(w, h)
+    for x in (10, 82):
+        c.draw(c.rect(x, 14, x + 4, 28), "hair_brown", "plate", bias=-1, name="leg")
+    c.draw(c.rect(2, 8, w - 3, 16), "leather", "plate", name="seat")
+    c.outline("ink")
+    return c
+
+
+def bar_counter() -> HDCanvas:
+    """Tavern bar with taps, bottles and kegs, 44 x 16 world units."""
+    w, h = 176, 72
+    c = HDCanvas(w, h)
+    rng = random.Random(9)
+    for x in range(8, w - 20, 26):  # bottles on the back shelf
+        col = rng.choice(["moss", "azure", "crimson", "amber"])
+        c.draw(c.capsule(x, 4, x, 16, 2.6, 3.4), col, "metal", name="bottle")
+    c.draw(c.rect(0, 16, w - 1, 20), "hair_brown", "plate", name="shelf")
+    c.draw(c.rect(2, 36, w - 3, h - 4), "hair_brown", "plate", bias=-1, name="front")
+    for x0 in range(8, w - 12, 28):
+        c.draw(c.rect(x0, 42, x0 + 20, h - 10), "leather", "plate", bias=-1, name="panel")
+    c.draw(c.rect(0, 24, w - 1, 37), "leather", "plate", bias=1, name="top")
+    for x in (40, 52):  # brass taps
+        c.draw(c.rect(x, 18, x + 3, 28), "amber", "metal", name="tap")
+    for x in (100, 122):
+        c.draw(c.capsule(x, 22, x, 32, 4.5, 4.5), "bone", "round", name="mug")
+        c.fill(c.ellipse(x, 22, 3.2, 1.2), "amber", 4)
+    c.outline("ink")
+    return c
+
+
+def banner_stand() -> HDCanvas:
+    """Free-standing guild banner, 12 x 26 world units."""
+    w, h = 48, 104
+    c = HDCanvas(w, h)
+    c.draw(c.rect(22, 6, 25, h - 6), "hair_brown", "round", name="pole")
+    c.draw(c.ellipse(23.5, h - 6, 12, 4), "stone", "plate", name="foot")
+    c.draw(c.rect(8, 12, 39, 15), "amber", "metal", name="bar")
+    cloth = c.poly([(10, 15), (37, 15), (37, 62), (23.5, 70), (10, 62)])
+    c.draw(cloth, "crimson", "cloth", name="banner")
+    shield = c.poly([(16, 26), (31, 26), (31, 40), (23.5, 48), (16, 40)])
+    c.draw(shield, "amber", "metal", name="emblem")
+    c.draw(c.capsule(23.5, 22, 23.5, 52, 1.3, 1.1), "steel", "metal", name="sword")
+    c.fixed(c.ellipse(23.5, 5, 2.5, 2.5), "glow_amber")
+    c.outline("ink")
+    return c
+
+
+def round_rug() -> HDCanvas:
+    """Large oval rug for the gathering hall floor (a decal: no collision), 64 x 40 world units."""
+    w, h = 256, 160
+    c = HDCanvas(w, h)
+    cx, cy = w / 2 - 0.5, h / 2 - 0.5
+    c.draw(c.ellipse(cx, cy, 124, 76), "crimson", "plate", bias=-1, selout=False, cast=False)
+    c.fill(c.ellipse(cx, cy, 124, 76) & ~c.ellipse(cx, cy, 118, 70), "amber", 2)
+    c.fill(c.ellipse(cx, cy, 108, 62) & ~c.ellipse(cx, cy, 105, 59), "amber", 3)
+    c.fill(c.ellipse(cx, cy, 60, 36) & ~c.ellipse(cx, cy, 56, 32), "amber", 3)
+    star = c.poly([(cx, cy - 30), (cx + 10, cy - 8), (cx + 48, cy), (cx + 10, cy + 8), (cx, cy + 30), (cx - 10, cy + 8), (cx - 48, cy), (cx - 10, cy - 8)])
+    c.fill(star, "amber", 4)
+    c.fill(c.ellipse(cx, cy, 8, 6), "azure", 4)
+    return c
+
+
 PROPS = {
     # key: (builder, pivot (feet / base centre in px))
     "counter": (counter, (80, 58)),
@@ -270,7 +370,11 @@ PROPS = {
     "rack": (weapon_rack, (32, 76)),
     "board": (mission_board, (40, 85)),
     "plant": (plant, (20, 52)),
+    "bench": (bench, (48, 28)),
+    "bar": (bar_counter, (88, 68)),
+    "banner": (banner_stand, (24, 100)),
 }
+FIREPLACE_PIVOT = (56, 100)
 DUMMY_PIVOT = (28, 84)
 
 
