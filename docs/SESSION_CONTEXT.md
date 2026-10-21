@@ -155,3 +155,11 @@ HUD = portrait + HP/SHIELD bars (game has no MP) + "Lv. N Class" + Active Quests
 inventory = ornate frame (tools/artgen/ui_art.py 9-patches), HEXVAULT plate, paper doll with 6 slots,
 bag grid, tooltip, EQUIP/UNEQUIP/SELL/CLOSE colour buttons. Comparison docs/qa/guild_vs_reference.png.
 97/97 tests.
+
+## Handoff for running locally (2026-10-21)
+User asked for the project + full context to run locally: docs/LOCAL_SETUP_VI.md (Godot 4.7.2,
+import, controls, tests, exports, save paths). Source zip = `git archive` of the pushed commit.
+PENDING (interrupted, not started): "fix cứng map" = fixed camera for the Guild: the camera stays
+still and frames the whole map (34x25 tiles = 544x400 units vs 480x270 view -> zoom ~0.675 or a
+smaller map), the hero walks inside it. GameCamera (scripts/fx/game_camera.gd) follows `target`;
+plan: hub sets target = null, position = map centre, zoom = fit factor.
